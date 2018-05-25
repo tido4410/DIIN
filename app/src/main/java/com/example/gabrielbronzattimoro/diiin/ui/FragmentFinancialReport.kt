@@ -1,6 +1,23 @@
 package com.example.gabrielbronzattimoro.diiin.ui
 
+import android.graphics.Color
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.RelativeLayout
+import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.StaticCollections
+import com.example.gabrielbronzattimoro.diiin.model.Expense
+import com.example.gabrielbronzattimoro.diiin.model.ExpenseType
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
+import java.util.*
 
 
 class FragmentFinancialReport : Fragment() {

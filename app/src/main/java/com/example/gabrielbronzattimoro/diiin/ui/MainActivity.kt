@@ -1,13 +1,15 @@
 package com.example.gabrielbronzattimoro.diiin.ui
 
-import android.R
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.dao.SelectionSharedPreferences
 import com.example.gabrielbronzattimoro.diiin.model.MonthType
 import com.example.gabrielbronzattimoro.diiin.StaticCollections
@@ -95,7 +97,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         MonthType.values().forEach { mlstSpinnerMonthsList?.add(it.description(this)) }
 
-        val lstArrayAdapter = ArrayAdapter(this, R.layout.simple_spinner_item, mlstSpinnerMonthsList)
+        val lstArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, mlstSpinnerMonthsList)
         lstArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         mspMonthSelector?.adapter = lstArrayAdapter
         mspMonthSelector?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

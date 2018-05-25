@@ -1,5 +1,15 @@
 package com.example.gabrielbronzattimoro.diiin.ui
 
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Spinner
+import com.example.gabrielbronzattimoro.diiin.R
+
 class FragmentSalaryList : Fragment() {
 
     private var mspMonthSelector: Spinner? = null

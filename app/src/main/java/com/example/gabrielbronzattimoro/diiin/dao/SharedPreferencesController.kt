@@ -2,6 +2,7 @@ package com.example.gabrielbronzattimoro.diiin.dao
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.gabrielbronzattimoro.diiin.StaticCollections
 import com.example.gabrielbronzattimoro.diiin.model.Expense
 import com.example.gabrielbronzattimoro.diiin.model.ExpenseType
 import com.example.gabrielbronzattimoro.diiin.model.MonthType

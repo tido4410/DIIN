@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DINDIN</string>
+    <string name="title_expenses">Despesas</string>
+    <string name="title_salary">Entrada</string>
+    <string name="title_chartreport">Demonstrativo</string>
+    <string name="title_newexpense">Nova Despesa</string>
+    <string name="food">Comida</string>
+    <string name="transport">Transporte</string>
+    <string name="phone">Telefone</string>
+    <string name="pets">Animais</string>
+    <string name="education">Educação</string>
+    <string name="health">Saúde</string>
+    <string name="funn">Lazer</string>
+    <string name="rent">Aluguel</string>
+    <string name="travel">Viagem</string>
+    <string name="other">Outros</string>
+    <string name="type_label">Categoria:</string>
+    <string name="value_label">Valor:</string>
+    <string name="description_label">Descrição:</string>
+    <string name="date_label">Data:</string>
+    <string name="savelabel">Salvar</string>
+    <string name="All">Todos</string>
+    <string name="january">Janeiro</string>
+    <string name="february">Fevereiro</string>
+    <string name="march">Março</string>
+    <string name="april">Abril</string>
+    <string name="may">Maio</string>
+    <string name="june">Junho</string>
+    <string name="july">Julho</string>
+    <string name="august">Agosto</string>
+    <string name="september">Setembro</string>
+    <string name="october">Outubro</string>
+    <string name="november">Novembro</string>
+    <string name="december">Dezembro</string>
+    <string name="messageAboutWrongYear">Só é possível escolher datas do ano atual.</string>
+</resources>

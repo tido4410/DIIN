@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_expenses"
+        android:icon="@drawable/baseline_money_off_black"
+        android:title="@string/title_expenses" />
+
+    <item
+        android:id="@+id/navigation_piechart"
+        android:icon="@drawable/baseline_pie_chart_black"
+        android:title="@string/title_chartreport" />
+
+    <item
+        android:id="@+id/navigation_salary"
+        android:icon="@drawable/baseline_attach_money_black"
+        android:title="@string/title_salary" />
+
+</menu>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#e6ff00</color>
+    <color name="transparent">#80808080</color>
+    <color name="greenFontColor">#50c900</color>
+    <color name="redFontColor">#d11c19</color>
+    <color name="redBackgroundColorButton">#5b0101</color>
+    <color name="redBackgroundColorButtonSelected">#a90808</color>
+    <color name="greenBackgroundColorButton">#1c541c</color>
+    <color name="cellBackground">#202020</color>
+    <color name="cellFontColor">#ffffff</color>
+    <color name="activityColorBackground">#484646</color>
+    <color name="whiteColor">#dcdada</color>
+
+    <color name="foodbkg">#d74902</color>
+    <color name="transportbkg">#af9825</color>
+    <color name="phonebkg">#4591dc</color>
+    <color name="petsbkg">#6b2199</color>
+    <color name="educationbkg">#2c7308</color>
+    <color name="healthbkg">#810d07</color>
+    <color name="funnbkg">#3eaeac</color>
+    <color name="rentbkg">#a80fd2</color>
+    <color name="travelbkg">#ff8e8e</color>
+    <color name="othersbkg">#974646</color>
+
+    <color name="foodfont">#d9d5d3</color>
+    <color name="transportfont">#262626</color>
+    <color name="phonefont">#182533</color>
+    <color name="petsfont">#ffffff</color>
+    <color name="educationfont">#ffffff</color>
+    <color name="healthfont">#fff7f6</color>
+    <color name="funnfont">#000000</color>
+    <color name="rentfont">#000000</color>
+    <color name="travelfont">#000000</color>
+    <color name="othersfont">#020202</color>
+
+</resources>

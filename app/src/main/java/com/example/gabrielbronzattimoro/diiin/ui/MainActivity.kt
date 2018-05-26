@@ -97,20 +97,21 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         MonthType.values().forEach { mlstSpinnerMonthsList?.add(it.description(this)) }
 
-        val lstArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, mlstSpinnerMonthsList)
-        lstArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
+        val lstArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, mlstSpinnerMonthsList)
+        lstArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mspMonthSelector?.adapter = lstArrayAdapter
         mspMonthSelector?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) { }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val idOfMonth = MonthType.gettingIdFromDescription(applicationContext, mspMonthSelector?.selectedItem.toString())
+                val idOfMonth = MonthType.gettingIdFromDescription(baseContext, mspMonthSelector?.selectedItem.toString())
                 StaticCollections.mmtMonthSelected = if(idOfMonth != null) {
                     val monthType = MonthType.fromInt(idOfMonth)
                     monthType
-                } else { null }
+                } else { null } ?: return
 
-                SelectionSharedPreferences.insertMonthSelectPreference(applicationContext, StaticCollections.mmtMonthSelected)
+                SelectionSharedPreferences.insertMonthSelectPreference(baseContext, StaticCollections.mmtMonthSelected)
+                mstrCurrentFragment ?: return
 
                 when(mstrCurrentFragment) {
                     FragmentSalaryList.TAGNAME -> {
@@ -126,9 +127,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
         }
 
+        mlstSpinnerMonthsList ?: return
+        StaticCollections.mmtMonthSelected ?: return
+
         val strMonthValue = StaticCollections.mmtMonthSelected?.description(this)
 
-        mlstSpinnerMonthsList ?: return
+
         var nCount = 0
         val nSize = mlstSpinnerMonthsList?.size
         while(nCount < nSize!!) {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="80dp"
     android:background="@drawable/backgroundexpensescell">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,7 +22,6 @@
             android:gravity="center_vertical|end"
             android:text="R$45,00"
             android:textColor="@color/whiteColor"
-            android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/tvDate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvExpenseType"
@@ -40,7 +39,6 @@
             android:gravity="center_vertical|start"
             android:text="Comida"
             android:textColor="@color/whiteColor"
-            android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/tvDescription"
             app:layout_constraintEnd_toStartOf="@+id/tvValue"
             app:layout_constraintStart_toStartOf="parent"

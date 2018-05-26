@@ -6,23 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/spMonthSelector"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/rlContent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <RelativeLayout
         android:id="@+id/rlContent"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -34,8 +21,8 @@
 
         <Button
             android:id="@+id/btnaddSalary"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="16dp"
@@ -46,7 +33,7 @@
             android:stateListAnimator="@null"
             android:text="+"
             android:textColor="@color/whiteColor"
-            android:textSize="45sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView

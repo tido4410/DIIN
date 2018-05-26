@@ -32,7 +32,7 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
         holder.tvDescription.text = expenseItem.mstrDescription
         if(expenseItem.mdtDate!=null)
             holder.tvDate.text = MathService.calendarTimeToString(expenseItem.mdtDate!!)
-        holder.tvExpenseType.text = expenseItem.mexpenseType?.description(mctxContext)
+        holder.tvExpenseType.text = expenseItem.mexpenseType?.description(mctxContext)?.toUpperCase()
         val nExpenseBkgColor = expenseItem.mexpenseType?.backgroundColor(mctxContext)
         val nExpenseFontColor = expenseItem.mexpenseType?.fontColor(mctxContext)
         if(nExpenseBkgColor!=null && nExpenseFontColor != null) {

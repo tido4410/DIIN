@@ -12,11 +12,13 @@ import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.StaticCollections
 import com.example.gabrielbronzattimoro.diiin.model.Expense
 import com.example.gabrielbronzattimoro.diiin.model.ExpenseType
+import com.example.gabrielbronzattimoro.diiin.util.MathService
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
+import kotlinx.android.synthetic.main.fragment_financialreport.*
 import java.util.*
 
 
@@ -174,6 +176,8 @@ class FragmentFinancialReport : Fragment() {
         mpcPieChart?.data = dataPie
         mpcPieChart?.highlightValues(null)
         mpcPieChart?.invalidate()
+
+        tvExpenseTotalValue.text = MathService.formatFloatToCurrency(sSumTotal)
     }
 
     private fun initPieEntry(asFloatPercent : Float, astrString : String) : PieEntry {

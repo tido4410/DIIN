@@ -22,6 +22,10 @@ object SharedPreferenceConnection {
     fun editor(actxContext : Context) : SharedPreferences.Editor  {
         return actxContext.getSharedPreferences(SHARED_PREFERENCE_NAME, PRIVATE_MODE).edit()
     }
+
+    fun clearAllPreferences(actxContext: Context) {
+        editor(actxContext).clear().commit()
+    }
 }
 
 

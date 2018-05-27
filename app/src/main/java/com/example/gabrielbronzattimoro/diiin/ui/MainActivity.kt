@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -13,6 +14,7 @@ import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.dao.SelectionSharedPreferences
 import com.example.gabrielbronzattimoro.diiin.model.MonthType
 import com.example.gabrielbronzattimoro.diiin.StaticCollections
+import com.example.gabrielbronzattimoro.diiin.dao.SharedPreferenceConnection
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -39,19 +41,23 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onResume() {
         super.onResume()
 
-        if(mstrCurrentFragment == null)
+        loadFragments()
+    }
+
+    private fun loadFragments() {
+        if (mstrCurrentFragment == null)
             mstrCurrentFragment = FragmentExpensesList.TAGNAME
 
-        if(mfgCurrentFragment != null)
+        if (mfgCurrentFragment != null)
             supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
 
-        mfgCurrentFragment = when(mstrCurrentFragment) {
+        mfgCurrentFragment = when (mstrCurrentFragment) {
             FragmentSalaryList.TAGNAME -> FragmentSalaryList()
             FragmentFinancialReport.TAGNAME -> FragmentFinancialReport()
             FragmentExpensesList.TAGNAME -> FragmentExpensesList()
             else -> null
         }
-        if(mfgCurrentFragment!=null)
+        if (mfgCurrentFragment != null)
             supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
     }
 
@@ -141,6 +147,24 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             nCount++
         }
         mspMonthSelector?.setSelection(nCount)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater?.inflate(R.menu.useroptions, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item ?: return false
+
+        when(item.itemId) {
+            R.id.menu_clearalldata -> {
+                SharedPreferenceConnection.clearAllPreferences(this)
+            }
+            else -> { }
+        }
+
+        return true
     }
 }
 

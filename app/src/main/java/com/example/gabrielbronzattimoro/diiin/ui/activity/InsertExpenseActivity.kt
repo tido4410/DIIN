@@ -3,6 +3,7 @@ package com.example.gabrielbronzattimoro.diiin.ui.activity
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.*
 import com.example.gabrielbronzattimoro.diiin.R
@@ -48,6 +49,8 @@ class InsertExpenseActivity : AppCompatActivity() {
         metValue?.addTextChangedListener(TWEditPrice(metValue!!))
 
         loadDataPickerListener()
+
+        mbtSave?.setTextColor(ContextCompat.getColor(this, R.color.activityColorBackground))
 
         mbtSave?.setOnClickListener {
             MessageDialog.showMessageDialog(this,

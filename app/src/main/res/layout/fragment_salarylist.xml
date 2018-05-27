@@ -27,6 +27,7 @@
             android:src="@drawable/baseline_add"
             app:layout_anchor="@id/rvSalaryList"
             app:layout_anchorGravity="bottom|right|end"
+            android:tint="@color/activityColorBackground"
             />
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

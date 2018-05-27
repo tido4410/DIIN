@@ -120,7 +120,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/bggreen_selector"
+            android:background="@drawable/bgselector"
             android:text="@string/savelabel"
             android:textColor="@color/whiteColor" />
     </LinearLayout>

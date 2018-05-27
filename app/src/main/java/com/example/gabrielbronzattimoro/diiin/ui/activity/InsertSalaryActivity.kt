@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.widget.*
 import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.util.SalarySharedPreferences
@@ -41,6 +42,8 @@ class InsertSalaryActivity : AppCompatActivity() {
         metPriceValue?.addTextChangedListener(TWEditPrice(metPriceValue!!))
 
         loadDataPickerListener()
+
+        mbtSave?.setTextColor(ContextCompat.getColor(this, R.color.activityColorBackground))
 
         mbtSave?.setOnClickListener {
 

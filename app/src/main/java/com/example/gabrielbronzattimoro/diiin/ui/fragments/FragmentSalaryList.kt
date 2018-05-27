@@ -2,13 +2,13 @@ package com.example.gabrielbronzattimoro.diiin.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Spinner
 import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.StaticCollections
@@ -21,7 +21,7 @@ class FragmentSalaryList : Fragment() {
 
     private var mspMonthSelector: Spinner? = null
     private var mrvSalaryList: RecyclerView? = null
-    private var mbtnInsertSalary: Button? = null
+    private var mbtnInsertSalary: FloatingActionButton? = null
 
     companion object {
         const val NAME = "FragmentSalaryList"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,26 +9,26 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp">
 
-    <Button
-        android:id="@+id/btnaddExpense"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/floatingexpensesbutton"
-        android:elevation="9dp"
-        android:gravity="center"
-        android:stateListAnimator="@null"
-        android:text="+"
-        android:textColor="@color/whiteColor"
-        android:textSize="32sp"
-        android:textStyle="bold" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvExpenseList"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvExpenseList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnaddExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/baseline_add"
+            app:layout_anchor="@id/rvExpenseList"
+            app:layout_anchorGravity="bottom|right|end"
+            />
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </RelativeLayout>

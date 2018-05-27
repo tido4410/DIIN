@@ -5,6 +5,7 @@
     <string name="title_salary">Entrada</string>
     <string name="title_chartreport">Demonstrativo</string>
     <string name="title_newexpense">Nova Despesa</string>
+    <string name="title_newsalary">Novo Salario</string>
     <string name="food">Comida</string>
     <string name="transport">Transporte</string>
     <string name="phone">Telefone</string>

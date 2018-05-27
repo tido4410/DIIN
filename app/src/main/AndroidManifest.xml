@@ -22,6 +22,10 @@
             android:parentActivityName=".ui.MainActivity"
             android:label="@string/title_newexpense"/>
 
+        <activity android:name=".ui.InsertSalaryActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:label="@string/title_newsalary"/>
+
 
     </application>
 </manifest>

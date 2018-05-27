@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
                 when(mstrCurrentFragment) {
                     FragmentSalaryList.TAGNAME -> {
-
+                        (mfgCurrentFragment as FragmentSalaryList).loadSalaryList()
                     }
                     FragmentExpensesList.TAGNAME -> {
                         (mfgCurrentFragment as FragmentExpensesList).loadExpenseList()

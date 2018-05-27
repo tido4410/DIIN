@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Active -->
+    <item android:drawable="@drawable/bggreen_selected"
+        android:state_focused="false"
+        android:state_pressed="false"
+        android:state_selected="true" />
+
+    <!-- Inactive -->
+    <item android:drawable="@drawable/bggreen_unselected"
+        android:state_focused="false"
+        android:state_pressed="false"
+        android:state_selected="false" />
+
+    <!-- Pressed -->
+    <item android:drawable="@drawable/bggreen_focused"
+        android:state_pressed="true" />
+
+    <!-- selected -->
+    <item android:drawable="@drawable/bggreen_focused"
+        android:state_focused="true"
+        android:state_pressed="false"
+        android:state_selected="true"/>
+
+</selector>

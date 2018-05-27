@@ -178,6 +178,18 @@ class FragmentFinancialReport : Fragment() {
         mpcPieChart?.invalidate()
 
         tvExpenseTotalValue.text = MathService.formatFloatToCurrency(sSumTotal)
+
+        var sTotalSalary = 0f
+        StaticCollections.mlstSalary?.forEach {
+            val clCalendar = Calendar.getInstance()
+            clCalendar.time = it.mdtDate
+            if(clCalendar.get(Calendar.MONTH) == StaticCollections.mmtMonthSelected?.aid){
+                if(it.msValue != null)
+                    sTotalSalary += it.msValue!!
+            }
+        }
+
+        tvWalletValue.text = MathService.formatFloatToCurrency(sTotalSalary)
     }
 
     private fun initPieEntry(asFloatPercent : Float, astrString : String) : PieEntry {

@@ -5,6 +5,7 @@
     <string name="title_salary">Salary</string>
     <string name="title_chartreport">Report</string>
     <string name="title_newexpense">New Expense</string>
+    <string name="title_newsalary">New Salary</string>
     <string name="food">Food</string>
     <string name="transport">Transport</string>
     <string name="phone">Phone</string>

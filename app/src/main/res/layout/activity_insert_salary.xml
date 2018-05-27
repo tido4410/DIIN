@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activityColorBackground">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal">
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/tvDescriptionLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/whiteColor"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"
+                android:maxLines="1"
+                android:text="@string/description_label"
+                android:textAlignment="gravity" />
+
+            <EditText
+                android:id="@+id/etDescriptionValue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="center_vertical|start"
+                android:textColor="@color/whiteColor"
+                android:inputType="textPersonName"
+                android:text=""
+                android:textAlignment="gravity" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal">
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/tvLabelValue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/whiteColor"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"
+                android:maxLines="1"
+                android:text="@string/value_label"
+                android:textAlignment="gravity" />
+
+            <EditText
+                android:id="@+id/etPriceValue"
+                android:layout_width="match_parent"
+                android:textColor="@color/whiteColor"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:digits="0123456789"
+                android:gravity="center_vertical|start"
+                android:inputType="number"
+                android:textAlignment="gravity" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:orientation="horizontal">
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/tvDateLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"
+                android:textColor="@color/whiteColor"
+                android:maxLines="1"
+                android:text="@string/date_label"
+                android:textAlignment="gravity" />
+
+            <TextView
+                android:id="@+id/tvDateChoosed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="center_vertical|start"
+                android:inputType="textPersonName"
+                android:textColor="@color/whiteColor"
+                android:text="12/04/1201"
+                android:textAlignment="gravity" />
+
+            <ImageButton
+                android:id="@+id/ibChangeDate"
+                android:src="@drawable/baseline_calendar_today_black"
+                android:layout_width="52dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bggreen_selector"
+            android:text="@string/savelabel"
+            android:textColor="@color/whiteColor" />
+    </LinearLayout>
+</ScrollView>

@@ -28,8 +28,10 @@ class SalaryListAdapter(actxContext : Context, alstSalaryList: ArrayList<Salary>
     override fun onBindViewHolder(holder: SalaryListItemViewHolder?, position: Int) {
         val salaryItem = mlstSalaryList[position]
 
-        holder?.tvDate?.text = MathService.calendarTimeToString(salaryItem.mdtDate)
-        holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue)
+        if(salaryItem.mdtDate!=null)
+            holder?.tvDate?.text = MathService.calendarTimeToString(salaryItem.mdtDate!!)
+        if(salaryItem.msValue!=null)
+            holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)
         holder?.tvSource?.text = salaryItem.mstrSource
     }
 

@@ -6,6 +6,7 @@ import com.example.gabrielbronzattimoro.diiin.StaticCollections
 import com.example.gabrielbronzattimoro.diiin.model.Expense
 import com.example.gabrielbronzattimoro.diiin.model.ExpenseType
 import com.example.gabrielbronzattimoro.diiin.model.MonthType
+import com.example.gabrielbronzattimoro.diiin.model.Salary
 import com.example.gabrielbronzattimoro.diiin.util.MathService
 
 
@@ -49,6 +50,46 @@ object SelectionSharedPreferences {
     }
 }
 
+object SalarySharedPreferences {
+    val SALARY_PREFERENCE_KEY = "SalaryKey"
+
+    fun getSalaryList(actxContext: Context) : List<Salary> {
+        val lstToReturn = ArrayList<Salary>()
+        val strValue = SharedPreferenceConnection.selector(actxContext, SALARY_PREFERENCE_KEY, "")
+        if(strValue.isNotEmpty()) {
+            val lstStrSalary = strValue.split("-")
+            lstStrSalary.forEach {
+                val lstStrAttributes = it.split("|")
+                if(lstStrAttributes.size > 2) {
+                    val sValue = MathService.stringToFloat(lstStrAttributes[0])
+                    val strDescription = lstStrAttributes[1]
+                    val dtDate = MathService.stringToCalendarTime(lstStrAttributes[2])
+                    lstToReturn.add(Salary(strDescription, sValue, dtDate))
+                }
+            }
+        }
+        StaticCollections.mlstSalary = lstToReturn
+        return lstToReturn
+    }
+
+    fun insertNewSalary(actxContext : Context, salaryObj : Salary) : Boolean {
+        salaryObj.mstrSource ?: return false
+        salaryObj.mdtDate ?: return false
+        salaryObj.msValue ?: return false
+
+        var strValueToPersist : String = SharedPreferenceConnection.selector(actxContext, SalarySharedPreferences.SALARY_PREFERENCE_KEY, "")
+
+        if(strValueToPersist.isNotEmpty()) strValueToPersist += "-"
+
+        strValueToPersist += "${salaryObj.msValue}|${salaryObj.mstrSource}" +
+                "|${MathService.calendarTimeToString(salaryObj.mdtDate!!)}"
+
+        SharedPreferenceConnection.editor(actxContext).putString(SalarySharedPreferences.SALARY_PREFERENCE_KEY,strValueToPersist).commit()
+        SalarySharedPreferences.getSalaryList(actxContext)
+        return true
+    }
+
+}
 
 object ExpenseSharedPreferences {
 

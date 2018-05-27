@@ -24,7 +24,7 @@ class FragmentSalaryList : Fragment() {
     private var mbtnInsertSalary: Button? = null
 
     companion object {
-        val TAGNAME = "FragmentSalaryList"
+        const val NAME = "FragmentSalaryList"
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,7 +53,7 @@ class FragmentSalaryList : Fragment() {
     fun loadSalaryList() {
         val lstSalary = StaticCollections.mastSalary ?: return
         if(StaticCollections.mmtMonthSelected == null)
-            mrvSalaryList?.adapter = SalaryListAdapter(context, lstSalary)
+            mrvSalaryList?.adapter = SalaryListAdapter(lstSalary)
         else {
             val lstSalaryFiltered = ArrayList<Salary>()
             lstSalary.forEach{
@@ -62,7 +62,7 @@ class FragmentSalaryList : Fragment() {
                 if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid)
                     lstSalaryFiltered.add(it)
             }
-            mrvSalaryList?.adapter = SalaryListAdapter(context, lstSalaryFiltered)
+            mrvSalaryList?.adapter = SalaryListAdapter(lstSalaryFiltered)
         }
     }
 

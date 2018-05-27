@@ -17,13 +17,13 @@ import java.util.*
 
 class InsertExpenseActivity : AppCompatActivity() {
 
-    var mspSpinnerExpenseType: Spinner? = null
-    var metValue: EditText? = null
-    var metDescription: EditText? = null
-    var mtvDate: TextView? = null
-    var mibChangeDate: ImageButton? = null
-    var clCalenderChoosed : Calendar = Calendar.getInstance()
-    var mbtnSave : Button? = null
+    private var mspSpinnerExpenseType: Spinner? = null
+    private var metValue: EditText? = null
+    private var metDescription: EditText? = null
+    private var mtvDate: TextView? = null
+    private var mibChangeDate: ImageButton? = null
+    private var clCalenderChoosed : Calendar = Calendar.getInstance()
+    private var mbtSave : Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class InsertExpenseActivity : AppCompatActivity() {
         metDescription = findViewById(R.id.etDescriptionValue)
         mtvDate = findViewById(R.id.tvDateChoosed)
         mibChangeDate = findViewById(R.id.ibChangeDate)
-        mbtnSave = findViewById(R.id.btnSave)
+        mbtSave = findViewById(R.id.btnSave)
     }
 
 
@@ -49,7 +49,7 @@ class InsertExpenseActivity : AppCompatActivity() {
 
         loadDataPickerListener()
 
-        mbtnSave?.setOnClickListener {
+        mbtSave?.setOnClickListener {
             MessageDialog.showMessageDialog(this,
                     resources.getString(R.string.msgAreYouSure),
                     DialogInterface.OnClickListener { adialog, _ ->

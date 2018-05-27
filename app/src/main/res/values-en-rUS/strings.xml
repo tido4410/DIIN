@@ -37,4 +37,5 @@
     <string name="messageAboutWrongYear">This year is not the current.</string>
     <string name="clearAllData">Clear all data.</string>
     <string name="msgAreYouSure">Você tem certeza?</string>
+    <string name="pleaseRestartTheApp">Please restart the app.</string>
 </resources>

@@ -15,12 +15,12 @@ import java.util.*
 
 class InsertSalaryActivity : AppCompatActivity() {
 
-    var clCalenderChoosed: Calendar = Calendar.getInstance()
-    var mtvDate: TextView? = null
-    var mibChangeDate: ImageButton? = null
-    var metDescriptionValue: EditText? = null
-    var metPriceValue: EditText? = null
-    var mbtnSave: Button? = null
+    private var clCalenderChoosed: Calendar = Calendar.getInstance()
+    private var mtvDate: TextView? = null
+    private var mibChangeDate: ImageButton? = null
+    private var metDescriptionValue: EditText? = null
+    private var metPriceValue: EditText? = null
+    private var mbtSave: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +30,7 @@ class InsertSalaryActivity : AppCompatActivity() {
         mibChangeDate = findViewById(R.id.ibChangeDate)
         metDescriptionValue = findViewById(R.id.etDescriptionValue)
         metPriceValue = findViewById(R.id.etPriceValue)
-        mbtnSave = findViewById(R.id.btnSave)
-
+        mbtSave = findViewById(R.id.btnSave)
     }
 
     override fun onStart() {
@@ -43,7 +42,7 @@ class InsertSalaryActivity : AppCompatActivity() {
 
         loadDataPickerListener()
 
-        mbtnSave?.setOnClickListener {
+        mbtSave?.setOnClickListener {
 
             MessageDialog.showMessageDialog(this,
                     resources.getString(R.string.msgAreYouSure),

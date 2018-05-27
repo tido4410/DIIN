@@ -1,5 +1,6 @@
 package com.example.gabrielbronzattimoro.diiin.ui.activity
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -17,26 +18,27 @@ import com.example.gabrielbronzattimoro.diiin.StaticCollections
 import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentExpensesList
 import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentFinancialReport
 import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentSalaryList
+import com.example.gabrielbronzattimoro.diiin.util.MessageDialog
 import com.example.gabrielbronzattimoro.diiin.util.SharedPreferenceConnection
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
 
-    private var mbnvNavigation : BottomNavigationView? = null
-    private var mstrCurrentFragment : String? = null
+    private var mnvNavigation : BottomNavigationView? = null
+    private var mstCurrentFragment : String? = null
     private var mfgCurrentFragment : Fragment? = null
     private var mspMonthSelector : Spinner? = null
-    private var mlstSpinnerMonthsList : ArrayList<String>? = null
+    private var mltSpinnerMonthsList : ArrayList<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mbnvNavigation = findViewById(R.id.bnvNavigation)
+        mnvNavigation = findViewById(R.id.bnvNavigation)
         mspMonthSelector = findViewById(R.id.spMonthSelector)
 
-        mbnvNavigation?.setOnNavigationItemSelectedListener(this)
+        mnvNavigation?.setOnNavigationItemSelectedListener(this)
 
         loadSpinnersContent()
     }
@@ -48,16 +50,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun loadFragments() {
-        if (mstrCurrentFragment == null)
-            mstrCurrentFragment = FragmentExpensesList.TAGNAME
+        if (mstCurrentFragment == null)
+            mstCurrentFragment = FragmentExpensesList.NAME
 
         if (mfgCurrentFragment != null)
             supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
 
-        mfgCurrentFragment = when (mstrCurrentFragment) {
-            FragmentSalaryList.TAGNAME -> FragmentSalaryList()
-            FragmentFinancialReport.TAGNAME -> FragmentFinancialReport()
-            FragmentExpensesList.TAGNAME -> FragmentExpensesList()
+        mfgCurrentFragment = when (mstCurrentFragment) {
+            FragmentSalaryList.NAME -> FragmentSalaryList()
+            FragmentFinancialReport.NAME -> FragmentFinancialReport()
+            FragmentExpensesList.NAME -> FragmentExpensesList()
             else -> null
         }
         if (mfgCurrentFragment != null)
@@ -67,46 +69,43 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_piechart -> {
-                if(mstrCurrentFragment != FragmentFinancialReport.TAGNAME) {
+                if(mstCurrentFragment != FragmentFinancialReport.NAME) {
                     supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
                     mfgCurrentFragment = FragmentFinancialReport()
                     supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
-                    mstrCurrentFragment = FragmentFinancialReport.TAGNAME
+                    mstCurrentFragment = FragmentFinancialReport.NAME
                 }
                 return true
-                //fragmentManager.beginTransaction().replace(R.id.flMainContent, FragmentFinancialReport()).commit()
             }
             R.id.navigation_expenses -> {
-                if(mstrCurrentFragment != FragmentExpensesList.TAGNAME) {
+                if(mstCurrentFragment != FragmentExpensesList.NAME) {
                     supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
                     mfgCurrentFragment = FragmentExpensesList()
                     supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
-                    mstrCurrentFragment = FragmentExpensesList.TAGNAME
+                    mstCurrentFragment = FragmentExpensesList.NAME
                 }
                 return true
-                //fragmentManager.beginTransaction().replace(R.id.flMainContent, null).commit()
             }
             R.id.navigation_salary -> {
-                if(mstrCurrentFragment != FragmentSalaryList.TAGNAME) {
+                if(mstCurrentFragment != FragmentSalaryList.NAME) {
                     supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
                     mfgCurrentFragment = FragmentSalaryList()
                     supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
-                    mstrCurrentFragment = FragmentSalaryList.TAGNAME
+                    mstCurrentFragment = FragmentSalaryList.NAME
                 }
                 return true
-                //fragmentManager.beginTransaction().replace(R.id.flMainContent, null).commit()
             }
         }
         return false
     }
 
     private fun loadSpinnersContent() {
-        mlstSpinnerMonthsList = ArrayList()
-        mlstSpinnerMonthsList?.add(resources.getString(R.string.All))
+        mltSpinnerMonthsList = ArrayList()
+        mltSpinnerMonthsList?.add(resources.getString(R.string.All))
 
-        MonthType.values().forEach { mlstSpinnerMonthsList?.add(it.description(this)) }
+        MonthType.values().forEach { mltSpinnerMonthsList?.add(it.description(this)) }
 
-        val lstArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, mlstSpinnerMonthsList)
+        val lstArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, mltSpinnerMonthsList)
         lstArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mspMonthSelector?.adapter = lstArrayAdapter
         mspMonthSelector?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -120,32 +119,32 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 } else { null } ?: return
 
                 SelectionSharedPreferences.insertMonthSelectPreference(baseContext, StaticCollections.mmtMonthSelected)
-                mstrCurrentFragment ?: return
+                mstCurrentFragment ?: return
 
-                when(mstrCurrentFragment) {
-                    FragmentSalaryList.TAGNAME -> {
+                when(mstCurrentFragment) {
+                    FragmentSalaryList.NAME -> {
                         (mfgCurrentFragment as FragmentSalaryList).loadSalaryList()
                     }
-                    FragmentExpensesList.TAGNAME -> {
+                    FragmentExpensesList.NAME -> {
                         (mfgCurrentFragment as FragmentExpensesList).loadExpenseList()
                     }
-                    FragmentFinancialReport.TAGNAME -> {
+                    FragmentFinancialReport.NAME -> {
                         (mfgCurrentFragment as FragmentFinancialReport).loadChartData()
                     }
                 }
             }
         }
 
-        mlstSpinnerMonthsList ?: return
+        mltSpinnerMonthsList ?: return
         StaticCollections.mmtMonthSelected ?: return
 
         val strMonthValue = StaticCollections.mmtMonthSelected?.description(this)
 
 
         var nCount = 0
-        val nSize = mlstSpinnerMonthsList?.size
+        val nSize = mltSpinnerMonthsList?.size
         while(nCount < nSize!!) {
-            if(mlstSpinnerMonthsList!![nCount]==strMonthValue)
+            if(mltSpinnerMonthsList!![nCount]==strMonthValue)
                 break
             nCount++
         }
@@ -162,11 +161,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         when(item.itemId) {
             R.id.menu_clearalldata -> {
-                SharedPreferenceConnection.clearAllPreferences(this)
+                MessageDialog.showMessageDialog(this,
+                        resources.getString(R.string.msgAreYouSure),
+                        DialogInterface.OnClickListener { adialog, _ ->
+                            SharedPreferenceConnection.clearAllPreferences(this)
+                            MessageDialog.showToastMessage(this, resources.getString(R.string.pleaseRestartTheApp))
+                            adialog.dismiss()
+                        },
+                        DialogInterface.OnClickListener { adialog, _ ->
+                            adialog.dismiss()
+                        })
             }
             else -> { }
         }
-
         return true
     }
 }

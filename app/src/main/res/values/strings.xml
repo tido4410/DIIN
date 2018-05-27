@@ -37,4 +37,5 @@
     <string name="messageAboutWrongYear">Só é possível escolher datas do ano atual.</string>
     <string name="clearAllData">Limpar todos os dados.</string>
     <string name="msgAreYouSure">Você tem certeza?</string>
+    <string name="pleaseRestartTheApp">Por favor, feche o aplicativo para as suas funções serem reinicializadas.</string>
 </resources>

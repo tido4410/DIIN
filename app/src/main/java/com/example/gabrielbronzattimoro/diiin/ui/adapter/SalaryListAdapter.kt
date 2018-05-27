@@ -1,6 +1,5 @@
 package com.example.gabrielbronzattimoro.diiin.ui.adapter
 
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +13,9 @@ import com.example.gabrielbronzattimoro.diiin.util.MathService
  * This adapter is the manager of salary list.
  * @author Gabriel Moro
  */
-class SalaryListAdapter(actxContext : Context, alstSalaryList: ArrayList<Salary>)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
+class SalaryListAdapter(alstSalaryList: ArrayList<Salary>)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
 
-    private val mlstSalaryList: ArrayList<Salary> = alstSalaryList
-    private val mctxContext: Context = actxContext
+    private val mltSalaryList: ArrayList<Salary> = alstSalaryList
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SalaryListItemViewHolder? {
         return SalaryListItemViewHolder(LayoutInflater.from(parent?.context)
@@ -25,11 +23,11 @@ class SalaryListAdapter(actxContext : Context, alstSalaryList: ArrayList<Salary>
     }
 
     override fun getItemCount(): Int {
-        return mlstSalaryList.size
+        return mltSalaryList.size
     }
 
     override fun onBindViewHolder(holder: SalaryListItemViewHolder?, position: Int) {
-        val salaryItem = mlstSalaryList[position]
+        val salaryItem = mltSalaryList[position]
 
         if(salaryItem.mdtDate!=null)
             holder?.tvDate?.text = MathService.calendarTimeToString(salaryItem.mdtDate!!)

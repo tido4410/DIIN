@@ -25,7 +25,7 @@ import java.util.*
 class FragmentFinancialReport : Fragment() {
 
     companion object {
-        val TAGNAME = "FragmentFinancialReport"
+        const val NAME = "FragmentFinancialReport"
     }
 
     private var mpcPieChart: PieChart? = null

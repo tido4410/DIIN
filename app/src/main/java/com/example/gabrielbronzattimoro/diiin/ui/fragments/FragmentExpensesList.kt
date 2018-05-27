@@ -21,10 +21,10 @@ class FragmentExpensesList : Fragment() {
 
     private var mspMonthSelector: Spinner? = null
     private var mrvExpenseList: RecyclerView? = null
-    private var mbtnInsertExpense: Button? = null
+    private var mbtInsertExpense: Button? = null
 
     companion object {
-        val TAGNAME = "FragmentExpensesList"
+        const val NAME = "FragmentExpensesList"
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,8 +36,8 @@ class FragmentExpensesList : Fragment() {
 
         mspMonthSelector = view?.findViewById(R.id.spMonthSelector)
         mrvExpenseList = view?.findViewById(R.id.rvExpenseList)
-        mbtnInsertExpense = view?.findViewById(R.id.btnaddExpense)
-        mbtnInsertExpense?.setOnClickListener {
+        mbtInsertExpense = view?.findViewById(R.id.btnaddExpense)
+        mbtInsertExpense?.setOnClickListener {
             context.startActivity(Intent(context, InsertExpenseActivity::class.java))
         }
 

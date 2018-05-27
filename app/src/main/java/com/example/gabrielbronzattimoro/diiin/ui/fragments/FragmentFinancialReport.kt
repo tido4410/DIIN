@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.ui
+package com.example.gabrielbronzattimoro.diiin.ui.fragments
 
 import android.graphics.Color
 import android.os.Bundle
@@ -55,7 +55,7 @@ class FragmentFinancialReport : Fragment() {
 
     fun loadChartData() {
 
-        val lstExpenses : ArrayList<Expense> = StaticCollections.mlstExpenses ?: return
+        val lstExpenses : ArrayList<Expense> = StaticCollections.mastExpenses ?: return
 
         var sSumTotal = 0f
         var sumTotalFood = 0f
@@ -75,7 +75,7 @@ class FragmentFinancialReport : Fragment() {
             if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid) {
                 if(it.msValue!=null)
                     sSumTotal += it.msValue!!
-                when(it.mexpenseType) {
+                when(it.metType) {
                     ExpenseType.FOOD -> {
                         if(it.msValue != null)
                             sumTotalFood += it.msValue!!
@@ -180,7 +180,7 @@ class FragmentFinancialReport : Fragment() {
         tvExpenseTotalValue.text = MathService.formatFloatToCurrency(sSumTotal)
 
         var sTotalSalary = 0f
-        StaticCollections.mlstSalary?.forEach {
+        StaticCollections.mastSalary?.forEach {
             val clCalendar = Calendar.getInstance()
             clCalendar.time = it.mdtDate
             if(clCalendar.get(Calendar.MONTH) == StaticCollections.mmtMonthSelected?.aid){

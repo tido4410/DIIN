@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.ui
+package com.example.gabrielbronzattimoro.diiin.ui.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -10,6 +10,10 @@ import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.model.Expense
 import com.example.gabrielbronzattimoro.diiin.util.MathService
 
+/**
+ * This adapter is the manager of expense list.
+ * @author Gabriel Moro
+ */
 class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expense>) : RecyclerView.Adapter<ExpenseListAdapter.ExpenseListItemViewHolder>() {
 
     private val mlstExpenseList: ArrayList<Expense> = alstExpenseList
@@ -29,12 +33,12 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
 
         if(expenseItem.msValue!=null)
             holder.tvValue.text = MathService.formatFloatToCurrency(expenseItem.msValue!!)
-        holder.tvDescription.text = expenseItem.mstrDescription
+        holder.tvDescription.text = expenseItem.msrDescription
         if(expenseItem.mdtDate!=null)
             holder.tvDate.text = MathService.calendarTimeToString(expenseItem.mdtDate!!)
-        holder.tvExpenseType.text = expenseItem.mexpenseType?.description(mctxContext)?.toUpperCase()
-        val nExpenseBkgColor = expenseItem.mexpenseType?.backgroundColor(mctxContext)
-        val nExpenseFontColor = expenseItem.mexpenseType?.fontColor(mctxContext)
+        holder.tvExpenseType.text = expenseItem.metType?.description(mctxContext)?.toUpperCase()
+        val nExpenseBkgColor = expenseItem.metType?.backgroundColor(mctxContext)
+        val nExpenseFontColor = expenseItem.metType?.fontColor(mctxContext)
         if(nExpenseBkgColor!=null && nExpenseFontColor != null) {
             holder.tvExpenseType.setBackgroundColor(nExpenseBkgColor)
             holder.tvExpenseType.setTextColor(nExpenseFontColor)

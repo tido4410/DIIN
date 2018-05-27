@@ -1,24 +1,26 @@
-package com.example.gabrielbronzattimoro.diiin.ui
+package com.example.gabrielbronzattimoro.diiin.ui.activity
 
 import android.app.DatePickerDialog
-import android.media.Image
+import android.content.DialogInterface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import com.example.gabrielbronzattimoro.diiin.R
-import com.example.gabrielbronzattimoro.diiin.dao.SalarySharedPreferences
+import com.example.gabrielbronzattimoro.diiin.util.SalarySharedPreferences
 import com.example.gabrielbronzattimoro.diiin.model.Salary
+import com.example.gabrielbronzattimoro.diiin.ui.TWEditPrice
 import com.example.gabrielbronzattimoro.diiin.util.MathService
+import com.example.gabrielbronzattimoro.diiin.util.MessageDialog
 import java.util.*
 
 class InsertSalaryActivity : AppCompatActivity() {
 
-    var clCalenderChoosed : Calendar = Calendar.getInstance()
+    var clCalenderChoosed: Calendar = Calendar.getInstance()
     var mtvDate: TextView? = null
     var mibChangeDate: ImageButton? = null
-    var metDescriptionValue : EditText? = null
-    var metPriceValue : EditText? = null
-    var mbtnSave : Button? = null
+    var metDescriptionValue: EditText? = null
+    var metPriceValue: EditText? = null
+    var mbtnSave: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +28,8 @@ class InsertSalaryActivity : AppCompatActivity() {
 
         mtvDate = findViewById(R.id.tvDateChoosed)
         mibChangeDate = findViewById(R.id.ibChangeDate)
-        metDescriptionValue= findViewById(R.id.etDescriptionValue)
-        metPriceValue= findViewById(R.id.etPriceValue)
+        metDescriptionValue = findViewById(R.id.etDescriptionValue)
+        metPriceValue = findViewById(R.id.etPriceValue)
         mbtnSave = findViewById(R.id.btnSave)
 
     }
@@ -42,24 +44,35 @@ class InsertSalaryActivity : AppCompatActivity() {
         loadDataPickerListener()
 
         mbtnSave?.setOnClickListener {
-            val sValue = MathService.formatCurrencyValueToFloat(metPriceValue?.text.toString()) ?: 0f
-            val dtDate = clCalenderChoosed.time
-            val strDescription = metDescriptionValue?.text.toString()
 
-            val newSalary = Salary(strDescription, sValue, dtDate)
-            SalarySharedPreferences.insertNewSalary(application.applicationContext, newSalary)
-            finish()
+            MessageDialog.showMessageDialog(this,
+                    resources.getString(R.string.msgAreYouSure),
+                    DialogInterface.OnClickListener { adialog, _ ->
+                        val sValue = MathService.formatCurrencyValueToFloat(metPriceValue?.text.toString())
+                                ?: 0f
+                        val dtDate = clCalenderChoosed.time
+                        val strDescription = metDescriptionValue?.text.toString()
+
+                        val newSalary = Salary(strDescription, sValue, dtDate)
+                        SalarySharedPreferences.insertNewSalary(application.applicationContext, newSalary)
+                        adialog.dismiss()
+                        finish()
+                    },
+                    DialogInterface.OnClickListener { adialog, _ ->
+                        adialog.dismiss()
+                        finish()
+                    })
         }
     }
 
 
     private fun loadDataPickerListener() {
-        val dateSetListener = DatePickerDialog.OnDateSetListener { vw, year, month, day ->
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
             clCalenderChoosed.set(Calendar.YEAR, year)
             clCalenderChoosed.set(Calendar.MONTH, month)
             clCalenderChoosed.set(Calendar.DAY_OF_MONTH, day)
 
-            if(MathService.isTheDateInCurrentYear(clCalenderChoosed.time)) {
+            if (MathService.isTheDateInCurrentYear(clCalenderChoosed.time)) {
                 mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time)
             } else {
                 clCalenderChoosed = Calendar.getInstance()

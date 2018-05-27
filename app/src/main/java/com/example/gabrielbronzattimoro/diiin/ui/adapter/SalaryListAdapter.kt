@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.ui
+package com.example.gabrielbronzattimoro.diiin.ui.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -10,7 +10,10 @@ import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.model.Salary
 import com.example.gabrielbronzattimoro.diiin.util.MathService
 
-
+/**
+ * This adapter is the manager of salary list.
+ * @author Gabriel Moro
+ */
 class SalaryListAdapter(actxContext : Context, alstSalaryList: ArrayList<Salary>)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
 
     private val mlstSalaryList: ArrayList<Salary> = alstSalaryList
@@ -32,7 +35,7 @@ class SalaryListAdapter(actxContext : Context, alstSalaryList: ArrayList<Salary>
             holder?.tvDate?.text = MathService.calendarTimeToString(salaryItem.mdtDate!!)
         if(salaryItem.msValue!=null)
             holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)
-        holder?.tvSource?.text = salaryItem.mstrSource
+        holder?.tvSource?.text = salaryItem.mstSource
     }
 
 

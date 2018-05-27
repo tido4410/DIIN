@@ -4,7 +4,13 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.example.gabrielbronzattimoro.diiin.R
 
-
+/**
+ * Define the type of expense used by objects from Expense class
+ *
+ * @author Gabriel Moro
+ *
+ * @param idExpense is the Expense type identifier
+ */
 enum class ExpenseType(val idExpense : Int){
     FOOD(1),
     TRANSPORT(2),
@@ -18,36 +24,58 @@ enum class ExpenseType(val idExpense : Int){
     OTHERS(110);
 
     companion object {
+        /**
+         * This map connect the id and types
+         */
         private val map = ExpenseType.values().associateBy(ExpenseType::idExpense)
+
+        /**
+         * Return some expense type according to integer id
+         * @param type is the integer id
+         */
         fun fromInt(type : Int) = map[type]
 
-        fun gettingIdFromDescription(actxContext: Context, astrValue : String) : Int? {
-            return when(astrValue) {
-                FOOD.description(actxContext) -> FOOD.idExpense
-                TRANSPORT.description(actxContext) -> TRANSPORT.idExpense
-                PHONE.description(actxContext) -> PHONE.idExpense
-                EDUCATION.description(actxContext) -> EDUCATION.idExpense
-                HEALTH.description(actxContext) -> HEALTH.idExpense
-                RENT.description(actxContext) -> RENT.idExpense
-                TRAVEL.description(actxContext) -> TRAVEL.idExpense
-                OTHERS.description(actxContext) -> OTHERS.idExpense
+        /**
+         *
+         * The method returns the expense type id according some string
+         * description.
+         *
+         * @param actContext is the screen context
+         * @param asrValue is the description of the expense type
+         */
+        fun gettingIdFromDescription(actContext: Context, asrValue : String) : Int? {
+            return when(asrValue) {
+                FOOD.description(actContext) -> FOOD.idExpense
+                TRANSPORT.description(actContext) -> TRANSPORT.idExpense
+                PHONE.description(actContext) -> PHONE.idExpense
+                EDUCATION.description(actContext) -> EDUCATION.idExpense
+                HEALTH.description(actContext) -> HEALTH.idExpense
+                RENT.description(actContext) -> RENT.idExpense
+                TRAVEL.description(actContext) -> TRAVEL.idExpense
+                OTHERS.description(actContext) -> OTHERS.idExpense
                 else -> null
             }
         }
     }
 
-    fun description(actxContext : Context) : String {
+    /**
+     * This method returns the description according expense type
+     * defined by constructor
+     *
+     * @param actContext is the screen context
+     */
+    fun description(actContext : Context) : String {
         return when(this) {
-            FOOD -> actxContext.resources.getString(R.string.food)
-            TRANSPORT -> actxContext.resources.getString(R.string.transport)
-            PHONE -> actxContext.resources.getString(R.string.phone)
-            PETS -> actxContext.resources.getString(R.string.pets)
-            EDUCATION -> actxContext.resources.getString(R.string.education)
-            HEALTH -> actxContext.resources.getString(R.string.health)
-            FUN -> actxContext.resources.getString(R.string.funn)
-            RENT -> actxContext.resources.getString(R.string.rent)
-            TRAVEL -> actxContext.resources.getString(R.string.travel)
-            OTHERS -> actxContext.resources.getString(R.string.other)
+            FOOD -> actContext.resources.getString(R.string.food)
+            TRANSPORT -> actContext.resources.getString(R.string.transport)
+            PHONE -> actContext.resources.getString(R.string.phone)
+            PETS -> actContext.resources.getString(R.string.pets)
+            EDUCATION -> actContext.resources.getString(R.string.education)
+            HEALTH -> actContext.resources.getString(R.string.health)
+            FUN -> actContext.resources.getString(R.string.funn)
+            RENT -> actContext.resources.getString(R.string.rent)
+            TRAVEL -> actContext.resources.getString(R.string.travel)
+            OTHERS -> actContext.resources.getString(R.string.other)
         }
     }
 
@@ -66,18 +94,23 @@ enum class ExpenseType(val idExpense : Int){
         }
     }
 
-    fun backgroundColor(actxContext : Context) : Int {
+    /**
+     * This method returns the background color according expense type defined by constructor
+     *
+     * @param actContext is the screen context
+     */
+    fun backgroundColor(actContext : Context) : Int {
         return when(this) {
-            FOOD -> ContextCompat.getColor(actxContext, R.color.foodbkg)
-            TRANSPORT -> ContextCompat.getColor(actxContext, R.color.transportbkg)
-            PHONE -> ContextCompat.getColor(actxContext, R.color.phonebkg)
-            PETS -> ContextCompat.getColor(actxContext, R.color.petsbkg)
-            EDUCATION -> ContextCompat.getColor(actxContext, R.color.educationbkg)
-            HEALTH -> ContextCompat.getColor(actxContext, R.color.healthbkg)
-            FUN -> ContextCompat.getColor(actxContext, R.color.funnbkg)
-            RENT -> ContextCompat.getColor(actxContext, R.color.rentbkg)
-            TRAVEL -> ContextCompat.getColor(actxContext, R.color.travelbkg)
-            OTHERS -> ContextCompat.getColor(actxContext, R.color.othersbkg)
+            FOOD -> ContextCompat.getColor(actContext, R.color.foodbkg)
+            TRANSPORT -> ContextCompat.getColor(actContext, R.color.transportbkg)
+            PHONE -> ContextCompat.getColor(actContext, R.color.phonebkg)
+            PETS -> ContextCompat.getColor(actContext, R.color.petsbkg)
+            EDUCATION -> ContextCompat.getColor(actContext, R.color.educationbkg)
+            HEALTH -> ContextCompat.getColor(actContext, R.color.healthbkg)
+            FUN -> ContextCompat.getColor(actContext, R.color.funnbkg)
+            RENT -> ContextCompat.getColor(actContext, R.color.rentbkg)
+            TRAVEL -> ContextCompat.getColor(actContext, R.color.travelbkg)
+            OTHERS -> ContextCompat.getColor(actContext, R.color.othersbkg)
         }
     }
 

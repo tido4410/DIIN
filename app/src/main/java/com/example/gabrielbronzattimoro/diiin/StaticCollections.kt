@@ -6,8 +6,8 @@ import com.example.gabrielbronzattimoro.diiin.model.Salary
 
 object StaticCollections {
 
-    var mlstExpenses : ArrayList<Expense>? = null
-    var mlstSalary : ArrayList<Salary>? = null
+    var mastExpenses : ArrayList<Expense>? = null
+    var mastSalary : ArrayList<Salary>? = null
     var mmtMonthSelected : MonthType? = null
 
 }

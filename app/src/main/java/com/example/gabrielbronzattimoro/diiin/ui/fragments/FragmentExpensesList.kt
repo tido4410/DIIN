@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.ui
+package com.example.gabrielbronzattimoro.diiin.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,56 +12,62 @@ import android.widget.Button
 import android.widget.Spinner
 import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.StaticCollections
-import com.example.gabrielbronzattimoro.diiin.model.Salary
+import com.example.gabrielbronzattimoro.diiin.model.Expense
+import com.example.gabrielbronzattimoro.diiin.ui.activity.InsertExpenseActivity
+import com.example.gabrielbronzattimoro.diiin.ui.adapter.ExpenseListAdapter
 import java.util.*
 
-class FragmentSalaryList : Fragment() {
+class FragmentExpensesList : Fragment() {
 
     private var mspMonthSelector: Spinner? = null
-    private var mrvSalaryList: RecyclerView? = null
-    private var mbtnInsertSalary: Button? = null
+    private var mrvExpenseList: RecyclerView? = null
+    private var mbtnInsertExpense: Button? = null
 
     companion object {
-        val TAGNAME = "FragmentSalaryList"
+        val TAGNAME = "FragmentExpensesList"
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_salarylist, container, false)
+        return inflater?.inflate(R.layout.fragment_expenseslist, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         mspMonthSelector = view?.findViewById(R.id.spMonthSelector)
-        mrvSalaryList = view?.findViewById(R.id.rvSalaryList)
-        mbtnInsertSalary = view?.findViewById(R.id.btnaddSalary)
-        mbtnInsertSalary?.setOnClickListener {
-            context.startActivity(Intent(context, InsertSalaryActivity::class.java))
+        mrvExpenseList = view?.findViewById(R.id.rvExpenseList)
+        mbtnInsertExpense = view?.findViewById(R.id.btnaddExpense)
+        mbtnInsertExpense?.setOnClickListener {
+            context.startActivity(Intent(context, InsertExpenseActivity::class.java))
         }
 
         val llManager = LinearLayoutManager(context)
-        mrvSalaryList?.layoutManager = llManager
+        mrvExpenseList?.layoutManager = llManager
+
     }
 
     override fun onResume() {
         super.onResume()
-        loadSalaryList()
+        loadExpenseList()
     }
 
-    fun loadSalaryList() {
-        val lstSalary = StaticCollections.mlstSalary ?: return
+
+    fun loadExpenseList() {
+        val lstExpenses = StaticCollections.mastExpenses ?: return
         if(StaticCollections.mmtMonthSelected == null)
-            mrvSalaryList?.adapter = SalaryListAdapter(context, lstSalary)
+            mrvExpenseList?.adapter = ExpenseListAdapter(context, lstExpenses)
         else {
-            val lstSalaryFiltered = ArrayList<Salary>()
-            lstSalary.forEach{
+            val lstExpenseFiltered = ArrayList<Expense>()
+            lstExpenses.forEach{
                 val clCalendar = Calendar.getInstance()
                 clCalendar.time = it.mdtDate
                 if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid)
-                    lstSalaryFiltered.add(it)
+                    lstExpenseFiltered.add(it)
             }
-            mrvSalaryList?.adapter = SalaryListAdapter(context, lstSalaryFiltered)
+            mrvExpenseList?.adapter = ExpenseListAdapter(context, lstExpenseFiltered)
         }
     }
+
+
 
 }

@@ -18,8 +18,8 @@ object MathService {
         return formatter.format(asValue)
     }
 
-    fun formatCurrencyValueToFloat(astrValue : String) : Float? {
-        return astrValue.replace("R$","")
+    fun formatCurrencyValueToFloat(astValue : String) : Float? {
+        return astValue.replace("R$","")
                 .replace(".", "")
                 .replace(",", ".").toFloatOrNull()
     }
@@ -36,11 +36,11 @@ object MathService {
             sFloatNumber = "$strFirstPart.$strSecondPart".toFloatOrNull() ?: 0f
             strMoney = formatter?.format(sFloatNumber) ?: ""
         } else {
-            sFloatNumber = if(strNumber.length==1) {
-                "0.0$strNumber".toFloatOrNull() ?: 0f
-            } else if(strNumber.length==2) {
-                "0.$strNumber".toFloatOrNull() ?: 0f
-            } else 0f
+            sFloatNumber = when {
+                strNumber.length==1 -> "0.0$strNumber".toFloatOrNull() ?: 0f
+                strNumber.length==2 -> "0.$strNumber".toFloatOrNull() ?: 0f
+                else -> 0f
+            }
             strMoney = formatter?.format(sFloatNumber) ?: ""
         }
         return strMoney
@@ -52,10 +52,10 @@ object MathService {
         return formatter.format(adt)
     }
 
-    fun stringToCalendarTime(astrDate : String) : Date {
+    fun stringToCalendarTime(astDate : String) : Date {
         val strFormat = "dd/MM/yyyy"
         val formatter = SimpleDateFormat(strFormat, Locale("pt", "BR"))
-        return formatter.parse(astrDate)
+        return formatter.parse(astDate)
     }
 
     fun floatToString(asValue : Float) : String {

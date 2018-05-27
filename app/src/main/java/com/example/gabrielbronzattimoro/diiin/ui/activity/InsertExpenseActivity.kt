@@ -1,14 +1,17 @@
-package com.example.gabrielbronzattimoro.diiin.ui
+package com.example.gabrielbronzattimoro.diiin.ui.activity
 
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.*
 import com.example.gabrielbronzattimoro.diiin.R
-import com.example.gabrielbronzattimoro.diiin.dao.ExpenseSharedPreferences
+import com.example.gabrielbronzattimoro.diiin.util.ExpenseSharedPreferences
 import com.example.gabrielbronzattimoro.diiin.model.Expense
 import com.example.gabrielbronzattimoro.diiin.model.ExpenseType
+import com.example.gabrielbronzattimoro.diiin.ui.TWEditPrice
 import com.example.gabrielbronzattimoro.diiin.util.MathService
+import com.example.gabrielbronzattimoro.diiin.util.MessageDialog
 import java.util.*
 
 
@@ -47,23 +50,32 @@ class InsertExpenseActivity : AppCompatActivity() {
         loadDataPickerListener()
 
         mbtnSave?.setOnClickListener {
-            val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
-            val nExpenseTypeId = ExpenseType.gettingIdFromDescription(this, strExpenseType)
-            val etExpenseType = if(nExpenseTypeId!=null)
-                ExpenseType.fromInt(nExpenseTypeId)
-            else null
-            val strDescription = metDescription?.text.toString()
-            val sValue = MathService.formatCurrencyValueToFloat(metValue?.text.toString())
-            val dtDate = clCalenderChoosed.time
+            MessageDialog.showMessageDialog(this,
+                    resources.getString(R.string.msgAreYouSure),
+                    DialogInterface.OnClickListener { adialog, _ ->
+                        val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
+                        val nExpenseTypeId = ExpenseType.gettingIdFromDescription(this, strExpenseType)
+                        val etExpenseType = if(nExpenseTypeId!=null)
+                            ExpenseType.fromInt(nExpenseTypeId)
+                        else null
+                        val strDescription = metDescription?.text.toString()
+                        val sValue = MathService.formatCurrencyValueToFloat(metValue?.text.toString())
+                        val dtDate = clCalenderChoosed.time
 
-            val newExpense = Expense(null, sValue, strDescription, dtDate, etExpenseType)
-            ExpenseSharedPreferences.insertNewExpense(application.applicationContext, newExpense)
-            finish()
+                        val newExpense = Expense(null, sValue, strDescription, dtDate, etExpenseType)
+                        ExpenseSharedPreferences.insertNewExpense(application.applicationContext, newExpense)
+                        adialog.dismiss()
+                        finish()
+                    },
+                    DialogInterface.OnClickListener { adialog, _ ->
+                        adialog.dismiss()
+                        finish()
+                    })
         }
     }
 
     private fun loadDataPickerListener() {
-        val dateSetListener = DatePickerDialog.OnDateSetListener { vw, year, month, day ->
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
             clCalenderChoosed.set(Calendar.YEAR, year)
             clCalenderChoosed.set(Calendar.MONTH, month)
             clCalenderChoosed.set(Calendar.DAY_OF_MONTH, day)

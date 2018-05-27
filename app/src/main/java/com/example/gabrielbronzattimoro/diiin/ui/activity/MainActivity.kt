@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.ui
+package com.example.gabrielbronzattimoro.diiin.ui.activity
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -11,10 +11,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.example.gabrielbronzattimoro.diiin.R
-import com.example.gabrielbronzattimoro.diiin.dao.SelectionSharedPreferences
+import com.example.gabrielbronzattimoro.diiin.util.SelectionSharedPreferences
 import com.example.gabrielbronzattimoro.diiin.model.MonthType
 import com.example.gabrielbronzattimoro.diiin.StaticCollections
-import com.example.gabrielbronzattimoro.diiin.dao.SharedPreferenceConnection
+import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentExpensesList
+import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentFinancialReport
+import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentSalaryList
+import com.example.gabrielbronzattimoro.diiin.util.SharedPreferenceConnection
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {

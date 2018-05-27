@@ -1,18 +1,22 @@
 package com.example.gabrielbronzattimoro.diiin.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Spinner
 import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.StaticCollections
 import com.example.gabrielbronzattimoro.diiin.model.Expense
+import com.example.gabrielbronzattimoro.diiin.ui.RVWithFLoatingButtonControl
 import com.example.gabrielbronzattimoro.diiin.ui.activity.InsertExpenseActivity
 import com.example.gabrielbronzattimoro.diiin.ui.adapter.ExpenseListAdapter
 import java.util.*
@@ -31,6 +35,7 @@ class FragmentExpensesList : Fragment() {
         return inflater?.inflate(R.layout.fragment_expenseslist, container, false)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,7 +48,8 @@ class FragmentExpensesList : Fragment() {
 
         val llManager = LinearLayoutManager(context)
         mrvExpenseList?.layoutManager = llManager
-
+        if(mbtInsertExpense!=null)
+            mrvExpenseList?.setOnTouchListener(RVWithFLoatingButtonControl(mbtInsertExpense!!))
     }
 
     override fun onResume() {

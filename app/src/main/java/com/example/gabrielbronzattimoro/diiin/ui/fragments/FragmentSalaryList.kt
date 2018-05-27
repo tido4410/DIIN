@@ -1,5 +1,6 @@
 package com.example.gabrielbronzattimoro.diiin.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -13,6 +14,7 @@ import android.widget.Spinner
 import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.StaticCollections
 import com.example.gabrielbronzattimoro.diiin.model.Salary
+import com.example.gabrielbronzattimoro.diiin.ui.RVWithFLoatingButtonControl
 import com.example.gabrielbronzattimoro.diiin.ui.activity.InsertSalaryActivity
 import com.example.gabrielbronzattimoro.diiin.ui.adapter.SalaryListAdapter
 import java.util.*
@@ -31,6 +33,7 @@ class FragmentSalaryList : Fragment() {
         return inflater?.inflate(R.layout.fragment_salarylist, container, false)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,6 +46,8 @@ class FragmentSalaryList : Fragment() {
 
         val llManager = LinearLayoutManager(context)
         mrvSalaryList?.layoutManager = llManager
+        if(mbtnInsertSalary!=null)
+            mrvSalaryList?.setOnTouchListener(RVWithFLoatingButtonControl(mbtnInsertSalary!!))
     }
 
     override fun onResume() {

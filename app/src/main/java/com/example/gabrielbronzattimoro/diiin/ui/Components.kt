@@ -1,7 +1,11 @@
 package com.example.gabrielbronzattimoro.diiin.ui
 
+import android.annotation.SuppressLint
+import android.support.design.widget.FloatingActionButton
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
+import android.view.View
 import android.widget.EditText
 import com.example.gabrielbronzattimoro.diiin.util.MathService
 
@@ -9,6 +13,30 @@ import com.example.gabrielbronzattimoro.diiin.util.MathService
  * This file is used to register the components created to the app
  */
 
+/**
+ * RVWithFLoatingButtonControl defines a method to hide the floating action button when
+ * user does some action.
+ *
+ * @author Gabriel Moro
+ *
+ * @param albaFloatingButtonTarget define a kind of button
+ */
+class RVWithFLoatingButtonControl(albaFloatingButtonTarget : FloatingActionButton) : View.OnTouchListener {
+
+    private val mfaFloatingButtonTarget : FloatingActionButton = albaFloatingButtonTarget
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouch(p0: View?, amotionEvent: MotionEvent?): Boolean {
+        when(amotionEvent?.action) {
+            MotionEvent.ACTION_UP ->
+                mfaFloatingButtonTarget.visibility = FloatingActionButton.VISIBLE
+            MotionEvent.ACTION_MOVE ->
+                mfaFloatingButtonTarget.visibility = FloatingActionButton.GONE
+            else -> { }
+        }
+        return false
+    }
+}
 
 /**
  * TWEditPrice is the component used as textwatcher in currency edit texts,

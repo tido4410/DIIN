@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimary">#15601e</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#2a633e</color>
-    <color name="transparent">#80808080</color>
+    <color name="transparent">#1f96be</color>
     <color name="greenFontColor">#50c900</color>
     <color name="redFontColor">#d11c19</color>
     <color name="redBackgroundColorButton">#5b0101</color>
     <color name="redBackgroundColorButtonSelected">#a90808</color>
     <color name="greenBackgroundColorButton">#1c541c</color>
-    <color name="cellBackground">#202020</color>
-    <color name="cellFontColor">#ffffff</color>
-    <color name="activityColorBackground">#484646</color>
-    <color name="whiteColor">#dcdada</color>
+    <color name="cellBackground">#b2dcaf</color>
+    <color name="cellFontColor">#1f311f</color>
+    <color name="activityColorBackground">#efe9e9</color>
+    <color name="whiteColor">#17291d</color>
 
     <color name="foodbkg">#d74902</color>
     <color name="transportbkg">#af9825</color>

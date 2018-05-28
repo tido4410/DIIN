@@ -48,6 +48,8 @@ enum class ExpenseType(val idExpense : Int){
                 FOOD.description(actContext) -> FOOD.idExpense
                 TRANSPORT.description(actContext) -> TRANSPORT.idExpense
                 PHONE.description(actContext) -> PHONE.idExpense
+                FUN.description(actContext) -> FUN.idExpense
+                PETS.description(actContext) -> PETS.idExpense
                 EDUCATION.description(actContext) -> EDUCATION.idExpense
                 HEALTH.description(actContext) -> HEALTH.idExpense
                 RENT.description(actContext) -> RENT.idExpense

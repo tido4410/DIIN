@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         when (item.itemId) {
             R.id.navigation_piechart -> {
                 if(mstCurrentFragment != FragmentFinancialReport.NAME) {
+                    resetRemoveMenu()
                     supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
                     mfgCurrentFragment = FragmentFinancialReport()
                     supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
@@ -82,6 +83,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.navigation_expenses -> {
                 if(mstCurrentFragment != FragmentExpensesList.NAME) {
+                    resetRemoveMenu()
                     supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
                     mfgCurrentFragment = FragmentExpensesList()
                     supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
@@ -91,6 +93,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.navigation_salary -> {
                 if(mstCurrentFragment != FragmentSalaryList.NAME) {
+                    resetRemoveMenu()
                     supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
                     mfgCurrentFragment = FragmentSalaryList()
                     supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
@@ -126,15 +129,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
                 when(mstCurrentFragment) {
                     FragmentSalaryList.NAME -> {
-                        resetRemoveMenu()
                         (mfgCurrentFragment as FragmentSalaryList).loadSalaryList()
                     }
                     FragmentExpensesList.NAME -> {
-                        resetRemoveMenu()
                         (mfgCurrentFragment as FragmentExpensesList).loadExpenseList()
                     }
                     FragmentFinancialReport.NAME -> {
-                        resetRemoveMenu()
                         (mfgCurrentFragment as FragmentFinancialReport).loadChartData()
                     }
                 }

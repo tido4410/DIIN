@@ -13,15 +13,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.example.gabrielbronzattimoro.diiin.R
-import com.example.gabrielbronzattimoro.diiin.util.SelectionSharedPreferences
 import com.example.gabrielbronzattimoro.diiin.model.MonthType
 import com.example.gabrielbronzattimoro.diiin.StaticCollections
 import com.example.gabrielbronzattimoro.diiin.ui.ActivityDeleteCellsFromList
 import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentExpensesList
 import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentFinancialReport
 import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentSalaryList
-import com.example.gabrielbronzattimoro.diiin.util.MessageDialog
-import com.example.gabrielbronzattimoro.diiin.util.SharedPreferenceConnection
+import com.example.gabrielbronzattimoro.diiin.util.*
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ActivityDeleteCellsFromList {
@@ -181,6 +179,29 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         })
             }
             R.id.remove -> {
+                MessageDialog.showMessageDialog(this,
+                        resources.getString(R.string.msgAreYouSure),
+                        DialogInterface.OnClickListener { adialog, _ ->
+                            //SharedPreferenceConnection.clearAllPreferences(this)
+                            /*MessageDialog.showToastMessage(this, resources.getString(R.string.pleaseRestartTheApp))*/
+                            when(mstCurrentFragment){
+                                FragmentExpensesList.NAME -> {
+                                    StaticCollections.mastExpenses?.removeAll((mfgCurrentFragment as FragmentExpensesList).gettingSelectedExpenses())
+                                    ExpenseSharedPreferences.updateExpenseList(this)
+                                    (mfgCurrentFragment as FragmentExpensesList).loadExpenseList()
+                                }
+                                FragmentSalaryList.NAME -> {
+                                    StaticCollections.mastSalary?.removeAll((mfgCurrentFragment as FragmentSalaryList).gettingSelectedSalaries())
+                                    SalarySharedPreferences.updateSalaryList(this)
+                                    (mfgCurrentFragment as FragmentSalaryList).loadSalaryList()
+                                }
+                                else -> { }
+                            }
+                            adialog.dismiss()
+                        },
+                        DialogInterface.OnClickListener { adialog, _ ->
+                            adialog.dismiss()
+                        })
                 resetRemoveMenu()
             }
             else -> { }

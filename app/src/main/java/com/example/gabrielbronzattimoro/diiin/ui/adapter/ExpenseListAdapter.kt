@@ -18,7 +18,7 @@ import com.example.gabrielbronzattimoro.diiin.util.MathService
  */
 class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expense>) : RecyclerView.Adapter<ExpenseListAdapter.ExpenseListItemViewHolder>() {
 
-    private val mltExpenseList: ArrayList<Expense> = alstExpenseList
+            val mltExpenseList: ArrayList<Expense> = alstExpenseList
     private val mctContext: Context = actxContext
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseListItemViewHolder {
@@ -47,10 +47,12 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
         }
         holder.itemView?.setOnLongClickListener {
             if(holder.ivCheckedImage.visibility == ImageView.VISIBLE) {
+                expenseItem.mbSelected = false
                 holder.ivCheckedImage.visibility = ImageView.GONE
                 (mctContext as ActivityDeleteCellsFromList).hideMenu()
             } else {
                 holder.ivCheckedImage.visibility = ImageView.VISIBLE
+                expenseItem.mbSelected = true
                 (mctContext as ActivityDeleteCellsFromList).showMenu()
             }
             true

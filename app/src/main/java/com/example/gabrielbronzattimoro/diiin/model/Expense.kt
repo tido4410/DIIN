@@ -20,5 +20,6 @@ class Expense(anId : Int?, asValue : Float?, asrDescription : String, adtDate : 
     var msrDescription : String = asrDescription
     var mdtDate : Date? = adtDate
     val metType : ExpenseType? = aetType
+    var mbSelected : Boolean = false
 
 }

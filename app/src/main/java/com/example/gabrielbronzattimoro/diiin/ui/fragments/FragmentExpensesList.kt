@@ -20,6 +20,7 @@ import com.example.gabrielbronzattimoro.diiin.ui.RVWithFLoatingButtonControl
 import com.example.gabrielbronzattimoro.diiin.ui.activity.InsertExpenseActivity
 import com.example.gabrielbronzattimoro.diiin.ui.adapter.ExpenseListAdapter
 import java.util.*
+import kotlin.collections.ArrayList
 
 class FragmentExpensesList : Fragment() {
 
@@ -72,6 +73,18 @@ class FragmentExpensesList : Fragment() {
             }
             mrvExpenseList?.adapter = ExpenseListAdapter(context, lstExpenseFiltered)
         }
+    }
+
+    fun gettingSelectedExpenses() : ArrayList<Expense> {
+        val lstExpenseFiltered = ArrayList<Expense>()
+        (mrvExpenseList?.adapter as ExpenseListAdapter).mltExpenseList.forEach {
+            val clCalendar = Calendar.getInstance()
+            clCalendar.time = it.mdtDate
+            if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid) {
+                if(it.mbSelected) lstExpenseFiltered.add(it)
+            }
+        }
+        return lstExpenseFiltered
     }
 
 

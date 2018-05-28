@@ -18,7 +18,7 @@ import com.example.gabrielbronzattimoro.diiin.util.MathService
  */
 class SalaryListAdapter(alstSalaryList: ArrayList<Salary>,atContext : Context)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
 
-    private val mltSalaryList: ArrayList<Salary> = alstSalaryList
+            val mltSalaryList: ArrayList<Salary> = alstSalaryList
     private val mctContext : Context = atContext
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SalaryListItemViewHolder? {
@@ -40,9 +40,11 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>,atContext : Context)  
         holder?.tvSource?.text = salaryItem.mstSource
         holder?.itemView?.setOnLongClickListener {
             if(holder.ivCheckedImage.visibility == ImageView.VISIBLE) {
+                salaryItem.mbSelected = false
                 holder.ivCheckedImage.visibility = ImageView.GONE
                 (mctContext as ActivityDeleteCellsFromList).hideMenu()
             } else {
+                salaryItem.mbSelected = true
                 holder.ivCheckedImage.visibility = ImageView.VISIBLE
                 (mctContext as ActivityDeleteCellsFromList).showMenu()
             }

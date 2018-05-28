@@ -71,4 +71,16 @@ class FragmentSalaryList : Fragment() {
         }
     }
 
+    fun gettingSelectedSalaries() : ArrayList<Salary> {
+        val lstSalaryFiltered = ArrayList<Salary>()
+        (mrvSalaryList?.adapter as SalaryListAdapter).mltSalaryList.forEach {
+            val clCalendar = Calendar.getInstance()
+            clCalendar.time = it.mdtDate
+            if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid) {
+                if(it.mbSelected) lstSalaryFiltered.add(it)
+            }
+        }
+        return lstSalaryFiltered
+    }
+
 }

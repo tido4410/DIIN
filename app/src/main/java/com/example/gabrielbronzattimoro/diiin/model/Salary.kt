@@ -16,5 +16,6 @@ class Salary(astSource : String?, asValue : Float?, adtDate : Date?) {
     var mstSource : String? = astSource
     var msValue : Float? = asValue
     var mdtDate : Date? = adtDate
+    var mbSelected : Boolean = false
 
 }

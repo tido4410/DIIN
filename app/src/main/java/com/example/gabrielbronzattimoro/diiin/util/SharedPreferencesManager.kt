@@ -75,6 +75,27 @@ object SalarySharedPreferences {
         return lstToReturn
     }
 
+    fun updateSalaryList(actContext: Context) {
+        var strValueToPersist : String = ""
+
+        var nCount = 0
+        val nSize = StaticCollections.mastSalary?.size ?: 0
+
+        while (nCount < nSize) {
+            if(StaticCollections.mastSalary != null) {
+                val salaryTmp = StaticCollections.mastSalary!![nCount]
+                strValueToPersist += "${salaryTmp.msValue}|${salaryTmp.mstSource}" +
+                        "|${MathService.calendarTimeToString(salaryTmp.mdtDate!!)}"
+                if(nCount != nSize - 1)
+                    strValueToPersist += "-"
+            }
+            nCount++
+        }
+
+        SharedPreferenceConnection.editor(actContext).putString(SALARY_PREFERENCE_KEY, strValueToPersist).commit()
+        getSalaryList(actContext)
+    }
+
     fun insertNewSalary(actContext : Context, salaryObj : Salary) : Boolean {
         salaryObj.mstSource ?: return false
         salaryObj.mdtDate ?: return false
@@ -117,6 +138,28 @@ object ExpenseSharedPreferences {
         }
         StaticCollections.mastExpenses = lstToReturn
         return lstToReturn
+    }
+
+    fun updateExpenseList(actContext: Context) {
+        var strValueToPersist : String = ""
+
+        var nCount = 0
+        val nSize = StaticCollections.mastExpenses?.size ?: 0
+
+        while(nCount < nSize) {
+            if(StaticCollections.mastExpenses != null) {
+                val expenseTmp: Expense = StaticCollections.mastExpenses!![nCount]
+                strValueToPersist += "${expenseTmp.mnId}|${MathService.floatToString(expenseTmp.msValue!!)}" +
+                        "|${expenseTmp.msrDescription}|${MathService.calendarTimeToString(expenseTmp.mdtDate!!)}" +
+                        "|${expenseTmp.metType?.idExpense}"
+                if(nCount != nSize - 1)
+                    strValueToPersist += "-"
+            }
+            nCount++
+        }
+
+        SharedPreferenceConnection.editor(actContext).putString(EXPENSES_PREFERENCE_KEY,strValueToPersist).commit()
+        getExpensesList(actContext)
     }
 
     fun insertNewExpense(actContext : Context, expenseObj : Expense) : Boolean {

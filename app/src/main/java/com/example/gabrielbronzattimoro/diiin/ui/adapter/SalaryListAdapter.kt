@@ -1,21 +1,25 @@
 package com.example.gabrielbronzattimoro.diiin.ui.adapter
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.model.Salary
+import com.example.gabrielbronzattimoro.diiin.ui.ActivityDeleteCellsFromList
 import com.example.gabrielbronzattimoro.diiin.util.MathService
 
 /**
  * This adapter is the manager of salary list.
  * @author Gabriel Moro
  */
-class SalaryListAdapter(alstSalaryList: ArrayList<Salary>)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
+class SalaryListAdapter(alstSalaryList: ArrayList<Salary>,atContext : Context)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
 
     private val mltSalaryList: ArrayList<Salary> = alstSalaryList
+    private val mctContext : Context = atContext
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SalaryListItemViewHolder? {
         return SalaryListItemViewHolder(LayoutInflater.from(parent?.context)
@@ -34,6 +38,16 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>)  : RecyclerView.Adapt
         if(salaryItem.msValue!=null)
             holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)
         holder?.tvSource?.text = salaryItem.mstSource
+        holder?.itemView?.setOnLongClickListener {
+            if(holder.ivCheckedImage.visibility == ImageView.VISIBLE) {
+                holder.ivCheckedImage.visibility = ImageView.GONE
+                (mctContext as ActivityDeleteCellsFromList).hideMenu()
+            } else {
+                holder.ivCheckedImage.visibility = ImageView.VISIBLE
+                (mctContext as ActivityDeleteCellsFromList).showMenu()
+            }
+            true
+        }
     }
 
 
@@ -41,5 +55,6 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>)  : RecyclerView.Adapt
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
         val tvSource: TextView = avwView.findViewById(R.id.tvSource)
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)
+        val ivCheckedImage : ImageView = avwView.findViewById(R.id.ivChecked)
     }
 }

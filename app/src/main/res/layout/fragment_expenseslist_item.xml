@@ -65,19 +65,33 @@
             android:id="@+id/tvDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:maxLines="1"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical|end"
+            android:maxLines="1"
             android:text="01/05/2018"
             android:textColor="@color/whiteColor"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ivChecked"
             app:layout_constraintStart_toEndOf="@+id/tvDescription"
             app:layout_constraintTop_toBottomOf="@+id/tvValue"
             app:layout_constraintVertical_bias="0.783" />
+
+        <ImageView
+            android:id="@+id/ivChecked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvDate"
+            app:srcCompat="@drawable/baseline_check_circle" />
 
     </android.support.constraint.ConstraintLayout>
 </RelativeLayout>

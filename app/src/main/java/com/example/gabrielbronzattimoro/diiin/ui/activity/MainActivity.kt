@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,6 +16,7 @@ import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.util.SelectionSharedPreferences
 import com.example.gabrielbronzattimoro.diiin.model.MonthType
 import com.example.gabrielbronzattimoro.diiin.StaticCollections
+import com.example.gabrielbronzattimoro.diiin.ui.ActivityDeleteCellsFromList
 import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentExpensesList
 import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentFinancialReport
 import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentSalaryList
@@ -22,14 +24,15 @@ import com.example.gabrielbronzattimoro.diiin.util.MessageDialog
 import com.example.gabrielbronzattimoro.diiin.util.SharedPreferenceConnection
 
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ActivityDeleteCellsFromList {
 
     private var mnvNavigation : BottomNavigationView? = null
     private var mstCurrentFragment : String? = null
     private var mfgCurrentFragment : Fragment? = null
     private var mspMonthSelector : Spinner? = null
     private var mltSpinnerMonthsList : ArrayList<String>? = null
+    private var mMenuInflated : Menu? = null
+    private var mnCountToVisibleRemove : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,12 +126,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
                 when(mstCurrentFragment) {
                     FragmentSalaryList.NAME -> {
+                        resetRemoveMenu()
                         (mfgCurrentFragment as FragmentSalaryList).loadSalaryList()
                     }
                     FragmentExpensesList.NAME -> {
+                        resetRemoveMenu()
                         (mfgCurrentFragment as FragmentExpensesList).loadExpenseList()
                     }
                     FragmentFinancialReport.NAME -> {
+                        resetRemoveMenu()
                         (mfgCurrentFragment as FragmentFinancialReport).loadChartData()
                     }
                 }
@@ -153,6 +159,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater?.inflate(R.menu.useroptions, menu)
+        menuInflater?.inflate(R.menu.deleteoption, menu)
+        mMenuInflated = menu
         return true
     }
 
@@ -172,9 +180,30 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                             adialog.dismiss()
                         })
             }
+            R.id.remove -> {
+                resetRemoveMenu()
+            }
             else -> { }
         }
         return true
     }
+
+    private fun resetRemoveMenu() {
+        mnCountToVisibleRemove = 0
+        mMenuInflated?.findItem(R.id.remove)?.isVisible = false
+    }
+
+    override fun hideMenu() {
+        if(mnCountToVisibleRemove > 0) mnCountToVisibleRemove--
+
+        if(mnCountToVisibleRemove==0)
+            mMenuInflated?.findItem(R.id.remove)?.isVisible = false
+    }
+
+    override fun showMenu() {
+        mnCountToVisibleRemove++
+        mMenuInflated?.findItem(R.id.remove)?.isVisible = true
+    }
+
 }
 

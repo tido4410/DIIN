@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.gabrielbronzattimoro.diiin.R
 import com.example.gabrielbronzattimoro.diiin.model.Expense
+import com.example.gabrielbronzattimoro.diiin.ui.ActivityDeleteCellsFromList
 import com.example.gabrielbronzattimoro.diiin.util.MathService
 
 /**
@@ -43,6 +45,16 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
             holder.tvExpenseType.setBackgroundColor(nExpenseBkgColor)
             holder.tvExpenseType.setTextColor(nExpenseFontColor)
         }
+        holder.itemView?.setOnLongClickListener {
+            if(holder.ivCheckedImage.visibility == ImageView.VISIBLE) {
+                holder.ivCheckedImage.visibility = ImageView.GONE
+                (mctContext as ActivityDeleteCellsFromList).hideMenu()
+            } else {
+                holder.ivCheckedImage.visibility = ImageView.VISIBLE
+                (mctContext as ActivityDeleteCellsFromList).showMenu()
+            }
+            true
+        }
     }
 
 
@@ -51,5 +63,6 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
         val tvExpenseType: TextView = avwView.findViewById(R.id.tvExpenseType)
         val tvDescription: TextView = avwView.findViewById(R.id.tvDescription)
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)
+        val ivCheckedImage : ImageView = avwView.findViewById(R.id.ivChecked)
     }
 }

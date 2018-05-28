@@ -58,7 +58,7 @@ class FragmentSalaryList : Fragment() {
     fun loadSalaryList() {
         val lstSalary = StaticCollections.mastSalary ?: return
         if(StaticCollections.mmtMonthSelected == null)
-            mrvSalaryList?.adapter = SalaryListAdapter(lstSalary)
+            mrvSalaryList?.adapter = SalaryListAdapter(lstSalary, context)
         else {
             val lstSalaryFiltered = ArrayList<Salary>()
             lstSalary.forEach{
@@ -67,7 +67,7 @@ class FragmentSalaryList : Fragment() {
                 if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid)
                     lstSalaryFiltered.add(it)
             }
-            mrvSalaryList?.adapter = SalaryListAdapter(lstSalaryFiltered)
+            mrvSalaryList?.adapter = SalaryListAdapter(lstSalaryFiltered, context)
         }
     }
 

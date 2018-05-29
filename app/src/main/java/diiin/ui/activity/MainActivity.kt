@@ -156,7 +156,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater?.inflate(R.menu.useroptions, menu)
+        //menuInflater?.inflate(R.menu.useroptions, menu)
         menuInflater?.inflate(R.menu.deleteoption, menu)
         mMenuInflated = menu
         return true
@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         item ?: return false
 
         when(item.itemId) {
-            R.id.menu_clearalldata -> {
+            /*R.id.menu_clearalldata -> {
                 MessageDialog.showMessageDialog(this,
                         resources.getString(R.string.msgAreYouSure),
                         DialogInterface.OnClickListener { adialog, _ ->
@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         DialogInterface.OnClickListener { adialog, _ ->
                             adialog.dismiss()
                         })
-            }
+            }*/
             R.id.remove -> {
                 MessageDialog.showMessageDialog(this,
                         resources.getString(R.string.msgAreYouSure),

@@ -50,15 +50,20 @@ class InsertSalaryActivity : AppCompatActivity() {
             MessageDialog.showMessageDialog(this,
                     resources.getString(R.string.msgAreYouSure),
                     DialogInterface.OnClickListener { adialog, _ ->
-                        val sValue = MathService.formatCurrencyValueToFloat(metPriceValue?.text.toString())
-                                ?: 0f
-                        val dtDate = clCalenderChoosed.time
-                        val strDescription = metDescriptionValue?.text.toString()
+                        if(metPriceValue?.text.toString().isEmpty()) {
+                            MessageDialog.showToastMessage(this, resources.getString(R.string.valueIsImportant))
+                            adialog.dismiss()
+                        } else {
+                            val sValue = MathService.formatCurrencyValueToFloat(metPriceValue?.text.toString())
+                                    ?: 0f
+                            val dtDate = clCalenderChoosed.time
+                            val strDescription = metDescriptionValue?.text.toString()
 
-                        val newSalary = Salary(strDescription, sValue, dtDate)
-                        SalarySharedPreferences.insertNewSalary(application.applicationContext, newSalary)
-                        adialog.dismiss()
-                        finish()
+                            val newSalary = Salary(strDescription, sValue, dtDate)
+                            SalarySharedPreferences.insertNewSalary(application.applicationContext, newSalary)
+                            adialog.dismiss()
+                            finish()
+                        }
                     },
                     DialogInterface.OnClickListener { adialog, _ ->
                         adialog.dismiss()

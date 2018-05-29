@@ -56,19 +56,24 @@ class InsertExpenseActivity : AppCompatActivity() {
             MessageDialog.showMessageDialog(this,
                     resources.getString(R.string.msgAreYouSure),
                     DialogInterface.OnClickListener { adialog, _ ->
-                        val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
-                        val nExpenseTypeId = ExpenseType.gettingIdFromDescription(this, strExpenseType)
-                        val etExpenseType = if(nExpenseTypeId!=null)
-                            ExpenseType.fromInt(nExpenseTypeId)
-                        else null
-                        val strDescription = metDescription?.text.toString()
-                        val sValue = MathService.formatCurrencyValueToFloat(metValue?.text.toString())
-                        val dtDate = clCalenderChoosed.time
+                        if(metValue?.text.toString().isEmpty()) {
+                            MessageDialog.showToastMessage(this, resources.getString(R.string.valueIsImportant))
+                            adialog.dismiss()
+                        } else {
+                            val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
+                            val nExpenseTypeId = ExpenseType.gettingIdFromDescription(this, strExpenseType)
+                            val etExpenseType = if (nExpenseTypeId != null)
+                                ExpenseType.fromInt(nExpenseTypeId)
+                            else null
+                            val strDescription = metDescription?.text.toString()
+                            val sValue = MathService.formatCurrencyValueToFloat(metValue?.text.toString())
+                            val dtDate = clCalenderChoosed.time
 
-                        val newExpense = Expense(null, sValue, strDescription, dtDate, etExpenseType)
-                        ExpenseSharedPreferences.insertNewExpense(application.applicationContext, newExpense)
-                        adialog.dismiss()
-                        finish()
+                            val newExpense = Expense(null, sValue, strDescription, dtDate, etExpenseType)
+                            ExpenseSharedPreferences.insertNewExpense(application.applicationContext, newExpense)
+                            adialog.dismiss()
+                            finish()
+                        }
                     },
                     DialogInterface.OnClickListener { adialog, _ ->
                         adialog.dismiss()

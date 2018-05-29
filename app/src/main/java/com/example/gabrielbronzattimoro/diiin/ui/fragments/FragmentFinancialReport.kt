@@ -170,9 +170,12 @@ class FragmentFinancialReport : Fragment() {
         dataSet.colors = lstColors
         val dataPie = PieData(dataSet)
         dataPie.setValueFormatter(PercentFormatter())
-        dataPie.setValueTextSize(18f)
+        dataPie.setValueTextSize(14f)
         dataPie.setValueTextColor(Color.WHITE)
         mpcPieChart?.legend?.textColor = ContextCompat.getColor(context, R.color.whiteColor)
+        mpcPieChart?.legend?.textSize = 12f
+        mpcPieChart?.legend?.isWordWrapEnabled = true
+        mpcPieChart?.setDrawEntryLabels(false)
         mpcPieChart?.data = dataPie
         mpcPieChart?.highlightValues(null)
         mpcPieChart?.invalidate()

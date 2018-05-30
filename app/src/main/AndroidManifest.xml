@@ -3,9 +3,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/diin"
+        android:icon="@drawable/logodiiin"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logodiiin"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".DindinApp">

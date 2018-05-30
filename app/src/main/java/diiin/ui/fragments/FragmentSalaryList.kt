@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.ui.fragments
+package br.com.gbmoro.diiin.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,12 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Spinner
-import com.example.gabrielbronzattimoro.diiin.R
-import com.example.gabrielbronzattimoro.diiin.StaticCollections
-import com.example.gabrielbronzattimoro.diiin.model.Salary
-import com.example.gabrielbronzattimoro.diiin.ui.RVWithFLoatingButtonControl
-import com.example.gabrielbronzattimoro.diiin.ui.activity.InsertSalaryActivity
-import com.example.gabrielbronzattimoro.diiin.ui.adapter.SalaryListAdapter
+import br.com.gbmoro.diiin.R
+import br.com.gbmoro.diiin.StaticCollections
+import br.com.gbmoro.diiin.model.Salary
+import br.com.gbmoro.diiin.ui.RVWithFLoatingButtonControl
+import br.com.gbmoro.diiin.ui.activity.InsertSalaryActivity
+import br.com.gbmoro.diiin.ui.adapter.SalaryListAdapter
 import java.util.*
 
 class FragmentSalaryList : Fragment() {

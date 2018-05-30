@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.ui.fragments
+package br.com.gbmoro.diiin.ui.fragments
 
 import android.graphics.Color
 import android.os.Bundle
@@ -8,11 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
-import com.example.gabrielbronzattimoro.diiin.R
-import com.example.gabrielbronzattimoro.diiin.StaticCollections
-import com.example.gabrielbronzattimoro.diiin.model.Expense
-import com.example.gabrielbronzattimoro.diiin.model.ExpenseType
-import com.example.gabrielbronzattimoro.diiin.util.MathService
+import br.com.gbmoro.diiin.R
+import br.com.gbmoro.diiin.StaticCollections
+import br.com.gbmoro.diiin.model.Expense
+import br.com.gbmoro.diiin.model.ExpenseType
+import br.com.gbmoro.diiin.util.MathService
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet

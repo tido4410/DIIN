@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.model
+package br.com.gbmoro.diiin.model
 
 import java.util.*
 

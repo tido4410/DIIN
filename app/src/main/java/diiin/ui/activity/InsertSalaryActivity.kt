@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.ui.activity
+package br.com.gbmoro.diiin.ui.activity
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
@@ -6,12 +6,12 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.widget.*
-import com.example.gabrielbronzattimoro.diiin.R
-import com.example.gabrielbronzattimoro.diiin.util.SalarySharedPreferences
-import com.example.gabrielbronzattimoro.diiin.model.Salary
-import com.example.gabrielbronzattimoro.diiin.ui.TWEditPrice
-import com.example.gabrielbronzattimoro.diiin.util.MathService
-import com.example.gabrielbronzattimoro.diiin.util.MessageDialog
+import br.com.gbmoro.diiin.R
+import br.com.gbmoro.diiin.util.SalarySharedPreferences
+import br.com.gbmoro.diiin.model.Salary
+import br.com.gbmoro.diiin.ui.TWEditPrice
+import br.com.gbmoro.diiin.util.MathService
+import br.com.gbmoro.diiin.util.MessageDialog
 import java.util.*
 
 class InsertSalaryActivity : AppCompatActivity() {

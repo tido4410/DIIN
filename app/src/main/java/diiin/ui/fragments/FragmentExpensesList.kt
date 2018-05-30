@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.ui.fragments
+package br.com.gbmoro.diiin.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -7,18 +7,16 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Spinner
-import com.example.gabrielbronzattimoro.diiin.R
-import com.example.gabrielbronzattimoro.diiin.StaticCollections
-import com.example.gabrielbronzattimoro.diiin.model.Expense
-import com.example.gabrielbronzattimoro.diiin.ui.RVWithFLoatingButtonControl
-import com.example.gabrielbronzattimoro.diiin.ui.activity.InsertExpenseActivity
-import com.example.gabrielbronzattimoro.diiin.ui.adapter.ExpenseListAdapter
+import br.com.gbmoro.diiin.R
+import br.com.gbmoro.diiin.StaticCollections
+import br.com.gbmoro.diiin.model.Expense
+import br.com.gbmoro.diiin.ui.RVWithFLoatingButtonControl
+import br.com.gbmoro.diiin.ui.activity.InsertExpenseActivity
+import br.com.gbmoro.diiin.ui.adapter.ExpenseListAdapter
 import java.util.*
 import kotlin.collections.ArrayList
 

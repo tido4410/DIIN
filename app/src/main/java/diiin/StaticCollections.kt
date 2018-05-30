@@ -1,8 +1,8 @@
-package com.example.gabrielbronzattimoro.diiin
+package br.com.gbmoro.diiin
 
-import com.example.gabrielbronzattimoro.diiin.model.Expense
-import com.example.gabrielbronzattimoro.diiin.model.MonthType
-import com.example.gabrielbronzattimoro.diiin.model.Salary
+import br.com.gbmoro.diiin.model.Expense
+import br.com.gbmoro.diiin.model.MonthType
+import br.com.gbmoro.diiin.model.Salary
 
 object StaticCollections {
 

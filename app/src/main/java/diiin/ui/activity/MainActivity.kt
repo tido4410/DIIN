@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.ui.activity
+package br.com.gbmoro.diiin.ui.activity
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -12,14 +12,14 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import com.example.gabrielbronzattimoro.diiin.R
-import com.example.gabrielbronzattimoro.diiin.model.MonthType
-import com.example.gabrielbronzattimoro.diiin.StaticCollections
-import com.example.gabrielbronzattimoro.diiin.ui.ActivityDeleteCellsFromList
-import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentExpensesList
-import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentFinancialReport
-import com.example.gabrielbronzattimoro.diiin.ui.fragments.FragmentSalaryList
-import com.example.gabrielbronzattimoro.diiin.util.*
+import br.com.gbmoro.diiin.R
+import br.com.gbmoro.diiin.model.MonthType
+import br.com.gbmoro.diiin.StaticCollections
+import br.com.gbmoro.diiin.ui.ActivityDeleteCellsFromList
+import br.com.gbmoro.diiin.ui.fragments.FragmentExpensesList
+import br.com.gbmoro.diiin.ui.fragments.FragmentFinancialReport
+import br.com.gbmoro.diiin.ui.fragments.FragmentSalaryList
+import br.com.gbmoro.diiin.util.*
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ActivityDeleteCellsFromList {

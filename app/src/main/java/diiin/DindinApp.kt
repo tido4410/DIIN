@@ -1,9 +1,9 @@
-package com.example.gabrielbronzattimoro.diiin
+package br.com.gbmoro.diiin
 
 import android.app.Application
-import com.example.gabrielbronzattimoro.diiin.util.ExpenseSharedPreferences
-import com.example.gabrielbronzattimoro.diiin.util.SalarySharedPreferences
-import com.example.gabrielbronzattimoro.diiin.util.SelectionSharedPreferences
+import br.com.gbmoro.diiin.util.ExpenseSharedPreferences
+import br.com.gbmoro.diiin.util.SalarySharedPreferences
+import br.com.gbmoro.diiin.util.SelectionSharedPreferences
 
 class DindinApp : Application() {
 

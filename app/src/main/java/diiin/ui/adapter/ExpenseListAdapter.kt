@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.ui.adapter
+package br.com.gbmoro.diiin.ui.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.gabrielbronzattimoro.diiin.R
-import com.example.gabrielbronzattimoro.diiin.model.Expense
-import com.example.gabrielbronzattimoro.diiin.ui.ActivityDeleteCellsFromList
-import com.example.gabrielbronzattimoro.diiin.util.MathService
+import br.com.gbmoro.diiin.R
+import br.com.gbmoro.diiin.model.Expense
+import br.com.gbmoro.diiin.ui.ActivityDeleteCellsFromList
+import br.com.gbmoro.diiin.util.MathService
 
 /**
  * This adapter is the manager of expense list.

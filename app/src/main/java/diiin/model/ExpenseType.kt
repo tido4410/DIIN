@@ -1,8 +1,8 @@
-package com.example.gabrielbronzattimoro.diiin.model
+package br.com.gbmoro.diiin.model
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import com.example.gabrielbronzattimoro.diiin.R
+import br.com.gbmoro.diiin.R
 
 /**
  * Define the type of expense used by objects from Expense class

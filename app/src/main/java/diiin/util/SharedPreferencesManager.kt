@@ -1,12 +1,12 @@
-package com.example.gabrielbronzattimoro.diiin.util
+package br.com.gbmoro.diiin.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.gabrielbronzattimoro.diiin.StaticCollections
-import com.example.gabrielbronzattimoro.diiin.model.Expense
-import com.example.gabrielbronzattimoro.diiin.model.ExpenseType
-import com.example.gabrielbronzattimoro.diiin.model.MonthType
-import com.example.gabrielbronzattimoro.diiin.model.Salary
+import br.com.gbmoro.diiin.StaticCollections
+import br.com.gbmoro.diiin.model.Expense
+import br.com.gbmoro.diiin.model.ExpenseType
+import br.com.gbmoro.diiin.model.MonthType
+import br.com.gbmoro.diiin.model.Salary
 
 
 object SharedPreferenceConnection {

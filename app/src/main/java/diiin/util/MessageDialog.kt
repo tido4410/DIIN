@@ -1,4 +1,4 @@
-package com.example.gabrielbronzattimoro.diiin.util
+package br.com.gbmoro.diiin.util
 
 import android.app.AlertDialog
 import android.content.Context

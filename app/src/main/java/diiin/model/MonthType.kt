@@ -1,7 +1,7 @@
-package com.example.gabrielbronzattimoro.diiin.model
+package br.com.gbmoro.diiin.model
 
 import android.content.Context
-import com.example.gabrielbronzattimoro.diiin.R
+import br.com.gbmoro.diiin.R
 import java.util.*
 
 /**

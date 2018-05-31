@@ -1,4 +1,4 @@
-package br.com.gbmoro.diiin.model
+package diiin.model
 
 import android.content.Context
 import br.com.gbmoro.diiin.R

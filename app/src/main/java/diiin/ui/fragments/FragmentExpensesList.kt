@@ -1,22 +1,24 @@
-package br.com.gbmoro.diiin.ui.fragments
+package diiin.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Spinner
 import br.com.gbmoro.diiin.R
-import br.com.gbmoro.diiin.StaticCollections
-import br.com.gbmoro.diiin.model.Expense
-import br.com.gbmoro.diiin.ui.RVWithFLoatingButtonControl
-import br.com.gbmoro.diiin.ui.activity.InsertExpenseActivity
-import br.com.gbmoro.diiin.ui.adapter.ExpenseListAdapter
+import diiin.StaticCollections
+import diiin.model.Expense
+import diiin.ui.RVWithFLoatingButtonControl
+import diiin.ui.activity.InsertExpenseActivity
+import diiin.ui.adapter.ExpenseListAdapter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -57,11 +59,21 @@ class FragmentExpensesList : Fragment() {
     }
 
 
+    private fun loadTouchHelperListener(aeaExpenseAdapter: ExpenseListAdapter) {
+        ItemTouchHelper(ExpenseListTouchHelper(aeaExpenseAdapter)).attachToRecyclerView(mrvExpenseList)
+    }
+
     fun loadExpenseList() {
         val lstExpenses = StaticCollections.mastExpenses ?: return
-        if(StaticCollections.mmtMonthSelected == null)
-            mrvExpenseList?.adapter = ExpenseListAdapter(context, lstExpenses)
-        else {
+        mrvExpenseList ?: return
+
+        val elAdapter : ExpenseListAdapter
+
+        if(StaticCollections.mmtMonthSelected == null) {
+            elAdapter = ExpenseListAdapter(context, lstExpenses)
+            mrvExpenseList?.adapter = elAdapter
+            loadTouchHelperListener(elAdapter)
+        } else {
             val lstExpenseFiltered = ArrayList<Expense>()
             lstExpenses.forEach{
                 val clCalendar = Calendar.getInstance()
@@ -69,22 +81,65 @@ class FragmentExpensesList : Fragment() {
                 if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid)
                     lstExpenseFiltered.add(it)
             }
-            mrvExpenseList?.adapter = ExpenseListAdapter(context, lstExpenseFiltered)
+            elAdapter = ExpenseListAdapter(context, lstExpenseFiltered)
+            mrvExpenseList?.adapter = elAdapter
+            loadTouchHelperListener(elAdapter)
         }
     }
 
-    fun gettingSelectedExpenses() : ArrayList<Expense> {
-        val lstExpenseFiltered = ArrayList<Expense>()
-        (mrvExpenseList?.adapter as ExpenseListAdapter).mltExpenseList.forEach {
-            val clCalendar = Calendar.getInstance()
-            clCalendar.time = it.mdtDate
-            if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid) {
-                if(it.mbSelected) lstExpenseFiltered.add(it)
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        mrvExpenseList?.adapter?.notifyDataSetChanged()
+    }
+
+}
+
+class ExpenseListTouchHelper(aeaExpenseAdapter : ExpenseListAdapter) : ItemTouchHelper.Callback() {
+
+    private val meaExpenseAdapter : ExpenseListAdapter = aeaExpenseAdapter
+
+    override fun getMovementFlags(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?): Int {
+        val nDragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        val nSwipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
+        return makeMovementFlags(nDragFlags, nSwipeFlags)
+    }
+
+    override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
+
+    }
+
+    override fun isLongPressDragEnabled(): Boolean {
+        return StaticCollections.mbEditMode
+    }
+
+    override fun isItemViewSwipeEnabled(): Boolean {
+        return StaticCollections.mbEditMode
+    }
+
+    private fun onItemMove(nFromPosition : Int, nToPosition : Int) : Boolean {
+        if(nFromPosition < nToPosition) {
+            var nCount = nFromPosition
+            while(nCount < nToPosition) {
+                Collections.swap(meaExpenseAdapter.mltExpenseList, nCount, nCount+1)
+                nCount++
+            }
+        } else {
+            var nCount = nFromPosition
+            while (nCount > nToPosition) {
+                Collections.swap(meaExpenseAdapter.mltExpenseList, nCount, nCount-1)
+                nCount--
             }
         }
-        return lstExpenseFiltered
+        meaExpenseAdapter.notifyItemMoved(nFromPosition, nToPosition)
+        return true
     }
 
+    private fun onItemDismiss(nPosition : Int) {
 
+    }
 
 }

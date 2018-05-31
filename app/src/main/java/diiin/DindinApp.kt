@@ -1,9 +1,9 @@
-package br.com.gbmoro.diiin
+package diiin
 
 import android.app.Application
-import br.com.gbmoro.diiin.util.ExpenseSharedPreferences
-import br.com.gbmoro.diiin.util.SalarySharedPreferences
-import br.com.gbmoro.diiin.util.SelectionSharedPreferences
+import diiin.util.ExpenseSharedPreferences
+import diiin.util.SalarySharedPreferences
+import diiin.util.SelectionSharedPreferences
 
 class DindinApp : Application() {
 

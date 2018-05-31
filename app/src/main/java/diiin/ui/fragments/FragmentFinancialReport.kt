@@ -1,4 +1,4 @@
-package br.com.gbmoro.diiin.ui.fragments
+package diiin.ui.fragments
 
 import android.graphics.Color
 import android.os.Bundle
@@ -9,10 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import br.com.gbmoro.diiin.R
-import br.com.gbmoro.diiin.StaticCollections
-import br.com.gbmoro.diiin.model.Expense
-import br.com.gbmoro.diiin.model.ExpenseType
-import br.com.gbmoro.diiin.util.MathService
+import diiin.StaticCollections
+import diiin.model.Expense
+import diiin.model.ExpenseType
+import diiin.util.MathService
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet

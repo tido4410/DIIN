@@ -39,4 +39,7 @@
     <string name="msgAreYouSure">Você tem certeza?</string>
     <string name="pleaseRestartTheApp">Por favor, feche o aplicativo para as suas funções serem reinicializadas.</string>
     <string name="valueIsImportant">O valor deve ser preenchido.</string>
+    <string name="reorderDescriptionIcon">Define um ícone para reordenar</string>
+    <string name="iconExpenseTypeDescription">Define um ícone que representa o tipo de despesa</string>
+    <string name="edit">Editar</string>
 </resources>

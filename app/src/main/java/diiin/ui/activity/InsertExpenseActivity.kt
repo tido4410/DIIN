@@ -1,4 +1,4 @@
-package br.com.gbmoro.diiin.ui.activity
+package diiin.ui.activity
 
 import android.app.DatePickerDialog
 import android.content.DialogInterface
@@ -7,12 +7,12 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.*
 import br.com.gbmoro.diiin.R
-import br.com.gbmoro.diiin.util.ExpenseSharedPreferences
-import br.com.gbmoro.diiin.model.Expense
-import br.com.gbmoro.diiin.model.ExpenseType
-import br.com.gbmoro.diiin.ui.TWEditPrice
-import br.com.gbmoro.diiin.util.MathService
-import br.com.gbmoro.diiin.util.MessageDialog
+import diiin.util.ExpenseSharedPreferences
+import diiin.model.Expense
+import diiin.model.ExpenseType
+import diiin.ui.TWEditPrice
+import diiin.util.MathService
+import diiin.util.MessageDialog
 import java.util.*
 
 

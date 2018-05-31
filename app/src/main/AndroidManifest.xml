@@ -8,9 +8,9 @@
         android:roundIcon="@drawable/logodiiin"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".DindinApp">
+        android:name="diiin.DindinApp">
 
-        <activity android:name=".ui.activity.MainActivity"
+        <activity android:name="diiin.ui.activity.MainActivity"
             android:configChanges="orientation|screenSize|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,12 +18,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.InsertExpenseActivity"
-            android:parentActivityName=".ui.activity.MainActivity"
+        <activity android:name="diiin.ui.activity.InsertExpenseActivity"
+            android:parentActivityName="diiin.ui.activity.MainActivity"
             android:label="@string/title_newexpense"/>
 
-        <activity android:name=".ui.activity.InsertSalaryActivity"
-            android:parentActivityName=".ui.activity.MainActivity"
+        <activity android:name="diiin.ui.activity.InsertSalaryActivity"
+            android:parentActivityName="diiin.ui.activity.MainActivity"
             android:label="@string/title_newsalary"/>
 
 

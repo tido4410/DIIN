@@ -1,12 +1,12 @@
-package br.com.gbmoro.diiin.util
+package diiin.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import br.com.gbmoro.diiin.StaticCollections
-import br.com.gbmoro.diiin.model.Expense
-import br.com.gbmoro.diiin.model.ExpenseType
-import br.com.gbmoro.diiin.model.MonthType
-import br.com.gbmoro.diiin.model.Salary
+import diiin.StaticCollections
+import diiin.model.Expense
+import diiin.model.ExpenseType
+import diiin.model.MonthType
+import diiin.model.Salary
 
 
 object SharedPreferenceConnection {

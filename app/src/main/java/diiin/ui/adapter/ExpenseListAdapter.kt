@@ -1,24 +1,29 @@
-package br.com.gbmoro.diiin.ui.adapter
+package diiin.ui.adapter
 
 import android.content.Context
+import android.content.res.Configuration
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
-import br.com.gbmoro.diiin.model.Expense
-import br.com.gbmoro.diiin.ui.ActivityDeleteCellsFromList
-import br.com.gbmoro.diiin.util.MathService
+import diiin.StaticCollections
+import diiin.model.Expense
+import diiin.util.MathService
+import java.util.*
 
 /**
  * This adapter is the manager of expense list.
  * @author Gabriel Moro
  */
-class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expense>) : RecyclerView.Adapter<ExpenseListAdapter.ExpenseListItemViewHolder>() {
+class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expense>)
+    : RecyclerView.Adapter<ExpenseListAdapter.ExpenseListItemViewHolder>() {
 
-            val mltExpenseList: ArrayList<Expense> = alstExpenseList
+    val mltExpenseList: ArrayList<Expense> = alstExpenseList
     private val mctContext: Context = actxContext
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseListItemViewHolder {
@@ -33,38 +38,50 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
     override fun onBindViewHolder(holder: ExpenseListItemViewHolder, position: Int) {
         val expenseItem = mltExpenseList[position]
 
-        if(expenseItem.msValue!=null)
+        if (expenseItem.msValue != null)
             holder.tvValue.text = MathService.formatFloatToCurrency(expenseItem.msValue!!)
+
         holder.tvDescription.text = expenseItem.msrDescription
-        if(expenseItem.mdtDate!=null)
+
+        if (expenseItem.mdtDate != null)
             holder.tvDate.text = MathService.calendarTimeToString(expenseItem.mdtDate!!)
-        holder.tvExpenseType.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
-        val nExpenseBkgColor = expenseItem.metType?.backgroundColor(mctContext)
-        val nExpenseFontColor = expenseItem.metType?.fontColor(mctContext)
-        if(nExpenseBkgColor!=null && nExpenseFontColor != null) {
-            holder.tvExpenseType.setBackgroundColor(nExpenseBkgColor)
-            holder.tvExpenseType.setTextColor(nExpenseFontColor)
+
+
+        if (expenseItem.msrDescription.isEmpty()) {
+            holder.tvExpenseType.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
+            holder.tvDescription.text = ""
+        } else {
+            holder.tvExpenseType.text = expenseItem.msrDescription
+            holder.tvDescription.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
         }
-        holder.itemView?.setOnLongClickListener {
-            if(holder.ivCheckedImage.visibility == ImageView.VISIBLE) {
-                expenseItem.mbSelected = false
-                holder.ivCheckedImage.visibility = ImageView.GONE
-                (mctContext as ActivityDeleteCellsFromList).hideMenu()
-            } else {
-                holder.ivCheckedImage.visibility = ImageView.VISIBLE
-                expenseItem.mbSelected = true
-                (mctContext as ActivityDeleteCellsFromList).showMenu()
-            }
-            true
+
+
+        if (expenseItem.metType != null) {
+            holder.vwExpenseType.setBackgroundColor(expenseItem.metType.backgroundColor(mctContext))
+            holder.ivExpenseType.setImageResource(expenseItem.metType.imageIconId())
+        }
+
+        holder.llLine2.visibility = LinearLayout.GONE
+
+        if (mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            holder.llLine2.visibility = LinearLayout.VISIBLE
+
+        if (StaticCollections.mbEditMode) {
+            holder.ivReorder.visibility = ImageView.VISIBLE
+        } else {
+            holder.ivReorder.visibility = ImageView.GONE
         }
     }
 
 
     class ExpenseListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {
-        val tvValue: TextView = avwView.findViewById(R.id.tvValue)
+        val ivExpenseType: ImageView = avwView.findViewById(R.id.ivExpenseType)
         val tvExpenseType: TextView = avwView.findViewById(R.id.tvExpenseType)
         val tvDescription: TextView = avwView.findViewById(R.id.tvDescription)
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)
-        val ivCheckedImage : ImageView = avwView.findViewById(R.id.ivChecked)
+        val tvValue: TextView = avwView.findViewById(R.id.tvValue)
+        val vwExpenseType: View = avwView.findViewById(R.id.vwExpenseType)
+        val ivReorder: ImageView = avwView.findViewById(R.id.ivReorder)
+        val llLine2: LinearLayout = avwView.findViewById(R.id.llLine2)
     }
 }

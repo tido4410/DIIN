@@ -9,7 +9,7 @@
     <color name="redBackgroundColorButton">#5b0101</color>
     <color name="redBackgroundColorButtonSelected">#a90808</color>
     <color name="greenBackgroundColorButton">#1c541c</color>
-    <color name="cellBackground">#b2dcaf</color>
+    <color name="cellBackground">#c8ecad</color>
     <color name="cellFontColor">#1f311f</color>
     <color name="activityColorBackground">#efe9e9</color>
     <color name="whiteColor">#17291d</color>
@@ -35,5 +35,5 @@
     <color name="rentfont">#000000</color>
     <color name="travelfont">#000000</color>
     <color name="othersfont">#020202</color>
-
+    <color name="separatorColor">#1f311f</color>
 </resources>

@@ -1,4 +1,4 @@
-package br.com.gbmoro.diiin.model
+package diiin.model
 
 import java.util.*
 

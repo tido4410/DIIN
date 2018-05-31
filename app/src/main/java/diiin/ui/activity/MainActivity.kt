@@ -1,11 +1,10 @@
-package br.com.gbmoro.diiin.ui.activity
+package diiin.ui.activity
 
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,13 +12,15 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import br.com.gbmoro.diiin.R
-import br.com.gbmoro.diiin.model.MonthType
-import br.com.gbmoro.diiin.StaticCollections
-import br.com.gbmoro.diiin.ui.ActivityDeleteCellsFromList
-import br.com.gbmoro.diiin.ui.fragments.FragmentExpensesList
-import br.com.gbmoro.diiin.ui.fragments.FragmentFinancialReport
-import br.com.gbmoro.diiin.ui.fragments.FragmentSalaryList
-import br.com.gbmoro.diiin.util.*
+import diiin.model.MonthType
+import diiin.StaticCollections
+import diiin.ui.ActivityDeleteCellsFromList
+import diiin.ui.fragments.FragmentExpensesList
+import diiin.ui.fragments.FragmentFinancialReport
+import diiin.ui.fragments.FragmentSalaryList
+import diiin.util.MessageDialog
+import diiin.util.SalarySharedPreferences
+import diiin.util.SelectionSharedPreferences
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ActivityDeleteCellsFromList {
@@ -156,7 +157,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        //menuInflater?.inflate(R.menu.useroptions, menu)
+        menuInflater?.inflate(R.menu.useroptions, menu)
         menuInflater?.inflate(R.menu.deleteoption, menu)
         mMenuInflated = menu
         return true
@@ -178,6 +179,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                             adialog.dismiss()
                         })
             }*/
+            R.id.menu_edit -> {
+                StaticCollections.mbEditMode = !StaticCollections.mbEditMode
+                when(mstCurrentFragment) {
+                    FragmentExpensesList.NAME -> {
+                        (mfgCurrentFragment as FragmentExpensesList).loadExpenseList()
+                    }
+                    else -> { }
+                }
+            }
             R.id.remove -> {
                 MessageDialog.showMessageDialog(this,
                         resources.getString(R.string.msgAreYouSure),
@@ -185,11 +195,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                             //SharedPreferenceConnection.clearAllPreferences(this)
                             /*MessageDialog.showToastMessage(this, resources.getString(R.string.pleaseRestartTheApp))*/
                             when(mstCurrentFragment){
-                                FragmentExpensesList.NAME -> {
-                                    StaticCollections.mastExpenses?.removeAll((mfgCurrentFragment as FragmentExpensesList).gettingSelectedExpenses())
-                                    ExpenseSharedPreferences.updateExpenseList(this)
-                                    (mfgCurrentFragment as FragmentExpensesList).loadExpenseList()
-                                }
                                 FragmentSalaryList.NAME -> {
                                     StaticCollections.mastSalary?.removeAll((mfgCurrentFragment as FragmentSalaryList).gettingSelectedSalaries())
                                     SalarySharedPreferences.updateSalaryList(this)

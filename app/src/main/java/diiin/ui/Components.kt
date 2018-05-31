@@ -1,4 +1,4 @@
-package br.com.gbmoro.diiin.ui
+package diiin.ui
 
 import android.annotation.SuppressLint
 import android.support.design.widget.FloatingActionButton
@@ -7,7 +7,7 @@ import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
-import br.com.gbmoro.diiin.util.MathService
+import diiin.util.MathService
 
 /**
  * This file is used to register the components created to the app

@@ -3,95 +3,152 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="@drawable/backgroundexpensescell">
+    android:layout_height="90dp"
+    android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="78dp"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/backgroundexpensescell">
+
+        <LinearLayout
+            android:id="@+id/llLines"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            android:weightSum="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvValue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/llLine1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivExpenseType"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="false"
+                    android:contentDescription="@string/iconExpenseTypeDescription"
+                    android:cropToPadding="false"
+                    app:srcCompat="@drawable/ic_food" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/tvExpenseType"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:maxLines="1"
+                    android:text="Comida"
+                    android:textAllCaps="true"
+                    android:textColor="@color/cellFontColor"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llLine2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|start"
+                    android:maxLines="1"
+                    android:text="Mercado Zaffari"
+                    android:textColor="@color/whiteColor" />
+
+                <me.grantland.widget.AutofitTextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:maxLines="1"
+                    android:text="01/05/2018"
+                    android:textColor="@color/whiteColor" />
+            </LinearLayout>
+        </LinearLayout>
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/tvValue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="4dp"
             android:gravity="center_vertical|end"
+            android:maxLines="1"
             android:text="R$45,00"
-            android:textColor="@color/whiteColor"
-            app:layout_constraintBottom_toTopOf="@+id/tvDate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvExpenseType"
+            android:textColor="@color/redFontColor"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/vwExpenseType"
+            app:layout_constraintStart_toEndOf="@+id/llLines"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <me.grantland.widget.AutofitTextView
-            android:id="@+id/tvExpenseType"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical|start"
-            android:text="Comida"
-            android:textColor="@color/whiteColor"
-            app:layout_constraintBottom_toTopOf="@+id/tvDescription"
-            app:layout_constraintEnd_toStartOf="@+id/tvValue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <me.grantland.widget.AutofitTextView
-            android:id="@+id/tvDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical|start"
-            android:text="Mercado Zaffari"
-            android:textColor="@color/whiteColor"
+        <View
+            android:id="@+id/vwExpenseType"
+            android:layout_width="6dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/foodbkg"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvDate"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvExpenseType" />
-
-        <me.grantland.widget.AutofitTextView
-            android:id="@+id/tvDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical|end"
-            android:maxLines="1"
-            android:text="01/05/2018"
-            android:textColor="@color/whiteColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ivChecked"
-            app:layout_constraintStart_toEndOf="@+id/tvDescription"
-            app:layout_constraintTop_toBottomOf="@+id/tvValue"
-            app:layout_constraintVertical_bias="0.783" />
+            app:layout_constraintEnd_toStartOf="@+id/ivReorder"
+            app:layout_constraintStart_toEndOf="@+id/tvValue"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
-            android:id="@+id/ivChecked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:id="@+id/ivReorder"
+            android:layout_width="26dp"
+            android:layout_height="78dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginStart="2dp"
             android:visibility="gone"
+            android:contentDescription="@string/reorderDescriptionIcon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvDate"
-            app:srcCompat="@drawable/baseline_check_circle" />
+            app:layout_constraintStart_toEndOf="@+id/vwExpenseType"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/baseline_reorder_black_24dp" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/vwSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/separatorColor" />
+
 </RelativeLayout>

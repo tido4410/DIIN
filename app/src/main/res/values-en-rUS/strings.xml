@@ -39,4 +39,7 @@
     <string name="msgAreYouSure">Você tem certeza?</string>
     <string name="pleaseRestartTheApp">Please restart the app.</string>
     <string name="valueIsImportant">It is necessary to put something in value field.</string>
+    <string name="reorderDescriptionIcon">Reorder icon used to sort elements</string>
+    <string name="iconExpenseTypeDescription">Icon used to represents a expense type.</string>
+    <string name="edit">Edit</string>
 </resources>

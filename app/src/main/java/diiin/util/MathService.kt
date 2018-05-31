@@ -1,4 +1,4 @@
-package br.com.gbmoro.diiin.util
+package diiin.util
 
 import java.text.NumberFormat
 import java.text.SimpleDateFormat

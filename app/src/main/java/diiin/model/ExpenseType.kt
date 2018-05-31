@@ -1,4 +1,4 @@
-package br.com.gbmoro.diiin.model
+package diiin.model
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -81,20 +81,22 @@ enum class ExpenseType(val idExpense : Int){
         }
     }
 
-    fun fontColor(actxContext : Context) : Int {
+    fun imageIconId() : Int {
         return when(this) {
-            FOOD -> ContextCompat.getColor(actxContext, R.color.foodfont)
-            TRANSPORT -> ContextCompat.getColor(actxContext, R.color.transportfont)
-            PHONE -> ContextCompat.getColor(actxContext, R.color.phonefont)
-            PETS -> ContextCompat.getColor(actxContext, R.color.petsfont)
-            EDUCATION -> ContextCompat.getColor(actxContext, R.color.educationfont)
-            HEALTH -> ContextCompat.getColor(actxContext, R.color.healthfont)
-            FUN -> ContextCompat.getColor(actxContext, R.color.funnfont)
-            RENT -> ContextCompat.getColor(actxContext, R.color.rentfont)
-            TRAVEL -> ContextCompat.getColor(actxContext, R.color.travelfont)
-            OTHERS -> ContextCompat.getColor(actxContext, R.color.othersfont)
+            FOOD -> R.drawable.ic_food
+            TRANSPORT -> R.drawable.ic_transport
+            PHONE -> R.drawable.ic_phone
+            PETS -> R.drawable.ic_pets
+            EDUCATION -> R.drawable.ic_education
+            HEALTH -> R.drawable.ic_health
+            FUN -> R.drawable.ic_fun
+            RENT -> R.drawable.ic_rent
+            TRAVEL -> R.drawable.ic_travel
+            OTHERS -> R.drawable.ic_others
+
         }
     }
+
 
     /**
      * This method returns the background color according expense type defined by constructor

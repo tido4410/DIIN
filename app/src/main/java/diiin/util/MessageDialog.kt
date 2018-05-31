@@ -1,4 +1,4 @@
-package br.com.gbmoro.diiin.util
+package diiin.util
 
 import android.app.AlertDialog
 import android.content.Context

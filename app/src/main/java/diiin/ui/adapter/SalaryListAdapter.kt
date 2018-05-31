@@ -1,4 +1,4 @@
-package br.com.gbmoro.diiin.ui.adapter
+package diiin.ui.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -8,15 +8,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
-import br.com.gbmoro.diiin.model.Salary
-import br.com.gbmoro.diiin.ui.ActivityDeleteCellsFromList
-import br.com.gbmoro.diiin.util.MathService
+import diiin.model.Salary
+import diiin.ui.ActivityDeleteCellsFromList
+import diiin.util.MathService
 
 /**
  * This adapter is the manager of salary list.
  * @author Gabriel Moro
  */
-class SalaryListAdapter(alstSalaryList: ArrayList<Salary>,atContext : Context)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
+class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
 
             val mltSalaryList: ArrayList<Salary> = alstSalaryList
     private val mctContext : Context = atContext

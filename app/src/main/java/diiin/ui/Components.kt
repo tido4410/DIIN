@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
+import diiin.StaticCollections
 import diiin.util.MathService
 
 /**
@@ -35,7 +36,8 @@ class RVWithFLoatingButtonControl(albaFloatingButtonTarget : FloatingActionButto
     override fun onTouch(p0: View?, amotionEvent: MotionEvent?): Boolean {
         when(amotionEvent?.action) {
             MotionEvent.ACTION_UP ->
-                mfaFloatingButtonTarget.visibility = FloatingActionButton.VISIBLE
+                if(!StaticCollections.mbEditMode)
+                    mfaFloatingButtonTarget.visibility = FloatingActionButton.VISIBLE
             MotionEvent.ACTION_MOVE ->
                 mfaFloatingButtonTarget.visibility = FloatingActionButton.GONE
             else -> { }

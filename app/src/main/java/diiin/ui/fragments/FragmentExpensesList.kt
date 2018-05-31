@@ -1,6 +1,8 @@
 package diiin.ui.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -19,6 +21,9 @@ import diiin.model.Expense
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertExpenseActivity
 import diiin.ui.adapter.ExpenseListAdapter
+import diiin.util.ExpenseSharedPreferences
+import diiin.util.MathService
+import diiin.util.MessageDialog
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -26,7 +31,7 @@ class FragmentExpensesList : Fragment() {
 
     private var mspMonthSelector: Spinner? = null
     private var mrvExpenseList: RecyclerView? = null
-    private var mbtInsertExpense: FloatingActionButton? = null
+            var mbtInsertExpense: FloatingActionButton? = null
     private var mithItemHelperReference : ItemTouchHelper? = null
 
     companion object {
@@ -71,7 +76,7 @@ class FragmentExpensesList : Fragment() {
             mithItemHelperReference = null
         }
 
-        mithItemHelperReference = ItemTouchHelper(ExpenseListTouchHelper(aeaExpenseAdapter))
+        mithItemHelperReference = ItemTouchHelper(ExpenseListTouchHelper(context, aeaExpenseAdapter))
         mithItemHelperReference!!.attachToRecyclerView(mrvExpenseList)
     }
 
@@ -108,9 +113,10 @@ class FragmentExpensesList : Fragment() {
 
 }
 
-class ExpenseListTouchHelper(aeaExpenseAdapter : ExpenseListAdapter) : ItemTouchHelper.Callback() {
+class ExpenseListTouchHelper(actxContext : Context, aeaExpenseAdapter : ExpenseListAdapter) : ItemTouchHelper.Callback() {
 
     private val meaExpenseAdapter : ExpenseListAdapter = aeaExpenseAdapter
+    private val mctxContext : Context = actxContext
 
     override fun getMovementFlags(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?): Int {
         val nDragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
@@ -122,8 +128,8 @@ class ExpenseListTouchHelper(aeaExpenseAdapter : ExpenseListAdapter) : ItemTouch
         return onItemMove(viewHolder.adapterPosition, target.adapterPosition)
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
-
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        onItemDismiss(viewHolder.adapterPosition)
     }
 
     override fun isLongPressDragEnabled(): Boolean {
@@ -153,7 +159,33 @@ class ExpenseListTouchHelper(aeaExpenseAdapter : ExpenseListAdapter) : ItemTouch
     }
 
     private fun onItemDismiss(nPosition : Int) {
+        val expTarget = meaExpenseAdapter.mltExpenseList[nPosition]
 
+        MessageDialog.showMessageDialog(mctxContext,
+                mctxContext.resources.getString(R.string.msgAreYouSure),
+                DialogInterface.OnClickListener { adialog, _ ->
+                    var exExpenseTarget : Expense? = null
+
+                    StaticCollections.mastExpenses?.forEach {
+                        if (MathService.compareDateObjects(it.mdtDate, expTarget.mdtDate)
+                                && it.msrDescription == expTarget.msrDescription
+                                && it.msValue == expTarget.msValue) {
+                            exExpenseTarget = it
+                        }
+                    }
+
+                    if(exExpenseTarget!=null) {
+                        meaExpenseAdapter.mltExpenseList.removeAt(nPosition)
+                        meaExpenseAdapter.notifyItemRemoved(nPosition)
+                        StaticCollections.mastExpenses?.remove(exExpenseTarget!!)
+                        ExpenseSharedPreferences.updateExpenseList(mctxContext)
+                    }
+
+                    adialog.dismiss()
+                },
+                DialogInterface.OnClickListener { adialog, _ ->
+                    meaExpenseAdapter.notifyItemChanged(nPosition)
+                    adialog.dismiss()
+                })
     }
-
 }

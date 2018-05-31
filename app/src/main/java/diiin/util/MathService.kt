@@ -66,4 +66,19 @@ object MathService {
         return astrValue.replace(",",".").toFloat()
     }
 
+    fun compareDateObjects(a_dtDate1 : Date?, a_dtDate2 : Date?) : Boolean {
+        return if(a_dtDate1 == null && a_dtDate2== null) true
+        else if(a_dtDate1 == null || a_dtDate2 == null) false
+        else {
+            val clCalendar1 = GregorianCalendar()
+            clCalendar1.time = a_dtDate1
+            val clCalendar2 = GregorianCalendar()
+            clCalendar2.time = a_dtDate2
+
+            (clCalendar1.get(Calendar.MONTH) == clCalendar2.get(Calendar.MONTH)
+                    && clCalendar1.get(Calendar.YEAR) == clCalendar2.get(Calendar.YEAR)
+                    && clCalendar1.get(Calendar.DAY_OF_MONTH) == clCalendar2.get(Calendar.DAY_OF_MONTH))
+        }
+    }
+
 }

@@ -3,6 +3,7 @@ package diiin.ui.activity
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -184,6 +185,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 StaticCollections.mbEditMode = true
                 when(mstCurrentFragment) {
                     FragmentExpensesList.NAME -> {
+                        (mfgCurrentFragment as FragmentExpensesList).mbtInsertExpense?.visibility = FloatingActionButton.GONE
                         (mfgCurrentFragment as FragmentExpensesList).loadExpenseListAccordingEditMode()
                     }
                     else -> { }
@@ -196,6 +198,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 StaticCollections.mbEditMode = false
                 when(mstCurrentFragment) {
                     FragmentExpensesList.NAME -> {
+                        (mfgCurrentFragment as FragmentExpensesList).mbtInsertExpense?.visibility = FloatingActionButton.VISIBLE
                         (mfgCurrentFragment as FragmentExpensesList).loadExpenseListAccordingEditMode()
                     }
                     else -> { }

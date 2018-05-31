@@ -1,6 +1,7 @@
 package diiin.ui.adapter
 
 import android.content.Context
+import android.content.res.Configuration
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
+import diiin.StaticCollections
 import diiin.model.Salary
-import diiin.ui.ActivityDeleteCellsFromList
 import diiin.util.MathService
 
 /**
@@ -35,28 +36,26 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
 
         if(salaryItem.mdtDate!=null)
             holder?.tvDate?.text = MathService.calendarTimeToString(salaryItem.mdtDate!!)
+
         if(salaryItem.msValue!=null)
             holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)
+
         holder?.tvSource?.text = salaryItem.mstSource
-        holder?.itemView?.setOnLongClickListener {
-            if(holder.ivCheckedImage.visibility == ImageView.VISIBLE) {
-                salaryItem.mbSelected = false
-                holder.ivCheckedImage.visibility = ImageView.GONE
-                (mctContext as ActivityDeleteCellsFromList).hideMenu()
-            } else {
-                salaryItem.mbSelected = true
-                holder.ivCheckedImage.visibility = ImageView.VISIBLE
-                (mctContext as ActivityDeleteCellsFromList).showMenu()
-            }
-            true
+
+        holder?.tvDate?.visibility = TextView.GONE
+
+        if(mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            holder?.tvDate?.visibility = TextView.VISIBLE
+
+            if (StaticCollections.mbEditMode) holder?.ivReorder?.visibility = ImageView.VISIBLE
+            else holder?.ivReorder?.visibility = ImageView.GONE
         }
-    }
 
 
     class SalaryListItemViewHolder(avwView : View) : RecyclerView.ViewHolder(avwView) {
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
         val tvSource: TextView = avwView.findViewById(R.id.tvSource)
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)
-        val ivCheckedImage : ImageView = avwView.findViewById(R.id.ivChecked)
+        val ivReorder : ImageView = avwView.findViewById(R.id.ivReorder)
     }
 }

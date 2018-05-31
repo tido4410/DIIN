@@ -188,6 +188,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         (mfgCurrentFragment as FragmentExpensesList).mbtInsertExpense?.visibility = FloatingActionButton.GONE
                         (mfgCurrentFragment as FragmentExpensesList).loadExpenseListAccordingEditMode()
                     }
+                    FragmentSalaryList.NAME -> {
+                        (mfgCurrentFragment as FragmentSalaryList).mbtnInsertSalary?.visibility = FloatingActionButton.GONE
+                        (mfgCurrentFragment as FragmentSalaryList).loadSalaryListAccordingEditMode()
+                    }
                     else -> { }
                 }
                 mMenuInflated?.findItem(R.id.menu_done)?.isVisible = true
@@ -200,6 +204,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     FragmentExpensesList.NAME -> {
                         (mfgCurrentFragment as FragmentExpensesList).mbtInsertExpense?.visibility = FloatingActionButton.VISIBLE
                         (mfgCurrentFragment as FragmentExpensesList).loadExpenseListAccordingEditMode()
+                    }
+                    FragmentSalaryList.NAME -> {
+                        (mfgCurrentFragment as FragmentSalaryList).mbtnInsertSalary?.visibility = FloatingActionButton.VISIBLE
+                        (mfgCurrentFragment as FragmentSalaryList).loadSalaryListAccordingEditMode()
                     }
                     else -> { }
                 }

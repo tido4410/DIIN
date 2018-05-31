@@ -2,80 +2,100 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="@drawable/backgroundexpensescell">>
+    android:layout_height="80dp">
 
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="68dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginStart="12dp"
+    android:background="@drawable/backgroundexpensescell">
 
-    <me.grantland.widget.AutofitTextView
-        android:id="@+id/tvSource"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical|start"
-        android:text="FIrma"
-        android:textColor="@color/whiteColor"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvDate"
-        app:layout_constraintEnd_toStartOf="@+id/tvValue"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <me.grantland.widget.AutofitTextView
-        android:id="@+id/tvValue"
-        android:layout_width="0dp"
-        android:layout_height="25dp"
-        android:maxLines="1"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical|end"
-        android:text="R$1200,00"
-        android:textColor="@color/whiteColor"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvSource"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <me.grantland.widget.AutofitTextView
-        android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical|start"
-        android:text="12/12/12"
-        android:textColor="@color/whiteColor"
-        android:textSize="16sp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivReorder"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSource"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/llLine1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/tvSource"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|start"
+                android:maxLines="1"
+                android:text="FIrma"
+                android:textColor="@color/whiteColor"
+                android:textSize="18sp" />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/tvValue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"
+                android:maxLines="1"
+                android:text="R$1200,00"
+                android:textColor="@color/whiteColor"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:gravity="center_vertical|start"
+            android:maxLines="1"
+            android:text="12/12/12"
+            android:textColor="@color/whiteColor"
+            android:textSize="18sp"
+            android:visibility="visible" />
+
+    </LinearLayout>
 
     <ImageView
-        android:id="@+id/ivChecked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="16dp"
+        android:id="@+id/ivReorder"
+        android:layout_width="26dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvValue"
-        app:srcCompat="@drawable/baseline_check_circle" />
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_reorder_black_24dp" />
 </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/vwSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/separatorColor" />
+
 </RelativeLayout>

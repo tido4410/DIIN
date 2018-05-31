@@ -27,6 +27,7 @@ class FragmentExpensesList : Fragment() {
     private var mspMonthSelector: Spinner? = null
     private var mrvExpenseList: RecyclerView? = null
     private var mbtInsertExpense: FloatingActionButton? = null
+    private var mithItemHelperReference : ItemTouchHelper? = null
 
     companion object {
         const val NAME = "FragmentExpensesList"
@@ -59,29 +60,42 @@ class FragmentExpensesList : Fragment() {
     }
 
 
+    fun loadExpenseListAccordingEditMode() {
+        mrvExpenseList?.adapter?.notifyDataSetChanged()
+    }
+
     private fun loadTouchHelperListener(aeaExpenseAdapter: ExpenseListAdapter) {
-        ItemTouchHelper(ExpenseListTouchHelper(aeaExpenseAdapter)).attachToRecyclerView(mrvExpenseList)
+
+        if(mithItemHelperReference != null) {
+            mithItemHelperReference!!.attachToRecyclerView(null)
+            mithItemHelperReference = null
+        }
+
+        mithItemHelperReference = ItemTouchHelper(ExpenseListTouchHelper(aeaExpenseAdapter))
+        mithItemHelperReference!!.attachToRecyclerView(mrvExpenseList)
     }
 
     fun loadExpenseList() {
         val lstExpenses = StaticCollections.mastExpenses ?: return
         mrvExpenseList ?: return
 
+        val lstFilteredList : ArrayList<Expense> = ArrayList()
         val elAdapter : ExpenseListAdapter
 
         if(StaticCollections.mmtMonthSelected == null) {
-            elAdapter = ExpenseListAdapter(context, lstExpenses)
+            lstFilteredList.addAll(lstExpenses)
+            elAdapter = ExpenseListAdapter(context, lstFilteredList)
             mrvExpenseList?.adapter = elAdapter
             loadTouchHelperListener(elAdapter)
         } else {
-            val lstExpenseFiltered = ArrayList<Expense>()
             lstExpenses.forEach{
                 val clCalendar = Calendar.getInstance()
                 clCalendar.time = it.mdtDate
-                if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid)
-                    lstExpenseFiltered.add(it)
+                if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid) {
+                    lstFilteredList.add(it)
+                }
             }
-            elAdapter = ExpenseListAdapter(context, lstExpenseFiltered)
+            elAdapter = ExpenseListAdapter(context, lstFilteredList)
             mrvExpenseList?.adapter = elAdapter
             loadTouchHelperListener(elAdapter)
         }

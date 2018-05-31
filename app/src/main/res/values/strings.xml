@@ -42,4 +42,5 @@
     <string name="reorderDescriptionIcon">Define um ícone para reordenar</string>
     <string name="iconExpenseTypeDescription">Define um ícone que representa o tipo de despesa</string>
     <string name="edit">Editar</string>
+    <string name="done">Feito</string>
 </resources>

@@ -14,6 +14,7 @@ import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.Expense
 import diiin.util.MathService
+import java.lang.Comparable
 import java.util.*
 
 /**
@@ -72,7 +73,6 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
             holder.ivReorder.visibility = ImageView.GONE
         }
     }
-
 
     class ExpenseListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {
         val ivExpenseType: ImageView = avwView.findViewById(R.id.ivExpenseType)

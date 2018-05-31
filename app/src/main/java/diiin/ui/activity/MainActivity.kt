@@ -160,6 +160,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         menuInflater?.inflate(R.menu.useroptions, menu)
         menuInflater?.inflate(R.menu.deleteoption, menu)
         mMenuInflated = menu
+        mMenuInflated?.findItem(R.id.menu_done)?.isVisible = false
         return true
     }
 
@@ -180,13 +181,27 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         })
             }*/
             R.id.menu_edit -> {
-                StaticCollections.mbEditMode = !StaticCollections.mbEditMode
+                StaticCollections.mbEditMode = true
                 when(mstCurrentFragment) {
                     FragmentExpensesList.NAME -> {
-                        (mfgCurrentFragment as FragmentExpensesList).loadExpenseList()
+                        (mfgCurrentFragment as FragmentExpensesList).loadExpenseListAccordingEditMode()
                     }
                     else -> { }
                 }
+                mMenuInflated?.findItem(R.id.menu_done)?.isVisible = true
+                mMenuInflated?.findItem(R.id.menu_edit)?.isVisible = false
+            }
+
+            R.id.menu_done -> {
+                StaticCollections.mbEditMode = false
+                when(mstCurrentFragment) {
+                    FragmentExpensesList.NAME -> {
+                        (mfgCurrentFragment as FragmentExpensesList).loadExpenseListAccordingEditMode()
+                    }
+                    else -> { }
+                }
+                mMenuInflated?.findItem(R.id.menu_edit)?.isVisible = true
+                mMenuInflated?.findItem(R.id.menu_done)?.isVisible = false
             }
             R.id.remove -> {
                 MessageDialog.showMessageDialog(this,

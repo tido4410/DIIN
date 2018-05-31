@@ -42,4 +42,5 @@
     <string name="reorderDescriptionIcon">Reorder icon used to sort elements</string>
     <string name="iconExpenseTypeDescription">Icon used to represents a expense type.</string>
     <string name="edit">Edit</string>
+    <string name="done">Done</string>
 </resources>

@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.model.MonthType
 import diiin.StaticCollections
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private var mstCurrentFragment : String? = null
     private var mfgCurrentFragment : Fragment? = null
     private var mspMonthSelector : Spinner? = null
+    private var mtvYearSelected : TextView? = null
     private var mltSpinnerMonthsList : ArrayList<String>? = null
     private var mMenuInflated : Menu? = null
 
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         mnvNavigation = findViewById(R.id.bnvNavigation)
         mspMonthSelector = findViewById(R.id.spMonthSelector)
+        mtvYearSelected = findViewById(R.id.tvYearSelected)
 
         mnvNavigation?.setOnNavigationItemSelectedListener(this)
 
@@ -45,6 +48,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onResume() {
         super.onResume()
+
+        mtvYearSelected?.text = StaticCollections.mnYearSelected.toString()
 
         loadFragments()
     }

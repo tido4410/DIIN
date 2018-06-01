@@ -9,5 +9,6 @@ object StaticCollections {
     var mastExpenses : ArrayList<Expense>? = null
     var mastSalary : ArrayList<Salary>? = null
     var mmtMonthSelected : MonthType? = null
+    var mnYearSelected : Int = 2018
     var mbEditMode : Boolean = false
 }

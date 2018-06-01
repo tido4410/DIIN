@@ -89,7 +89,7 @@ class FragmentSalaryList : Fragment() {
             lstSalary.forEach{
                 val clCalendar = Calendar.getInstance()
                 clCalendar.time = it.mdtDate
-                if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid)
+                if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected)
                     lstSalaryFiltered.add(it)
             }
             slAdapter = SalaryListAdapter(lstSalaryFiltered, context)
@@ -97,18 +97,6 @@ class FragmentSalaryList : Fragment() {
 
         mrvSalaryList?.adapter = slAdapter
         loadTouchHelperListener(slAdapter)
-    }
-
-    fun gettingSelectedSalaries() : ArrayList<Salary> {
-        val lstSalaryFiltered = ArrayList<Salary>()
-        (mrvSalaryList?.adapter as SalaryListAdapter).mltSalaryList.forEach {
-            val clCalendar = Calendar.getInstance()
-            clCalendar.time = it.mdtDate
-            if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid) {
-                if(it.mbSelected) lstSalaryFiltered.add(it)
-            }
-        }
-        return lstSalaryFiltered
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {

@@ -8,19 +8,41 @@
     tools:context="diiin.ui.activity.MainActivity">
 
 
-
-    <Spinner
-        android:id="@+id/spMonthSelector"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/llDateSelected"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/flMainContent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/flMainContent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Spinner
+            android:id="@+id/spMonthSelector"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center"
+            android:textAlignment="gravity"
+            app:layout_constraintTop_toTopOf="@+id/flMainContent" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/tvYearSelected"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center"
+            android:text="2018"
+            android:maxLines="1"
+            android:textAlignment="gravity"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/flMainContent"
@@ -33,7 +55,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bnvNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spMonthSelector" />
+        app:layout_constraintTop_toBottomOf="@+id/llDateSelected" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bnvNavigation"

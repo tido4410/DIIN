@@ -96,7 +96,7 @@ class FragmentExpensesList : Fragment() {
             lstExpenses.forEach{
                 val clCalendar = Calendar.getInstance()
                 clCalendar.time = it.mdtDate
-                if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid) {
+                if(clCalendar.get(Calendar.MONTH)==StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR)==StaticCollections.mnYearSelected) {
                     lstFilteredList.add(it)
                 }
             }

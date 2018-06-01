@@ -186,7 +186,7 @@ class FragmentFinancialReport : Fragment() {
         StaticCollections.mastSalary?.forEach {
             val clCalendar = Calendar.getInstance()
             clCalendar.time = it.mdtDate
-            if(clCalendar.get(Calendar.MONTH) == StaticCollections.mmtMonthSelected?.aid){
+            if(clCalendar.get(Calendar.MONTH) == StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected){
                 if(it.msValue != null)
                     sTotalSalary += it.msValue!!
             }

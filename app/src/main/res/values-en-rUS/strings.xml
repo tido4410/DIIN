@@ -43,4 +43,5 @@
     <string name="iconExpenseTypeDescription">Icon used to represents a expense type.</string>
     <string name="edit">Edit</string>
     <string name="done">Done</string>
+    <string name="info">About</string>
 </resources>

@@ -15,16 +15,14 @@ import android.widget.Spinner
 import br.com.gbmoro.diiin.R
 import diiin.model.MonthType
 import diiin.StaticCollections
-import diiin.ui.ActivityDeleteCellsFromList
 import diiin.ui.fragments.FragmentExpensesList
 import diiin.ui.fragments.FragmentFinancialReport
 import diiin.ui.fragments.FragmentSalaryList
 import diiin.util.MessageDialog
-import diiin.util.SalarySharedPreferences
 import diiin.util.SelectionSharedPreferences
 
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, ActivityDeleteCellsFromList {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private var mnvNavigation : BottomNavigationView? = null
     private var mstCurrentFragment : String? = null
@@ -32,7 +30,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private var mspMonthSelector : Spinner? = null
     private var mltSpinnerMonthsList : ArrayList<String>? = null
     private var mMenuInflated : Menu? = null
-    private var mnCountToVisibleRemove : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +70,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         when (item.itemId) {
             R.id.navigation_piechart -> {
                 if(mstCurrentFragment != FragmentFinancialReport.NAME) {
-                    resetRemoveMenu()
                     supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
                     mfgCurrentFragment = FragmentFinancialReport()
                     supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
@@ -83,7 +79,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.navigation_expenses -> {
                 if(mstCurrentFragment != FragmentExpensesList.NAME) {
-                    resetRemoveMenu()
                     supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
                     mfgCurrentFragment = FragmentExpensesList()
                     supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
@@ -93,7 +88,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             R.id.navigation_salary -> {
                 if(mstCurrentFragment != FragmentSalaryList.NAME) {
-                    resetRemoveMenu()
                     supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
                     mfgCurrentFragment = FragmentSalaryList()
                     supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
@@ -214,47 +208,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 mMenuInflated?.findItem(R.id.menu_edit)?.isVisible = true
                 mMenuInflated?.findItem(R.id.menu_done)?.isVisible = false
             }
-            R.id.remove -> {
+            R.id.menu_info -> {
+                val strStringAboutApp = "DINDIN 1.0.${packageManager.getPackageInfo(packageName, 0).versionCode}"
                 MessageDialog.showMessageDialog(this,
-                        resources.getString(R.string.msgAreYouSure),
+                        strStringAboutApp,
                         DialogInterface.OnClickListener { adialog, _ ->
-                            //SharedPreferenceConnection.clearAllPreferences(this)
-                            /*MessageDialog.showToastMessage(this, resources.getString(R.string.pleaseRestartTheApp))*/
-                            when(mstCurrentFragment){
-                                FragmentSalaryList.NAME -> {
-                                    StaticCollections.mastSalary?.removeAll((mfgCurrentFragment as FragmentSalaryList).gettingSelectedSalaries())
-                                    SalarySharedPreferences.updateSalaryList(this)
-                                    (mfgCurrentFragment as FragmentSalaryList).loadSalaryList()
-                                }
-                                else -> { }
-                            }
                             adialog.dismiss()
                         },
                         DialogInterface.OnClickListener { adialog, _ ->
                             adialog.dismiss()
                         })
-                resetRemoveMenu()
             }
             else -> { }
         }
         return true
-    }
-
-    private fun resetRemoveMenu() {
-        mnCountToVisibleRemove = 0
-        mMenuInflated?.findItem(R.id.remove)?.isVisible = false
-    }
-
-    override fun hideMenu() {
-        if(mnCountToVisibleRemove > 0) mnCountToVisibleRemove--
-
-        if(mnCountToVisibleRemove==0)
-            mMenuInflated?.findItem(R.id.remove)?.isVisible = false
-    }
-
-    override fun showMenu() {
-        mnCountToVisibleRemove++
-        mMenuInflated?.findItem(R.id.remove)?.isVisible = true
     }
 
 }

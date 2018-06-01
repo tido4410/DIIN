@@ -43,4 +43,5 @@
     <string name="iconExpenseTypeDescription">Define um ícone que representa o tipo de despesa</string>
     <string name="edit">Editar</string>
     <string name="done">Feito</string>
+    <string name="info">Sobre</string>
 </resources>

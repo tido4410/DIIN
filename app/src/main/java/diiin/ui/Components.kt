@@ -11,16 +11,6 @@ import diiin.StaticCollections
 import diiin.util.MathService
 
 /**
- * This file is used to register the components created to the app
- */
-
-
-interface ActivityDeleteCellsFromList {
-    fun hideMenu()
-    fun showMenu()
-}
-
-/**
  * RVWithFLoatingButtonControl defines a method to hide the floating action button when
  * user does some action.
  *

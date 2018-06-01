@@ -2,10 +2,10 @@
 <resources>
     <string name="app_name">DINDIN</string>
     <string name="title_expenses">Despesas</string>
-    <string name="title_salary">Entrada</string>
+    <string name="title_salary">Acumulado</string>
     <string name="title_chartreport">Demonstrativo</string>
     <string name="title_newexpense">Nova Despesa</string>
-    <string name="title_newsalary">Novo Entrada</string>
+    <string name="title_newsalary">Nova Entrada</string>
     <string name="food">Comida</string>
     <string name="transport">Transporte</string>
     <string name="phone">Telefone</string>

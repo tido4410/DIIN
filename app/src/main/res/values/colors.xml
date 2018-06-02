@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#2a633e</color>
     <color name="transparent">#1f96be</color>
+    <color name="orangeFontColor">#dc7d00</color>
     <color name="greenFontColor">#50c900</color>
     <color name="redFontColor">#d11c19</color>
     <color name="redBackgroundColorButton">#5b0101</color>

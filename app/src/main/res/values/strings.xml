@@ -44,4 +44,7 @@
     <string name="edit">Editar</string>
     <string name="done">Feito</string>
     <string name="info">Sobre</string>
+    <string name="expenseTotal">Despesas: </string>
+    <string name="salaryTotal">Recebido: </string>
+    <string name="walletTotal">Carteira: </string>
 </resources>

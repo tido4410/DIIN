@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.Expense
@@ -18,7 +19,6 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
-import kotlinx.android.synthetic.main.fragment_financialreport.*
 import java.util.*
 
 
@@ -30,6 +30,11 @@ class FragmentFinancialReport : Fragment() {
 
     private var mpcPieChart: PieChart? = null
     private var mrlPieChartContainer : RelativeLayout? = null
+    private var mtvExpenseTotalValue : TextView? = null
+    private var mtvSalaryTotalValue : TextView? = null
+    private var mtvWalletTotalValue : TextView? = null
+
+
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_financialreport, container, false)
@@ -38,6 +43,9 @@ class FragmentFinancialReport : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         mpcPieChart = view?.findViewById(R.id.pchart)
         mrlPieChartContainer = view?.findViewById(R.id.rlPieChart)
+        mtvExpenseTotalValue = view?.findViewById(R.id.tvExpenseTotalValue)
+        mtvSalaryTotalValue = view?.findViewById(R.id.tvSalaryValue)
+        mtvWalletTotalValue = view?.findViewById(R.id.tvWalletValue)
 
         mpcPieChart?.setUsePercentValues(true)
         mpcPieChart?.description?.isEnabled = false
@@ -180,7 +188,7 @@ class FragmentFinancialReport : Fragment() {
         mpcPieChart?.highlightValues(null)
         mpcPieChart?.invalidate()
 
-        tvExpenseTotalValue.text = MathService.formatFloatToCurrency(sSumTotal)
+        mtvExpenseTotalValue?.text = MathService.formatFloatToCurrency(sSumTotal)
 
         var sTotalSalary = 0f
         StaticCollections.mastSalary?.forEach {
@@ -192,7 +200,10 @@ class FragmentFinancialReport : Fragment() {
             }
         }
 
-        tvWalletValue.text = MathService.formatFloatToCurrency(sTotalSalary)
+        mtvSalaryTotalValue?.text = MathService.formatFloatToCurrency(sTotalSalary)
+
+        val sWalletValue = sTotalSalary - sSumTotal
+        mtvWalletTotalValue?.text = MathService.formatFloatToCurrency(sWalletValue)
     }
 
     private fun initPieEntry(asFloatPercent : Float, astrString : String) : PieEntry {

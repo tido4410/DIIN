@@ -60,6 +60,7 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
         if (expenseItem.metType != null) {
             holder.vwExpenseType.setBackgroundColor(expenseItem.metType.backgroundColor(mctContext))
             holder.ivExpenseType.setImageResource(expenseItem.metType.imageIconId())
+            holder.tvValue.setTextColor(expenseItem.metType.backgroundColor(mctContext))
         }
 
         holder.llLine2.visibility = LinearLayout.GONE

@@ -4,7 +4,7 @@
     android:visible="false">
     <solid android:color="@color/cellBackground" />
 
-    <corners android:radius="10dp" />
+    <corners android:radius="2dp" />
 
     <padding
         android:bottom="0dp"

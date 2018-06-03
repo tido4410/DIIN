@@ -315,6 +315,7 @@ class FragmentFinancialReport : Fragment() {
 
         if(aExpenseItem.metType != null) {
             mtvChartItemExpenseType?.text = aExpenseItem.metType.description(context)
+            mtvChartItemValue?.setTextColor(aExpenseItem.metType.backgroundColor(context))
             mvwChartItemExpenseType?.setBackgroundColor(aExpenseItem.metType.backgroundColor(context))
             mivChartItemReorder?.visibility = ImageView.GONE
             mivExpenseType?.setImageResource(aExpenseItem.metType.imageIconId())
@@ -322,57 +323,6 @@ class FragmentFinancialReport : Fragment() {
 
         mrlChartItem?.visibility = RelativeLayout.VISIBLE
         mrlWalletPanel?.visibility = RelativeLayout.GONE
-
-//      mtvChartItemValue?.setV
-
-        /*mtvChartItemValue = view?.findViewById(R.id.tvValue)
-        mtvChartItemDate = view?.findViewById(R.id.tvDate)
-        mtvChartItemDescription = view?.findViewById(R.id.tvDescription)
-        mvwChartItemExpenseType = view?.findViewById(R.id.vwExpenseType)
-        mllChartItemLinearLayout = view?.findViewById(R.id.llLine2)
-        mivChartItemReorder = view?.findViewById(R.id.ivReorder)*/
-
-        /*
-        val tvValue: TextView = avwView.findViewById(R.id.tvValue)
-        val tvSource: TextView = avwView.findViewById(R.id.tvSource)
-        val tvDate: TextView = avwView.findViewById(R.id.tvDate)
-        val ivReorder : ImageView = avwView.findViewById(R.id.ivReorder)
-
-        val expenseItem = mltExpenseList[position]
-
-        if (expenseItem.msValue != null)
-            holder.tvValue.text = MathService.formatFloatToCurrency(expenseItem.msValue!!)
-
-        holder.tvDescription.text = expenseItem.msrDescription
-
-        if (expenseItem.mdtDate != null)
-            holder.tvDate.text = MathService.calendarTimeToString(expenseItem.mdtDate!!)
-
-
-        if (expenseItem.msrDescription.isEmpty()) {
-            holder.tvExpenseType.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
-            holder.tvDescription.text = ""
-        } else {
-            holder.tvExpenseType.text = expenseItem.msrDescription
-            holder.tvDescription.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
-        }
-
-
-        if (expenseItem.metType != null) {
-            holder.vwExpenseType.setBackgroundColor(expenseItem.metType.backgroundColor(mctContext))
-            holder.ivExpenseType.setImageResource(expenseItem.metType.imageIconId())
-        }
-
-        holder.llLine2.visibility = LinearLayout.GONE
-
-        if (mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            holder.llLine2.visibility = LinearLayout.VISIBLE
-
-        if (StaticCollections.mbEditMode) {
-            holder.ivReorder.visibility = ImageView.VISIBLE
-        } else {
-            holder.ivReorder.visibility = ImageView.GONE
-        }*/
     }
 
 }

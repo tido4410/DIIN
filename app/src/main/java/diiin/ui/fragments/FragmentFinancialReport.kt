@@ -25,11 +25,14 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
-import diiin.ui.activity.MainActivity
 import java.util.*
 import kotlin.collections.HashMap
 
-
+/**
+ * Screen that shows to user the financial overview
+ *
+ * @author Gabriel Moro
+ */
 class FragmentFinancialReport : Fragment() {
 
     companion object {

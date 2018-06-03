@@ -81,6 +81,10 @@ enum class ExpenseType(val idExpense : Int){
         }
     }
 
+    /**
+     * This method returns the resource image icon id
+     *
+     */
     fun imageIconId() : Int {
         return when(this) {
             FOOD -> R.drawable.ic_food

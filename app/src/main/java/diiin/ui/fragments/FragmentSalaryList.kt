@@ -26,6 +26,11 @@ import diiin.util.MessageDialog
 import diiin.util.SalarySharedPreferences
 import java.util.*
 
+/**
+ * Screen that shows to user the incomes filter and salary list
+ *
+ * @author Gabriel Moro
+ */
 class FragmentSalaryList : Fragment() {
 
     private var mspMonthSelector: Spinner? = null

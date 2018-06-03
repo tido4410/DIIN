@@ -5,8 +5,19 @@ import android.content.Context
 import android.content.DialogInterface
 import android.widget.Toast
 
+/**
+ * This class defines all user alerts and toasts
+ */
 object MessageDialog {
 
+    /**
+     * Define a alert dialog
+     *
+     * @param actxContext is the context
+     * @param astrTextInfo is the message
+     * @param alstPositive defines the positive action listener
+     * @param alstNegative defines the negative action listener
+     */
     fun showMessageDialog(actxContext : Context, astrTextInfo : String,
                           alstPositive : DialogInterface.OnClickListener,
                           alstNegative : DialogInterface.OnClickListener) {
@@ -18,6 +29,12 @@ object MessageDialog {
         builder.show()
     }
 
+    /**
+     * Define toast message
+     *
+     * @param actxContext is the context
+     * @param astrTextInfo is the message
+     */
     fun showToastMessage(actxContext : Context, astrTextInfo : String) {
         Toast.makeText(actxContext, astrTextInfo, Toast.LENGTH_SHORT).show()
     }

@@ -16,6 +16,11 @@ import diiin.util.MessageDialog
 import java.util.*
 
 
+/**
+ * This screen is used by user to create the expense register
+ *
+ * @author Gabriel Moro
+ */
 class InsertExpenseActivity : AppCompatActivity() {
 
     private var mspSpinnerExpenseType: Spinner? = null

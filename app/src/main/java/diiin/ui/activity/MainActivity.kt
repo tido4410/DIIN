@@ -22,7 +22,11 @@ import diiin.ui.fragments.FragmentSalaryList
 import diiin.util.MessageDialog
 import diiin.util.SelectionSharedPreferences
 
-
+/**
+ * This screen is used by user to see the expenses and salary report by month of year.
+ *
+ * @author Gabriel Moro
+ */
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
             var mnvNavigation : BottomNavigationView? = null

@@ -14,6 +14,11 @@ import diiin.util.MathService
 import diiin.util.MessageDialog
 import java.util.*
 
+/**
+ * This screen is used by user to create the incoming register
+ *
+ * @author Gabriel Moro
+ */
 class InsertSalaryActivity : AppCompatActivity() {
 
     private var clCalenderChoosed: Calendar = Calendar.getInstance()

@@ -27,6 +27,11 @@ import diiin.util.MessageDialog
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * Screen that shows to user the expenses filter and list
+ *
+ * @author Gabriel Moro
+ */
 class FragmentExpensesList : Fragment() {
 
     private var mspMonthSelector: Spinner? = null

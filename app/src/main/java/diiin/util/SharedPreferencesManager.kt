@@ -21,10 +21,6 @@ object SharedPreferenceConnection {
     fun editor(actxContext : Context) : SharedPreferences.Editor  {
         return actxContext.getSharedPreferences(SHARED_PREFERENCE_NAME, PRIVATE_MODE).edit()
     }
-
-    fun clearAllPreferences(actxContext: Context) {
-        editor(actxContext).clear().commit()
-    }
 }
 
 
@@ -76,7 +72,7 @@ object SalarySharedPreferences {
     }
 
     fun updateSalaryList(actContext: Context) {
-        var strValueToPersist : String = ""
+        var strValueToPersist = ""
 
         var nCount = 0
         val nSize = StaticCollections.mastSalary?.size ?: 0
@@ -141,7 +137,7 @@ object ExpenseSharedPreferences {
     }
 
     fun updateExpenseList(actContext: Context) {
-        var strValueToPersist : String = ""
+        var strValueToPersist = ""
 
         var nCount = 0
         val nSize = StaticCollections.mastExpenses?.size ?: 0

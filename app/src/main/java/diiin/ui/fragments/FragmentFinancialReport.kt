@@ -46,7 +46,7 @@ class FragmentFinancialReport : Fragment() {
     private var mtvExpenseTotalValue : TextView? = null
     private var mtvSalaryTotalValue : TextView? = null
     private var mtvWalletTotalValue : TextView? = null
-    private val mhmExpenseByPercentage : HashMap<String, Expense> = HashMap()
+    private val mhmExpenseByPercentage : HashMap<ExpenseType, Expense> = HashMap()
     /**
      * Chart item elements
      */
@@ -179,70 +179,70 @@ class FragmentFinancialReport : Fragment() {
         if(sumTotalFood > 0) {
             val perFood = sumTotalFood / sSumTotal
             val expenseFood = Expense(0, sumTotalFood, "", null, ExpenseType.FOOD)
-            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perFood)] = expenseFood
+            mhmExpenseByPercentage[ExpenseType.FOOD] = expenseFood
             lstEntries.add(initPieEntry(perFood, expenseFood.metType!!.description(context)))
             lstColors.add(expenseFood.metType.backgroundColor(context))
         }
         if(sumTotalTransport > 0) {
             val perTransport = sumTotalTransport / sSumTotal
             val expenseTransport = Expense(0, sumTotalTransport, "", null, ExpenseType.TRANSPORT)
-            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perTransport)] = expenseTransport
+            mhmExpenseByPercentage[ExpenseType.TRANSPORT] = expenseTransport
             lstEntries.add(initPieEntry(perTransport, expenseTransport.metType!!.description(context)))
             lstColors.add(expenseTransport.metType.backgroundColor(context))
         }
         if(sumTotalPhone > 0) {
             val perPhone = sumTotalPhone / sSumTotal
             val expensePhone = Expense(0, sumTotalPhone, "", null, ExpenseType.PHONE)
-            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perPhone)] = expensePhone
+            mhmExpenseByPercentage[ExpenseType.PHONE] = expensePhone
             lstEntries.add(initPieEntry(perPhone, expensePhone.metType!!.description(context)))
             lstColors.add(expensePhone.metType.backgroundColor(context))
         }
         if(sumTotalPets > 0) {
             val perPets = sumTotalPets / sSumTotal
             val expensePets = Expense(0, sumTotalPets, "", null, ExpenseType.PETS)
-            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perPets)] = expensePets
+            mhmExpenseByPercentage[ExpenseType.PETS] = expensePets
             lstEntries.add(initPieEntry(perPets, expensePets.metType!!.description(context)))
             lstColors.add(expensePets.metType.backgroundColor(context))
         }
         if(sumTotalEducation > 0) {
             val perEducation = sumTotalEducation / sSumTotal
             val expenseEducation = Expense(0, sumTotalEducation, "", null, ExpenseType.EDUCATION)
-            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perEducation)] = expenseEducation
+            mhmExpenseByPercentage[ExpenseType.EDUCATION] = expenseEducation
             lstEntries.add(initPieEntry(perEducation, expenseEducation.metType!!.description(context)))
             lstColors.add(expenseEducation.metType.backgroundColor(context))
         }
         if(sumTotalHealth > 0) {
             val perHealth = sumTotalHealth / sSumTotal
             val expenseHealth = Expense(0, sumTotalHealth, "", null, ExpenseType.HEALTH)
-            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perHealth)] = expenseHealth
+            mhmExpenseByPercentage[ExpenseType.HEALTH] = expenseHealth
             lstEntries.add(initPieEntry(perHealth, expenseHealth.metType!!.description(context)))
             lstColors.add(expenseHealth.metType.backgroundColor(context))
         }
         if(sumTotalFun > 0) {
             val perFun = sumTotalFun / sSumTotal
             val expenseFun = Expense(0, perFun, "", null, ExpenseType.FUN)
-            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perFun)] = expenseFun
+            mhmExpenseByPercentage[ExpenseType.FUN] = expenseFun
             lstEntries.add(initPieEntry(perFun, expenseFun.metType!!.description(context)))
             lstColors.add(expenseFun.metType.backgroundColor(context))
         }
         if(sumTotalRent > 0) {
             val perRent = sumTotalRent / sSumTotal
             val expenseRent = Expense(0, sumTotalRent, "", null, ExpenseType.RENT)
-            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perRent)] = expenseRent
+            mhmExpenseByPercentage[ExpenseType.RENT] = expenseRent
             lstEntries.add(initPieEntry(perRent, expenseRent.metType!!.description(context)))
             lstColors.add(expenseRent.metType.backgroundColor(context))
         }
         if(sumTotalTravel > 0) {
             val perTravel = sumTotalTravel / sSumTotal
             val expenseTravel = Expense(0, sumTotalTravel, "", null, ExpenseType.TRAVEL)
-            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perTravel)] = expenseTravel
+            mhmExpenseByPercentage[ExpenseType.TRAVEL] = expenseTravel
             lstEntries.add(initPieEntry(perTravel, expenseTravel.metType!!.description(context)))
             lstColors.add(expenseTravel.metType.backgroundColor(context))
         }
         if(sumTotalOthers > 0) {
             val perOthers = sumTotalOthers / sSumTotal
             val expenseOthers = Expense(0, sumTotalOthers, "", null, ExpenseType.OTHERS)
-            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perOthers)] = expenseOthers
+            mhmExpenseByPercentage[ExpenseType.OTHERS] = expenseOthers
             lstEntries.add(initPieEntry(perOthers, expenseOthers.metType!!.description(context)))
             lstColors.add(expenseOthers.metType.backgroundColor(context))
         }
@@ -270,9 +270,10 @@ class FragmentFinancialReport : Fragment() {
             }
 
             override fun onValueSelected(e: Entry, h: Highlight?) {
-                Log.d("PIECHART", "Value selected - ${e.toString()}")
-                val strKey = MathService.formatDoubleTwoPlacesAfterComma(e.y)
-                val expenseTarget = mhmExpenseByPercentage[strKey]
+
+                val pieEntry = e as PieEntry
+                val nId = ExpenseType.gettingIdFromDescription(context, pieEntry.label) ?: return
+                val expenseTarget = mhmExpenseByPercentage[ExpenseType.fromInt(nId)]
                 if(expenseTarget != null)
                     loadChartItemCard(expenseTarget)
             }

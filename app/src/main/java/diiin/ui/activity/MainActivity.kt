@@ -25,10 +25,10 @@ import diiin.util.SelectionSharedPreferences
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private var mnvNavigation : BottomNavigationView? = null
+            var mnvNavigation : BottomNavigationView? = null
     private var mstCurrentFragment : String? = null
     private var mfgCurrentFragment : Fragment? = null
-    private var mspMonthSelector : Spinner? = null
+            var mspMonthSelector : Spinner? = null
     private var mtvYearSelected : TextView? = null
     private var mltSpinnerMonthsList : ArrayList<String>? = null
     private var mMenuInflated : Menu? = null

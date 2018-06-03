@@ -4,9 +4,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
@@ -15,11 +18,16 @@ import diiin.model.Expense
 import diiin.model.ExpenseType
 import diiin.util.MathService
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import diiin.ui.activity.MainActivity
 import java.util.*
+import kotlin.collections.HashMap
 
 
 class FragmentFinancialReport : Fragment() {
@@ -29,12 +37,23 @@ class FragmentFinancialReport : Fragment() {
     }
 
     private var mpcPieChart: PieChart? = null
+    private var mrlChartItem : RelativeLayout? = null
     private var mrlPieChartContainer : RelativeLayout? = null
+    private var mrlWalletPanel : RelativeLayout? = null
     private var mtvExpenseTotalValue : TextView? = null
     private var mtvSalaryTotalValue : TextView? = null
     private var mtvWalletTotalValue : TextView? = null
-
-
+    private val mhmExpenseByPercentage : HashMap<String, Expense> = HashMap()
+    /**
+     * Chart item elements
+     */
+    private var mtvChartItemValue : TextView? = null
+    private var mtvChartItemDate : TextView? = null
+    private var mvwChartItemExpenseType : View? = null
+    private var mllChartItemLinearLayout : LinearLayout? = null
+    private var mivChartItemReorder : ImageView? = null
+    private var mivExpenseType : ImageView? = null
+    private var mtvChartItemExpenseType : TextView? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_financialreport, container, false)
@@ -43,9 +62,18 @@ class FragmentFinancialReport : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         mpcPieChart = view?.findViewById(R.id.pchart)
         mrlPieChartContainer = view?.findViewById(R.id.rlPieChart)
+        mrlWalletPanel = view?.findViewById(R.id.rlWalletPanel)
         mtvExpenseTotalValue = view?.findViewById(R.id.tvExpenseTotalValue)
         mtvSalaryTotalValue = view?.findViewById(R.id.tvSalaryValue)
         mtvWalletTotalValue = view?.findViewById(R.id.tvWalletValue)
+        mrlChartItem = view?.findViewById(R.id.rlChartItem)
+        mtvChartItemValue = view?.findViewById(R.id.tvValue)
+        mtvChartItemDate = view?.findViewById(R.id.tvDate)
+        mtvChartItemExpenseType = view?.findViewById(R.id.tvExpenseType)
+        mvwChartItemExpenseType = view?.findViewById(R.id.vwExpenseType)
+        mllChartItemLinearLayout = view?.findViewById(R.id.llLine2)
+        mivChartItemReorder = view?.findViewById(R.id.ivReorder)
+        mivExpenseType = view?.findViewById(R.id.ivExpenseType)
 
         mpcPieChart?.setUsePercentValues(true)
         mpcPieChart?.description?.isEnabled = false
@@ -59,9 +87,23 @@ class FragmentFinancialReport : Fragment() {
         mpcPieChart?.setHoleColor(ContextCompat.getColor(context,R.color.whiteColor))
 
         loadChartData()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        mrlChartItem?.visibility = RelativeLayout.GONE
+        mrlWalletPanel?.visibility = RelativeLayout.VISIBLE
     }
 
     fun loadChartData() {
+
+        mhmExpenseByPercentage.clear()
 
         val lstExpenses : ArrayList<Expense> = StaticCollections.mastExpenses ?: return
 
@@ -132,44 +174,74 @@ class FragmentFinancialReport : Fragment() {
         val lstColors = ArrayList<Int>()
 
         if(sumTotalFood > 0) {
-            lstEntries.add(initPieEntry(sumTotalFood / sSumTotal, ExpenseType.FOOD.description(context)))
-            lstColors.add(ExpenseType.FOOD.backgroundColor(context))
+            val perFood = sumTotalFood / sSumTotal
+            val expenseFood = Expense(0, sumTotalFood, "", null, ExpenseType.FOOD)
+            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perFood)] = expenseFood
+            lstEntries.add(initPieEntry(perFood, expenseFood.metType!!.description(context)))
+            lstColors.add(expenseFood.metType.backgroundColor(context))
         }
         if(sumTotalTransport > 0) {
-            lstEntries.add(initPieEntry(sumTotalTransport / sSumTotal, ExpenseType.TRANSPORT.description(context)))
-            lstColors.add(ExpenseType.TRANSPORT.backgroundColor(context))
+            val perTransport = sumTotalTransport / sSumTotal
+            val expenseTransport = Expense(0, sumTotalTransport, "", null, ExpenseType.TRANSPORT)
+            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perTransport)] = expenseTransport
+            lstEntries.add(initPieEntry(perTransport, expenseTransport.metType!!.description(context)))
+            lstColors.add(expenseTransport.metType.backgroundColor(context))
         }
         if(sumTotalPhone > 0) {
-            lstEntries.add(initPieEntry(sumTotalPhone / sSumTotal, ExpenseType.PHONE.description(context)))
-            lstColors.add(ExpenseType.PHONE.backgroundColor(context))
+            val perPhone = sumTotalPhone / sSumTotal
+            val expensePhone = Expense(0, sumTotalPhone, "", null, ExpenseType.PHONE)
+            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perPhone)] = expensePhone
+            lstEntries.add(initPieEntry(perPhone, expensePhone.metType!!.description(context)))
+            lstColors.add(expensePhone.metType.backgroundColor(context))
         }
         if(sumTotalPets > 0) {
-            lstEntries.add(initPieEntry(sumTotalPets / sSumTotal, ExpenseType.PETS.description(context)))
-            lstColors.add(ExpenseType.PETS.backgroundColor(context))
+            val perPets = sumTotalPets / sSumTotal
+            val expensePets = Expense(0, sumTotalPets, "", null, ExpenseType.PETS)
+            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perPets)] = expensePets
+            lstEntries.add(initPieEntry(perPets, expensePets.metType!!.description(context)))
+            lstColors.add(expensePets.metType.backgroundColor(context))
         }
         if(sumTotalEducation > 0) {
-            lstEntries.add(initPieEntry(sumTotalEducation / sSumTotal, ExpenseType.EDUCATION.description(context)))
-            lstColors.add(ExpenseType.EDUCATION.backgroundColor(context))
+            val perEducation = sumTotalEducation / sSumTotal
+            val expenseEducation = Expense(0, sumTotalEducation, "", null, ExpenseType.EDUCATION)
+            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perEducation)] = expenseEducation
+            lstEntries.add(initPieEntry(perEducation, expenseEducation.metType!!.description(context)))
+            lstColors.add(expenseEducation.metType.backgroundColor(context))
         }
         if(sumTotalHealth > 0) {
-            lstEntries.add(initPieEntry(sumTotalHealth / sSumTotal, ExpenseType.HEALTH.description(context)))
-            lstColors.add(ExpenseType.HEALTH.backgroundColor(context))
+            val perHealth = sumTotalHealth / sSumTotal
+            val expenseHealth = Expense(0, sumTotalHealth, "", null, ExpenseType.HEALTH)
+            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perHealth)] = expenseHealth
+            lstEntries.add(initPieEntry(perHealth, expenseHealth.metType!!.description(context)))
+            lstColors.add(expenseHealth.metType.backgroundColor(context))
         }
         if(sumTotalFun > 0) {
-            lstEntries.add(initPieEntry(sumTotalFun / sSumTotal, ExpenseType.FUN.description(context)))
-            lstColors.add(ExpenseType.FUN.backgroundColor(context))
+            val perFun = sumTotalFun / sSumTotal
+            val expenseFun = Expense(0, perFun, "", null, ExpenseType.FUN)
+            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perFun)] = expenseFun
+            lstEntries.add(initPieEntry(perFun, expenseFun.metType!!.description(context)))
+            lstColors.add(expenseFun.metType.backgroundColor(context))
         }
         if(sumTotalRent > 0) {
-            lstEntries.add(initPieEntry(sumTotalRent / sSumTotal, ExpenseType.RENT.description(context)))
-            lstColors.add(ExpenseType.RENT.backgroundColor(context))
+            val perRent = sumTotalRent / sSumTotal
+            val expenseRent = Expense(0, sumTotalRent, "", null, ExpenseType.RENT)
+            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perRent)] = expenseRent
+            lstEntries.add(initPieEntry(perRent, expenseRent.metType!!.description(context)))
+            lstColors.add(expenseRent.metType.backgroundColor(context))
         }
         if(sumTotalTravel > 0) {
-            lstEntries.add(initPieEntry(sumTotalTravel / sSumTotal, ExpenseType.TRAVEL.description(context)))
-            lstColors.add(ExpenseType.TRAVEL.backgroundColor(context))
+            val perTravel = sumTotalTravel / sSumTotal
+            val expenseTravel = Expense(0, sumTotalTravel, "", null, ExpenseType.TRAVEL)
+            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perTravel)] = expenseTravel
+            lstEntries.add(initPieEntry(perTravel, expenseTravel.metType!!.description(context)))
+            lstColors.add(expenseTravel.metType.backgroundColor(context))
         }
         if(sumTotalOthers > 0) {
-            lstEntries.add(initPieEntry(sumTotalOthers / sSumTotal, ExpenseType.OTHERS.description(context)))
-            lstColors.add(ExpenseType.OTHERS.backgroundColor(context))
+            val perOthers = sumTotalOthers / sSumTotal
+            val expenseOthers = Expense(0, sumTotalOthers, "", null, ExpenseType.OTHERS)
+            mhmExpenseByPercentage[MathService.formatDoubleTwoPlacesAfterComma(perOthers)] = expenseOthers
+            lstEntries.add(initPieEntry(perOthers, expenseOthers.metType!!.description(context)))
+            lstColors.add(expenseOthers.metType.backgroundColor(context))
         }
 
         val dataSet = PieDataSet(lstEntries, "")
@@ -188,6 +260,21 @@ class FragmentFinancialReport : Fragment() {
         mpcPieChart?.highlightValues(null)
         mpcPieChart?.invalidate()
 
+        mpcPieChart?.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+            override fun onNothingSelected() {
+                mrlChartItem?.visibility = RelativeLayout.GONE
+                mrlWalletPanel?.visibility = RelativeLayout.VISIBLE
+            }
+
+            override fun onValueSelected(e: Entry, h: Highlight?) {
+                Log.d("PIECHART", "Value selected - ${e.toString()}")
+                val strKey = MathService.formatDoubleTwoPlacesAfterComma(e.y)
+                val expenseTarget = mhmExpenseByPercentage[strKey]
+                if(expenseTarget != null)
+                    loadChartItemCard(expenseTarget)
+            }
+        })
+
         mtvExpenseTotalValue?.text = MathService.formatFloatToCurrency(sSumTotal)
 
         var sTotalSalary = 0f
@@ -204,12 +291,84 @@ class FragmentFinancialReport : Fragment() {
 
         val sWalletValue = sTotalSalary - sSumTotal
         mtvWalletTotalValue?.text = MathService.formatFloatToCurrency(sWalletValue)
+
+        mrlChartItem?.visibility = RelativeLayout.GONE
     }
 
     private fun initPieEntry(asFloatPercent : Float, astrString : String) : PieEntry {
         val entry = PieEntry(asFloatPercent)
         entry.label = astrString
         return entry
+    }
+
+    private fun loadChartItemCard(aExpenseItem : Expense?) {
+        aExpenseItem ?: return
+
+        mivChartItemReorder?.visibility = ImageView.GONE
+        mtvChartItemDate?.visibility = TextView.GONE
+
+        if(aExpenseItem.msValue != null) mtvChartItemValue?.text = MathService.formatFloatToCurrency(aExpenseItem.msValue!!)
+
+        if(aExpenseItem.metType != null) {
+            mtvChartItemExpenseType?.text = aExpenseItem.metType.description(context)
+            mvwChartItemExpenseType?.setBackgroundColor(aExpenseItem.metType.backgroundColor(context))
+            mivChartItemReorder?.visibility = ImageView.GONE
+            mivExpenseType?.setImageResource(aExpenseItem.metType.imageIconId())
+        }
+
+        mrlChartItem?.visibility = RelativeLayout.VISIBLE
+        mrlWalletPanel?.visibility = RelativeLayout.GONE
+
+//      mtvChartItemValue?.setV
+
+        /*mtvChartItemValue = view?.findViewById(R.id.tvValue)
+        mtvChartItemDate = view?.findViewById(R.id.tvDate)
+        mtvChartItemDescription = view?.findViewById(R.id.tvDescription)
+        mvwChartItemExpenseType = view?.findViewById(R.id.vwExpenseType)
+        mllChartItemLinearLayout = view?.findViewById(R.id.llLine2)
+        mivChartItemReorder = view?.findViewById(R.id.ivReorder)*/
+
+        /*
+        val tvValue: TextView = avwView.findViewById(R.id.tvValue)
+        val tvSource: TextView = avwView.findViewById(R.id.tvSource)
+        val tvDate: TextView = avwView.findViewById(R.id.tvDate)
+        val ivReorder : ImageView = avwView.findViewById(R.id.ivReorder)
+
+        val expenseItem = mltExpenseList[position]
+
+        if (expenseItem.msValue != null)
+            holder.tvValue.text = MathService.formatFloatToCurrency(expenseItem.msValue!!)
+
+        holder.tvDescription.text = expenseItem.msrDescription
+
+        if (expenseItem.mdtDate != null)
+            holder.tvDate.text = MathService.calendarTimeToString(expenseItem.mdtDate!!)
+
+
+        if (expenseItem.msrDescription.isEmpty()) {
+            holder.tvExpenseType.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
+            holder.tvDescription.text = ""
+        } else {
+            holder.tvExpenseType.text = expenseItem.msrDescription
+            holder.tvDescription.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
+        }
+
+
+        if (expenseItem.metType != null) {
+            holder.vwExpenseType.setBackgroundColor(expenseItem.metType.backgroundColor(mctContext))
+            holder.ivExpenseType.setImageResource(expenseItem.metType.imageIconId())
+        }
+
+        holder.llLine2.visibility = LinearLayout.GONE
+
+        if (mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            holder.llLine2.visibility = LinearLayout.VISIBLE
+
+        if (StaticCollections.mbEditMode) {
+            holder.ivReorder.visibility = ImageView.VISIBLE
+        } else {
+            holder.ivReorder.visibility = ImageView.GONE
+        }*/
     }
 
 }

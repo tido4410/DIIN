@@ -3,7 +3,7 @@
     <string name="app_name">DINDIN</string>
     <string name="title_expenses">Expenses</string>
     <string name="title_salary">Money</string>
-    <string name="title_chartreport">Report</string>
+    <string name="title_chartreport">Overview</string>
     <string name="title_newexpense">New Expense</string>
     <string name="title_newsalary">New Money Received</string>
     <string name="food">Food</string>

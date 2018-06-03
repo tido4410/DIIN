@@ -1,5 +1,6 @@
 package diiin.util
 
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -11,6 +12,10 @@ object MathService {
         targetCalendar.time = dtDate
         val currentCalendar = Calendar.getInstance()
         return (currentCalendar.get(Calendar.YEAR) == targetCalendar.get(Calendar.YEAR))
+    }
+
+    fun formatDoubleTwoPlacesAfterComma(asValue : Float) : String {
+        return DecimalFormat("#.##").format(asValue)
     }
 
     fun formatFloatToCurrency(asValue : Float) : String {

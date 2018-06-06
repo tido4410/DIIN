@@ -220,7 +220,7 @@ class FragmentFinancialReport : Fragment() {
         }
         if(sumTotalFun > 0) {
             val perFun = sumTotalFun / sSumTotal
-            val expenseFun = Expense(0, perFun, "", null, ExpenseType.FUN)
+            val expenseFun = Expense(0, sumTotalFun, "", null, ExpenseType.FUN)
             mhmExpenseByPercentage[ExpenseType.FUN] = expenseFun
             lstEntries.add(initPieEntry(perFun, expenseFun.metType!!.description(context)))
             lstColors.add(expenseFun.metType.backgroundColor(context))

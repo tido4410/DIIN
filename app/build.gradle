@@ -35,5 +35,3 @@ dependencies {
     implementation 'me.grantland:autofittextview:0.2.1'
     implementation 'com.android.support:design:26.1.0'
 }
-
-

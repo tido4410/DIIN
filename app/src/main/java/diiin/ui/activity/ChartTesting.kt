@@ -82,7 +82,7 @@ class FinancialPieChart(actxContext : Context, alstExpenseList : ArrayList<Expen
         mexpenseList.forEach {
             if(it.msValue != null && it.metType != null) {
                 mpTempPaintObject.color = it.metType.backgroundColor(context)
-                val sSweepAngle = ((it.msValue!! * msTotalDegree) / msTotalDegree)
+                val sSweepAngle = ((it.msValue!! * msTotalDegree) / msTotalValue)
                 canvas.drawArc(mBaseRect, sCurrentPoint, sSweepAngle, true, mpTempPaintObject)
                 sCurrentPoint += sSweepAngle
                 canvas.drawRect(mleftCoord, nTopOfRect, mleftCoord + 20f, nTopOfRect + 20f, mpTempPaintObject)

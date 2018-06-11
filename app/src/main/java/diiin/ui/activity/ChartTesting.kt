@@ -2,7 +2,6 @@ package diiin.ui.activity
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.support.v7.app.AppCompatActivity
@@ -27,9 +26,9 @@ class ChartTesting : AppCompatActivity() {
 
         val expenseLst = ArrayList<Expense>()
         expenseLst.add(Expense(0,120f, "", Date(), ExpenseType.TRANSPORT))
-        expenseLst.add(Expense(0,240f, "", Date(), ExpenseType.FOOD))
+        expenseLst.add(Expense(0,40f, "", Date(), ExpenseType.FOOD))
         expenseLst.add(Expense(0,100f, "", Date(), ExpenseType.FUN))
-        expenseLst.add(Expense(0,145f, "", Date(), ExpenseType.OTHERS))
+        expenseLst.add(Expense(0,85f, "", Date(), ExpenseType.OTHERS))
         expenseLst.add(Expense(0,11f, "", Date(), ExpenseType.EDUCATION))
         expenseLst.add(Expense(0,15f, "", Date(), ExpenseType.TRAVEL))
         expenseLst.add(Expense(0,12f, "", Date(), ExpenseType.PETS))
@@ -43,9 +42,9 @@ class FinancialPieChart(actxContext : Context, alstExpenseList : ArrayList<Expen
 
     private var mexpenseList : ArrayList<Expense> = alstExpenseList
     private val mleftCoord : Float = 15f
-    private val mrightCoord : Float = 500 - mleftCoord
+    private val mrightCoord : Float = resources.displayMetrics.widthPixels.toFloat() - mleftCoord
     private val mtopCoord : Float = 20f
-    private val mbottomCoord : Float = 500 - mtopCoord
+    private val mbottomCoord : Float = resources.displayMetrics.widthPixels.toFloat() - mtopCoord
     private val mBaseRect = RectF(mleftCoord, mtopCoord, mrightCoord, mbottomCoord)
     private var msTotalValue : Float = 0f
     private val msTotalDegree : Float = 360f
@@ -78,17 +77,27 @@ class FinancialPieChart(actxContext : Context, alstExpenseList : ArrayList<Expen
 
         var sCurrentPoint = 0f
 
+        var nTopOfRect = mbottomCoord + 20f
+
         mexpenseList.forEach {
             if(it.msValue != null && it.metType != null) {
                 mpTempPaintObject.color = it.metType.backgroundColor(context)
                 val sSweepAngle = ((it.msValue!! * msTotalDegree) / msTotalDegree)
                 canvas.drawArc(mBaseRect, sCurrentPoint, sSweepAngle, true, mpTempPaintObject)
-                mpTempPaintObject.color = Color.BLACK
                 sCurrentPoint += sSweepAngle
+                canvas.drawRect(mleftCoord, nTopOfRect, mleftCoord + 20f, nTopOfRect + 20f, mpTempPaintObject)
+                mpTempPaintObject.textSize = 30f
+                val pPercentToShow = (sSweepAngle / msTotalDegree) * 100
+                canvas.drawText(" $pPercentToShow %: ${it.metType.description(context)}",
+                        mleftCoord + 20f, nTopOfRect + 20f, mpTempPaintObject)
+                nTopOfRect += 30f
             }
         }
 
-        canvas.drawRect(50f, mbottomCoord, 50f, mbottomCoord  + 200f, mpTempPaintObject)
+        //RectF(mleftCoord, mtopCoord, mrightCoord, mbottomCoord)
+
+
+
 
         /*val pBlue = Paint()
         pBlue.color = Color.BLUE

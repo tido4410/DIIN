@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import br.com.gbmoro.diiin.R
 import diiin.model.Expense
 import diiin.model.ExpenseType
+import diiin.util.MathService
 import java.util.*
 
 class ChartTesting : AppCompatActivity() {
@@ -44,11 +45,12 @@ class FinancialPieChart(actxContext : Context, alstExpenseList : ArrayList<Expen
     private val mleftCoord : Float = 15f
     private val mrightCoord : Float = resources.displayMetrics.widthPixels.toFloat() - mleftCoord
     private val mtopCoord : Float = 20f
-    private val mbottomCoord : Float = resources.displayMetrics.widthPixels.toFloat() - mtopCoord
+    private val mbottomCoord : Float = resources.displayMetrics.widthPixels.toFloat() * 0.85f
     private val mBaseRect = RectF(mleftCoord, mtopCoord, mrightCoord, mbottomCoord)
     private var msTotalValue : Float = 0f
     private val msTotalDegree : Float = 360f
     private val mpTempPaintObject : Paint = Paint()
+    private val msMiddleScreen : Float = resources.displayMetrics.widthPixels.toFloat() / 2f
 
     init {
         isFocusable = true
@@ -64,20 +66,12 @@ class FinancialPieChart(actxContext : Context, alstExpenseList : ArrayList<Expen
         }
     }
 
-//    400 <-> 360
-//
-//    12 <-> x
-//
-//
-//    400x = 360 * 12
-//    x = 360 * 12 / 400
-
     override fun onDraw(canvas: Canvas) {
-        //super.onDraw(canvas)
 
         var sCurrentPoint = 0f
 
         var nTopOfRect = mbottomCoord + 20f
+        var bIsItLeft : Boolean = true
 
         mexpenseList.forEach {
             if(it.msValue != null && it.metType != null) {
@@ -85,35 +79,23 @@ class FinancialPieChart(actxContext : Context, alstExpenseList : ArrayList<Expen
                 val sSweepAngle = ((it.msValue!! * msTotalDegree) / msTotalValue)
                 canvas.drawArc(mBaseRect, sCurrentPoint, sSweepAngle, true, mpTempPaintObject)
                 sCurrentPoint += sSweepAngle
-                canvas.drawRect(mleftCoord, nTopOfRect, mleftCoord + 20f, nTopOfRect + 20f, mpTempPaintObject)
-                mpTempPaintObject.textSize = 30f
+
+                mpTempPaintObject.textSize = 22f
                 val pPercentToShow = (sSweepAngle / msTotalDegree) * 100
-                canvas.drawText(" $pPercentToShow %: ${it.metType.description(context)}",
-                        mleftCoord + 20f, nTopOfRect + 20f, mpTempPaintObject)
-                nTopOfRect += 30f
+                if(bIsItLeft) {
+                    canvas.drawRect(mleftCoord, nTopOfRect, mleftCoord + 20f, nTopOfRect + 20f, mpTempPaintObject)
+                    canvas.drawText(" ${MathService.formatDoubleTwoPlacesAfterComma(pPercentToShow)}% ${it.metType.description(context)}",
+                            mleftCoord + 20f, nTopOfRect + 20f, mpTempPaintObject)
+                    bIsItLeft = false
+                } else {
+                    canvas.drawRect(msMiddleScreen, nTopOfRect, msMiddleScreen + 20f, nTopOfRect + 20f, mpTempPaintObject)
+                    canvas.drawText(" ${MathService.formatDoubleTwoPlacesAfterComma(pPercentToShow)}% ${it.metType.description(context)}",
+                            msMiddleScreen + 20f, nTopOfRect + 20f, mpTempPaintObject)
+                    nTopOfRect += 30f
+                    bIsItLeft = true
+                }
             }
         }
-
-        //RectF(mleftCoord, mtopCoord, mrightCoord, mbottomCoord)
-
-
-
-
-        /*val pBlue = Paint()
-        pBlue.color = Color.BLUE
-        val pRed = Paint()
-        pRed.color = Color.RED
-
-        val pGreen = Paint()
-        pGreen.color = Color.GREEN
-
-        val pYellow = Paint()
-        pYellow.color = Color.YELLOW
-
-        canvas.drawArc(mBaseRect, 0f, 90f, true, pBlue)
-        canvas.drawArc(mBaseRect, 90f, 90f, true, pRed)
-        canvas.drawArc(mBaseRect, 180f, 90f, true, pGreen)
-        canvas.drawArc(mBaseRect, 270f, 90f, true, pYellow)*/
     }
 
 }

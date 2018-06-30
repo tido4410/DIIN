@@ -72,7 +72,6 @@ class InsertSalaryActivity : AppCompatActivity() {
                     },
                     DialogInterface.OnClickListener { adialog, _ ->
                         adialog.dismiss()
-                        finish()
                     })
         }
     }

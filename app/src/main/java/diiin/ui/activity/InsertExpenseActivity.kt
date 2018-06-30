@@ -82,7 +82,6 @@ class InsertExpenseActivity : AppCompatActivity() {
                     },
                     DialogInterface.OnClickListener { adialog, _ ->
                         adialog.dismiss()
-                        finish()
                     })
         }
     }

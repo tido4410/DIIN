@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -16,6 +17,7 @@ import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.model.MonthType
 import diiin.StaticCollections
+import diiin.ui.adapter.ViewPagerAdapter
 import diiin.ui.fragments.FragmentExpensesList
 import diiin.ui.fragments.FragmentFinancialReport
 import diiin.ui.fragments.FragmentSalaryList
@@ -36,6 +38,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private var mtvYearSelected : TextView? = null
     private var mltSpinnerMonthsList : ArrayList<String>? = null
     private var mMenuInflated : Menu? = null
+    private var mvwViewPager : ViewPager? = null
+    private var mPrevMenuItem : MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +48,29 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         mnvNavigation = findViewById(R.id.bnvNavigation)
         mspMonthSelector = findViewById(R.id.spMonthSelector)
         mtvYearSelected = findViewById(R.id.tvYearSelected)
+        mvwViewPager = findViewById(R.id.vwPagerComponent)
 
         mnvNavigation?.setOnNavigationItemSelectedListener(this)
 
+        mvwViewPager?.adapter = ViewPagerAdapter(supportFragmentManager)
+        mvwViewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) { }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) { }
+
+            override fun onPageSelected(position: Int) {
+                mPrevMenuItem?.isChecked = false
+
+                val mTargetMenu : MenuItem? = when {
+                    position == 0 -> mnvNavigation?.menu?.findItem(R.id.navigation_expenses)
+                    position == 1-> mnvNavigation?.menu?.findItem(R.id.navigation_piechart)
+                    position == 2 -> mnvNavigation?.menu?.findItem(R.id.navigation_salary)
+                    else -> null
+                }
+                mTargetMenu?.isChecked = true
+                mPrevMenuItem = mTargetMenu
+            }
+        })
         loadSpinnersContent()
     }
 
@@ -54,54 +78,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onResume()
 
         mtvYearSelected?.text = StaticCollections.mnYearSelected.toString()
-
-        loadFragments()
-    }
-
-    private fun loadFragments() {
-        if (mstCurrentFragment == null)
-            mstCurrentFragment = FragmentExpensesList.NAME
-
-        if (mfgCurrentFragment != null)
-            supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
-
-        mfgCurrentFragment = when (mstCurrentFragment) {
-            FragmentSalaryList.NAME -> FragmentSalaryList()
-            FragmentFinancialReport.NAME -> FragmentFinancialReport()
-            FragmentExpensesList.NAME -> FragmentExpensesList()
-            else -> null
-        }
-        if (mfgCurrentFragment != null)
-            supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.navigation_piechart -> {
-                if(mstCurrentFragment != FragmentFinancialReport.NAME) {
-                    supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
-                    mfgCurrentFragment = FragmentFinancialReport()
-                    supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
-                    mstCurrentFragment = FragmentFinancialReport.NAME
-                }
+            R.id.navigation_expenses -> {
+                mvwViewPager?.currentItem = 0
                 return true
             }
-            R.id.navigation_expenses -> {
-                if(mstCurrentFragment != FragmentExpensesList.NAME) {
-                    supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
-                    mfgCurrentFragment = FragmentExpensesList()
-                    supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
-                    mstCurrentFragment = FragmentExpensesList.NAME
-                }
+            R.id.navigation_piechart -> {
+                mvwViewPager?.currentItem = 1
                 return true
             }
             R.id.navigation_salary -> {
-                if(mstCurrentFragment != FragmentSalaryList.NAME) {
-                    supportFragmentManager.beginTransaction().remove(mfgCurrentFragment).commit()
-                    mfgCurrentFragment = FragmentSalaryList()
-                    supportFragmentManager.beginTransaction().replace(R.id.flMainContent, mfgCurrentFragment).commit()
-                    mstCurrentFragment = FragmentSalaryList.NAME
-                }
+                mvwViewPager?.currentItem = 2
                 return true
             }
         }

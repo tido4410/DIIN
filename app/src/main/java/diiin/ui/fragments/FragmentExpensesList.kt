@@ -62,6 +62,7 @@ class FragmentExpensesList : Fragment() {
         mrvExpenseList?.layoutManager = llManager
         if(mbtInsertExpense!=null)
             mrvExpenseList?.setOnTouchListener(RVWithFLoatingButtonControl(mbtInsertExpense!!))
+        loadExpenseList()
     }
 
     override fun onResume() {

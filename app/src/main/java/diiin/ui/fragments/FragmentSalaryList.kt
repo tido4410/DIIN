@@ -61,6 +61,8 @@ class FragmentSalaryList : Fragment() {
         mrvSalaryList?.layoutManager = llManager
         if(mbtnInsertSalary!=null)
             mrvSalaryList?.setOnTouchListener(RVWithFLoatingButtonControl(mbtnInsertSalary!!))
+
+        loadSalaryList()
     }
 
     override fun onResume() {

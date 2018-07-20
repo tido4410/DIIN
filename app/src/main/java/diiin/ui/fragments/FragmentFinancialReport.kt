@@ -85,7 +85,7 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
         mpcPieChart?.setExtraOffsets(2f, 5f, 2f, 2f)
         mpcPieChart?.dragDecelerationFrictionCoef = 0.95f
         mpcPieChart?.rotationAngle = 0f
-        mpcPieChart?.isRotationEnabled = true
+        mpcPieChart?.isRotationEnabled = false
         mpcPieChart?.isDrawHoleEnabled = true
         mpcPieChart?.transparentCircleRadius = 10f
         mpcPieChart?.holeRadius = 7f

@@ -3,23 +3,17 @@ package diiin.ui.adapter
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import diiin.ui.fragments.FragmentExpensesList
-import diiin.ui.fragments.FragmentFinancialReport
-import diiin.ui.fragments.FragmentSalaryList
 
-class ViewPagerAdapter(a_fmFragmentManager : FragmentManager) : FragmentPagerAdapter(a_fmFragmentManager) {
+class ViewPagerAdapter(a_fmFragmentManager : FragmentManager, a_lstPages : ArrayList<Fragment>) : FragmentPagerAdapter(a_fmFragmentManager) {
+
+    private val mlstPages : ArrayList<Fragment> = a_lstPages
 
     override fun getItem(position: Int): Fragment {
-        return when(position) {
-            0 -> FragmentExpensesList()
-            1 -> FragmentFinancialReport()
-            2 -> FragmentSalaryList()
-            else -> FragmentExpensesList()
-        }
+        return mlstPages[position]
     }
 
     override fun getCount(): Int {
-        return 3
+        return mlstPages.size
     }
 
 }

@@ -3,7 +3,6 @@ package diiin.ui.activity
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
@@ -32,8 +31,6 @@ import diiin.util.SelectionSharedPreferences
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
             var mnvNavigation : BottomNavigationView? = null
-    private var mstCurrentFragment : String? = null
-    private var mfgCurrentFragment : Fragment? = null
             var mspMonthSelector : Spinner? = null
     private var mtvYearSelected : TextView? = null
     private var mltSpinnerMonthsList : ArrayList<String>? = null
@@ -52,18 +49,28 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         mnvNavigation?.setOnNavigationItemSelectedListener(this)
 
-        mvwViewPager?.adapter = ViewPagerAdapter(supportFragmentManager)
-        mvwViewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) { }
+        loadViewPageAdapter()
+        loadSpinnersContent()
+    }
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) { }
+    private fun loadViewPageAdapter() {
+        val lstPages = ArrayList<Fragment>()
+        lstPages.add(FragmentExpensesList())
+        lstPages.add(FragmentFinancialReport())
+        lstPages.add(FragmentSalaryList())
+
+        mvwViewPager?.adapter = ViewPagerAdapter(supportFragmentManager, lstPages)
+        mvwViewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
                 mPrevMenuItem?.isChecked = false
 
-                val mTargetMenu : MenuItem? = when {
+                val mTargetMenu: MenuItem? = when {
                     position == 0 -> mnvNavigation?.menu?.findItem(R.id.navigation_expenses)
-                    position == 1-> mnvNavigation?.menu?.findItem(R.id.navigation_piechart)
+                    position == 1 -> mnvNavigation?.menu?.findItem(R.id.navigation_piechart)
                     position == 2 -> mnvNavigation?.menu?.findItem(R.id.navigation_salary)
                     else -> null
                 }
@@ -71,7 +78,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 mPrevMenuItem = mTargetMenu
             }
         })
-        loadSpinnersContent()
     }
 
     override fun onResume() {
@@ -118,19 +124,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 } else { null } ?: return
 
                 SelectionSharedPreferences.insertMonthSelectPreference(baseContext, StaticCollections.mmtMonthSelected)
-                mstCurrentFragment ?: return
-
-                when(mstCurrentFragment) {
-                    FragmentSalaryList.NAME -> {
-                        (mfgCurrentFragment as FragmentSalaryList).loadSalaryList()
-                    }
-                    FragmentExpensesList.NAME -> {
-                        (mfgCurrentFragment as FragmentExpensesList).loadExpenseList()
-                    }
-                    FragmentFinancialReport.NAME -> {
-                        (mfgCurrentFragment as FragmentFinancialReport).loadChartData()
-                    }
-                }
+                showFragmentContent()
             }
         }
 
@@ -138,7 +132,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         StaticCollections.mmtMonthSelected ?: return
 
         val strMonthValue = StaticCollections.mmtMonthSelected?.description(this)
-
 
         var nCount = 0
         val nSize = mltSpinnerMonthsList?.size
@@ -148,6 +141,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             nCount++
         }
         mspMonthSelector?.setSelection(nCount)
+    }
+
+    private fun showFragmentContent() {
+        val nCurrentIndex = mvwViewPager?.currentItem
+        if (nCurrentIndex != null) {
+            val fgCurrentFragment = (mvwViewPager?.adapter as ViewPagerAdapter).getItem(nCurrentIndex)
+            if (fgCurrentFragment is MainPageFragments)
+                fgCurrentFragment.loadPageContent()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -176,34 +178,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }*/
             R.id.menu_edit -> {
                 StaticCollections.mbEditMode = true
-                when(mstCurrentFragment) {
-                    FragmentExpensesList.NAME -> {
-                        (mfgCurrentFragment as FragmentExpensesList).mbtInsertExpense?.visibility = FloatingActionButton.GONE
-                        (mfgCurrentFragment as FragmentExpensesList).loadExpenseListAccordingEditMode()
-                    }
-                    FragmentSalaryList.NAME -> {
-                        (mfgCurrentFragment as FragmentSalaryList).mbtnInsertSalary?.visibility = FloatingActionButton.GONE
-                        (mfgCurrentFragment as FragmentSalaryList).loadSalaryListAccordingEditMode()
-                    }
-                    else -> { }
-                }
+                showFragmentContent()
                 mMenuInflated?.findItem(R.id.menu_done)?.isVisible = true
                 mMenuInflated?.findItem(R.id.menu_edit)?.isVisible = false
             }
 
             R.id.menu_done -> {
                 StaticCollections.mbEditMode = false
-                when(mstCurrentFragment) {
-                    FragmentExpensesList.NAME -> {
-                        (mfgCurrentFragment as FragmentExpensesList).mbtInsertExpense?.visibility = FloatingActionButton.VISIBLE
-                        (mfgCurrentFragment as FragmentExpensesList).loadExpenseListAccordingEditMode()
-                    }
-                    FragmentSalaryList.NAME -> {
-                        (mfgCurrentFragment as FragmentSalaryList).mbtnInsertSalary?.visibility = FloatingActionButton.VISIBLE
-                        (mfgCurrentFragment as FragmentSalaryList).loadSalaryListAccordingEditMode()
-                    }
-                    else -> { }
-                }
+                showFragmentContent()
                 mMenuInflated?.findItem(R.id.menu_edit)?.isVisible = true
                 mMenuInflated?.findItem(R.id.menu_done)?.isVisible = false
             }
@@ -221,6 +203,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             else -> { }
         }
         return true
+    }
+
+    interface MainPageFragments {
+        fun loadPageContent()
     }
 
 }

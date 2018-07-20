@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import diiin.StaticCollections
 import diiin.model.Expense
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertExpenseActivity
+import diiin.ui.activity.MainActivity
 import diiin.ui.adapter.ExpenseListAdapter
 import diiin.util.ExpenseSharedPreferences
 import diiin.util.MathService
@@ -32,7 +34,7 @@ import kotlin.collections.ArrayList
  *
  * @author Gabriel Moro
  */
-class FragmentExpensesList : Fragment() {
+class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
 
     private var mspMonthSelector: Spinner? = null
     private var mrvExpenseList: RecyclerView? = null
@@ -62,31 +64,15 @@ class FragmentExpensesList : Fragment() {
         mrvExpenseList?.layoutManager = llManager
         if(mbtInsertExpense!=null)
             mrvExpenseList?.setOnTouchListener(RVWithFLoatingButtonControl(mbtInsertExpense!!))
-        loadExpenseList()
     }
 
     override fun onResume() {
         super.onResume()
-        loadExpenseList()
+        loadPageContent()
     }
 
-
-    fun loadExpenseListAccordingEditMode() {
-        mrvExpenseList?.adapter?.notifyDataSetChanged()
-    }
-
-    private fun loadTouchHelperListener(aeaExpenseAdapter: ExpenseListAdapter) {
-
-        if(mithItemHelperReference != null) {
-            mithItemHelperReference!!.attachToRecyclerView(null)
-            mithItemHelperReference = null
-        }
-
-        mithItemHelperReference = ItemTouchHelper(ExpenseListTouchHelper(context, aeaExpenseAdapter))
-        mithItemHelperReference!!.attachToRecyclerView(mrvExpenseList)
-    }
-
-    fun loadExpenseList() {
+    override fun loadPageContent() {
+        Log.d("FragmentTest", "loadPageContent called by $NAME")
         val lstExpenses = StaticCollections.mastExpenses ?: return
         mrvExpenseList ?: return
 
@@ -110,6 +96,17 @@ class FragmentExpensesList : Fragment() {
             mrvExpenseList?.adapter = elAdapter
             loadTouchHelperListener(elAdapter)
         }
+    }
+
+    private fun loadTouchHelperListener(aeaExpenseAdapter: ExpenseListAdapter) {
+
+        if(mithItemHelperReference != null) {
+            mithItemHelperReference!!.attachToRecyclerView(null)
+            mithItemHelperReference = null
+        }
+
+        mithItemHelperReference = ItemTouchHelper(ExpenseListTouchHelper(context, aeaExpenseAdapter))
+        mithItemHelperReference!!.attachToRecyclerView(mrvExpenseList)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {

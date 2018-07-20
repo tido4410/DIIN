@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import diiin.ui.activity.MainActivity
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -33,7 +34,8 @@ import kotlin.collections.HashMap
  *
  * @author Gabriel Moro
  */
-class FragmentFinancialReport : Fragment() {
+class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
+
 
     companion object {
         const val NAME = "FragmentFinancialReport"
@@ -89,8 +91,6 @@ class FragmentFinancialReport : Fragment() {
         mpcPieChart?.holeRadius = 7f
         mpcPieChart?.setHoleColor(ContextCompat.getColor(context,R.color.whiteColor))
 
-        loadChartData()
-
     }
 
     override fun onStart() {
@@ -102,10 +102,11 @@ class FragmentFinancialReport : Fragment() {
 
         mrlChartItem?.visibility = RelativeLayout.GONE
         mrlWalletPanel?.visibility = RelativeLayout.VISIBLE
+        loadPageContent()
     }
 
-    fun loadChartData() {
-
+    override fun loadPageContent() {
+        Log.d("FragmentTest", "loadPageContent called by $NAME")
         mhmExpenseByPercentage.clear()
 
         val lstExpenses : ArrayList<Expense> = StaticCollections.mastExpenses ?: return

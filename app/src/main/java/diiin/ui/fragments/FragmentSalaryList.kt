@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import diiin.StaticCollections
 import diiin.model.Salary
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertSalaryActivity
+import diiin.ui.activity.MainActivity
 import diiin.ui.adapter.SalaryListAdapter
 import diiin.util.MathService
 import diiin.util.MessageDialog
@@ -31,7 +33,7 @@ import java.util.*
  *
  * @author Gabriel Moro
  */
-class FragmentSalaryList : Fragment() {
+class FragmentSalaryList : Fragment(), MainActivity.MainPageFragments {
 
     private var mspMonthSelector: Spinner? = null
     private var mrvSalaryList: RecyclerView? = null
@@ -61,17 +63,11 @@ class FragmentSalaryList : Fragment() {
         mrvSalaryList?.layoutManager = llManager
         if(mbtnInsertSalary!=null)
             mrvSalaryList?.setOnTouchListener(RVWithFLoatingButtonControl(mbtnInsertSalary!!))
-
-        loadSalaryList()
     }
 
     override fun onResume() {
         super.onResume()
-        loadSalaryList()
-    }
-
-    fun loadSalaryListAccordingEditMode() {
-        mrvSalaryList?.adapter?.notifyDataSetChanged()
+        loadPageContent()
     }
 
     private fun loadTouchHelperListener(aslSalaryAdapter : SalaryListAdapter) {
@@ -85,8 +81,8 @@ class FragmentSalaryList : Fragment() {
         mithItemHelperReference!!.attachToRecyclerView(mrvSalaryList)
     }
 
-
-    fun loadSalaryList() {
+    override fun loadPageContent() {
+        Log.d("FragmentTest", "loadPageContent called by $NAME")
         val lstSalary = StaticCollections.mastSalary ?: return
         val slAdapter : SalaryListAdapter
         if(StaticCollections.mmtMonthSelected == null)

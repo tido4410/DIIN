@@ -82,7 +82,6 @@ class FragmentSalaryList : Fragment(), MainActivity.MainPageFragments {
     }
 
     override fun loadPageContent() {
-        Log.d("FragmentTest", "loadPageContent called by $NAME")
         val lstSalary = StaticCollections.mastSalary ?: return
         val slAdapter : SalaryListAdapter
         if(StaticCollections.mmtMonthSelected == null)

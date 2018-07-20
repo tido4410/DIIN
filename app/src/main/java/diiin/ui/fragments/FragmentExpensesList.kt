@@ -72,7 +72,6 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
     }
 
     override fun loadPageContent() {
-        Log.d("FragmentTest", "loadPageContent called by $NAME")
         val lstExpenses = StaticCollections.mastExpenses ?: return
         mrvExpenseList ?: return
 

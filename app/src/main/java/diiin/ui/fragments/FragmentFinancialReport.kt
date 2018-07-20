@@ -106,7 +106,6 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
     }
 
     override fun loadPageContent() {
-        Log.d("FragmentTest", "loadPageContent called by $NAME")
         mhmExpenseByPercentage.clear()
 
         val lstExpenses : ArrayList<Expense> = StaticCollections.mastExpenses ?: return

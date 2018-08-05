@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,7 @@ import android.widget.Spinner
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.Salary
+import diiin.model.SalaryT
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertSalaryActivity
 import diiin.ui.activity.MainActivity
@@ -82,15 +82,19 @@ class FragmentSalaryList : Fragment(), MainActivity.MainPageFragments {
     }
 
     override fun loadPageContent() {
-        val lstSalary = StaticCollections.mastSalary ?: return
+        val lstSalary = StaticCollections.mappDataBuilder?.salaryDao()?.all() ?: return
+        mrvSalaryList ?: return
+
+        val lstSalaryFiltered : ArrayList<SalaryT> = ArrayList<SalaryT>()
         val slAdapter : SalaryListAdapter
-        if(StaticCollections.mmtMonthSelected == null)
-            slAdapter = SalaryListAdapter(lstSalary, context)
-        else {
-            val lstSalaryFiltered = ArrayList<Salary>()
+
+        if(StaticCollections.mmtMonthSelected == null) {
+            lstSalaryFiltered.addAll(lstSalary)
+            slAdapter = SalaryListAdapter(lstSalaryFiltered, context)
+        } else {
             lstSalary.forEach{
                 val clCalendar = Calendar.getInstance()
-                clCalendar.time = it.mdtDate
+                clCalendar.time = MathService.stringToCalendarTime(it.mstrDate)
                 if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected)
                     lstSalaryFiltered.add(it)
             }
@@ -162,8 +166,8 @@ class SalaryListTouchHelper(actxContext : Context, aeaSalaryAdapter : SalaryList
                     var slSalaryTarget : Salary? = null
 
                     StaticCollections.mastSalary?.forEach {
-                        if(MathService.compareDateObjects(it.mdtDate, salaryTarget.mdtDate) && it.msValue == salaryTarget.msValue
-                        && it.mstSource == salaryTarget.mstSource) {
+                        if(MathService.compareDateObjects(it.mdtDate, MathService.stringToCalendarTime(salaryTarget.mstrDate)) && it.msValue == salaryTarget.msValue
+                        && it.mstSource == salaryTarget.mstrSource) {
                             slSalaryTarget = it
                         }
                     }

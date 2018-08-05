@@ -12,19 +12,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
-import diiin.model.Expense
+import diiin.model.ExpenseT
 import diiin.util.MathService
-import java.lang.Comparable
 import java.util.*
 
 /**
  * This adapter is the manager of expense list.
  * @author Gabriel Moro
  */
-class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expense>)
+class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<ExpenseT>)
     : RecyclerView.Adapter<ExpenseListAdapter.ExpenseListItemViewHolder>() {
 
-    val mltExpenseList: ArrayList<Expense> = alstExpenseList
+    val mltExpenseList: ArrayList<ExpenseT> = alstExpenseList
     private val mctContext: Context = actxContext
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseListItemViewHolder {
@@ -42,26 +41,26 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
         if (expenseItem.msValue != null)
             holder.tvValue.text = MathService.formatFloatToCurrency(expenseItem.msValue!!)
 
-        holder.tvDescription.text = expenseItem.msrDescription
+        holder.tvDescription.text = expenseItem.mstrDescription
 
-        if (expenseItem.mdtDate != null)
-            holder.tvDate.text = MathService.calendarTimeToString(expenseItem.mdtDate!!)
-
-
-        if (expenseItem.msrDescription.isEmpty()) {
-            holder.tvExpenseType.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
-            holder.tvDescription.text = ""
-        } else {
-            holder.tvExpenseType.text = expenseItem.msrDescription
-            holder.tvDescription.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
-        }
+//        if (expenseItem.mstrDate != null)
+        holder.tvDate.text = expenseItem.mstrDate
 
 
-        if (expenseItem.metType != null) {
-            holder.vwExpenseType.setBackgroundColor(expenseItem.metType.backgroundColor(mctContext))
-            holder.ivExpenseType.setImageResource(expenseItem.metType.imageIconId())
-            holder.tvValue.setTextColor(expenseItem.metType.backgroundColor(mctContext))
-        }
+//        if (expenseItem.mstrDescription.isEmpty()) {
+//            holder.tvExpenseType.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
+//            holder.tvDescription.text = ""
+//        } else {
+//            holder.tvExpenseType.text = expenseItem.msrDescription
+//            holder.tvDescription.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
+//        }
+
+
+//        if (expenseItem.metType != null) {
+//            holder.vwExpenseType.setBackgroundColor(expenseItem.metType.backgroundColor(mctContext))
+//            holder.ivExpenseType.setImageResource(expenseItem.metType.imageIconId())
+//            holder.tvValue.setTextColor(expenseItem.metType.backgroundColor(mctContext))
+//        }
 
         holder.llLine2.visibility = LinearLayout.GONE
 

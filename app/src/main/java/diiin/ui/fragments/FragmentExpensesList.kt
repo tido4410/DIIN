@@ -19,6 +19,7 @@ import android.widget.Spinner
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.Expense
+import diiin.model.ExpenseT
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertExpenseActivity
 import diiin.ui.activity.MainActivity
@@ -72,10 +73,10 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
     }
 
     override fun loadPageContent() {
-        val lstExpenses = StaticCollections.mastExpenses ?: return
+        val lstExpenses = StaticCollections.mappDataBuilder?.expenseDao()?.all() ?: return
         mrvExpenseList ?: return
 
-        val lstFilteredList : ArrayList<Expense> = ArrayList()
+        val lstFilteredList : ArrayList<ExpenseT> = ArrayList()
         val elAdapter : ExpenseListAdapter
 
         if(StaticCollections.mmtMonthSelected == null) {
@@ -86,7 +87,7 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
         } else {
             lstExpenses.forEach{
                 val clCalendar = Calendar.getInstance()
-                clCalendar.time = it.mdtDate
+                clCalendar.time = MathService.stringToCalendarTime(it.mstrDate)
                 if(clCalendar.get(Calendar.MONTH)==StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR)==StaticCollections.mnYearSelected) {
                     lstFilteredList.add(it)
                 }
@@ -169,8 +170,8 @@ class ExpenseListTouchHelper(actxContext : Context, aeaExpenseAdapter : ExpenseL
                     var exExpenseTarget : Expense? = null
 
                     StaticCollections.mastExpenses?.forEach {
-                        if (MathService.compareDateObjects(it.mdtDate, expTarget.mdtDate)
-                                && it.msrDescription == expTarget.msrDescription
+                        if (MathService.compareDateObjects(it.mdtDate, MathService.stringToCalendarTime(expTarget.mstrDate))
+                                && it.msrDescription == expTarget.mstrDescription
                                 && it.msValue == expTarget.msValue) {
                             exExpenseTarget = it
                         }

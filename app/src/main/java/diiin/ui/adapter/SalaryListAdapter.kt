@@ -11,15 +11,18 @@ import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.Salary
+import diiin.model.SalaryT
 import diiin.util.MathService
 
 /**
  * This adapter is the manager of salary list.
  * @author Gabriel Moro
  */
-class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
 
-            val mltSalaryList: ArrayList<Salary> = alstSalaryList
+//(actxContext : Context, alstExpenseList: ArrayList<ExpenseT>)
+class SalaryListAdapter(alstSalaryList: ArrayList<SalaryT>, atContext : Context)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
+
+            val mltSalaryList: ArrayList<SalaryT> = alstSalaryList
     private val mctContext : Context = atContext
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SalaryListItemViewHolder? {
@@ -34,13 +37,13 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
     override fun onBindViewHolder(holder: SalaryListItemViewHolder?, position: Int) {
         val salaryItem = mltSalaryList[position]
 
-        if(salaryItem.mdtDate!=null)
-            holder?.tvDate?.text = MathService.calendarTimeToString(salaryItem.mdtDate!!)
+       // if(salaryItem.mdtDate!=null)
+        holder?.tvDate?.text = salaryItem.mstrDate//MathService.calendarTimeToString(salaryItem.m)
 
         if(salaryItem.msValue!=null)
             holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)
 
-        holder?.tvSource?.text = salaryItem.mstSource
+        holder?.tvSource?.text = salaryItem.mstrSource
 
         holder?.tvDate?.visibility = TextView.GONE
 

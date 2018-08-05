@@ -18,14 +18,12 @@ import android.widget.Spinner
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.Salary
-import diiin.model.SalaryT
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertSalaryActivity
 import diiin.ui.activity.MainActivity
 import diiin.ui.adapter.SalaryListAdapter
 import diiin.util.MathService
 import diiin.util.MessageDialog
-import diiin.util.SalarySharedPreferences
 import java.util.*
 
 /**
@@ -85,7 +83,7 @@ class FragmentSalaryList : Fragment(), MainActivity.MainPageFragments {
         val lstSalary = StaticCollections.mappDataBuilder?.salaryDao()?.all() ?: return
         mrvSalaryList ?: return
 
-        val lstSalaryFiltered : ArrayList<SalaryT> = ArrayList<SalaryT>()
+        val lstSalaryFiltered : ArrayList<Salary> = ArrayList<Salary>()
         val slAdapter : SalaryListAdapter
 
         if(StaticCollections.mmtMonthSelected == null) {
@@ -94,7 +92,7 @@ class FragmentSalaryList : Fragment(), MainActivity.MainPageFragments {
         } else {
             lstSalary.forEach{
                 val clCalendar = Calendar.getInstance()
-                clCalendar.time = MathService.stringToCalendarTime(it.mstrDate)
+                clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
                 if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected)
                     lstSalaryFiltered.add(it)
             }
@@ -165,9 +163,11 @@ class SalaryListTouchHelper(actxContext : Context, aeaSalaryAdapter : SalaryList
                 DialogInterface.OnClickListener { adialog, _ ->
                     var slSalaryTarget : Salary? = null
 
-                    StaticCollections.mastSalary?.forEach {
-                        if(MathService.compareDateObjects(it.mdtDate, MathService.stringToCalendarTime(salaryTarget.mstrDate)) && it.msValue == salaryTarget.msValue
-                        && it.mstSource == salaryTarget.mstrSource) {
+                    StaticCollections.mappDataBuilder?.salaryDao()?.all()?.forEach {
+                        val dtItDate = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
+                        val dtSalayTarget = MathService.stringToCalendarTime(salaryTarget.mstrDate, StaticCollections.mstrDateFormat)
+                        if(MathService.compareDateObjects(dtItDate, dtSalayTarget) && it.msValue == salaryTarget.msValue
+                        && it.mstrSource == salaryTarget.mstrSource) {
                             slSalaryTarget = it
                         }
                     }
@@ -175,8 +175,7 @@ class SalaryListTouchHelper(actxContext : Context, aeaSalaryAdapter : SalaryList
                     if(slSalaryTarget != null) {
                         meaSalaryAdapter.mltSalaryList.removeAt(nPosition)
                         meaSalaryAdapter.notifyItemRemoved(nPosition)
-                        StaticCollections.mastSalary?.remove(slSalaryTarget!!)
-                        SalarySharedPreferences.updateSalaryList(mctxContext)
+                        StaticCollections.mappDataBuilder?.salaryDao()?.delete(slSalaryTarget!!)
                     }
                     adialog.dismiss()
                 },

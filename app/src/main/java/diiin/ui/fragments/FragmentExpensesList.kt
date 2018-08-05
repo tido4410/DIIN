@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,12 +18,11 @@ import android.widget.Spinner
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.Expense
-import diiin.model.ExpenseT
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertExpenseActivity
 import diiin.ui.activity.MainActivity
 import diiin.ui.adapter.ExpenseListAdapter
-import diiin.util.ExpenseSharedPreferences
+//import diiin.util.ExpenseSharedPreferences
 import diiin.util.MathService
 import diiin.util.MessageDialog
 import java.util.*
@@ -76,7 +74,7 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
         val lstExpenses = StaticCollections.mappDataBuilder?.expenseDao()?.all() ?: return
         mrvExpenseList ?: return
 
-        val lstFilteredList : ArrayList<ExpenseT> = ArrayList()
+        val lstFilteredList : ArrayList<Expense> = ArrayList()
         val elAdapter : ExpenseListAdapter
 
         if(StaticCollections.mmtMonthSelected == null) {
@@ -87,7 +85,7 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
         } else {
             lstExpenses.forEach{
                 val clCalendar = Calendar.getInstance()
-                clCalendar.time = MathService.stringToCalendarTime(it.mstrDate)
+                clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
                 if(clCalendar.get(Calendar.MONTH)==StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR)==StaticCollections.mnYearSelected) {
                     lstFilteredList.add(it)
                 }
@@ -169,9 +167,11 @@ class ExpenseListTouchHelper(actxContext : Context, aeaExpenseAdapter : ExpenseL
                 DialogInterface.OnClickListener { adialog, _ ->
                     var exExpenseTarget : Expense? = null
 
-                    StaticCollections.mastExpenses?.forEach {
-                        if (MathService.compareDateObjects(it.mdtDate, MathService.stringToCalendarTime(expTarget.mstrDate))
-                                && it.msrDescription == expTarget.mstrDescription
+                    StaticCollections.mappDataBuilder?.expenseDao()?.all()?.forEach {
+                        val dtItDate = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
+                        val dtExpenseTarget = MathService.stringToCalendarTime(expTarget.mstrDate, StaticCollections.mstrDateFormat)
+                        if (MathService.compareDateObjects(dtItDate, dtExpenseTarget)
+                                && it.mstrDescription == expTarget.mstrDescription
                                 && it.msValue == expTarget.msValue) {
                             exExpenseTarget = it
                         }
@@ -180,8 +180,7 @@ class ExpenseListTouchHelper(actxContext : Context, aeaExpenseAdapter : ExpenseL
                     if(exExpenseTarget!=null) {
                         meaExpenseAdapter.mltExpenseList.removeAt(nPosition)
                         meaExpenseAdapter.notifyItemRemoved(nPosition)
-                        StaticCollections.mastExpenses?.remove(exExpenseTarget!!)
-                        ExpenseSharedPreferences.updateExpenseList(mctxContext)
+                        StaticCollections.mappDataBuilder?.expenseDao()?.delete(exExpenseTarget!!)
                     }
 
                     adialog.dismiss()

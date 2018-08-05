@@ -11,7 +11,6 @@ import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.Salary
-import diiin.model.SalaryT
 import diiin.util.MathService
 
 /**
@@ -19,10 +18,9 @@ import diiin.util.MathService
  * @author Gabriel Moro
  */
 
-//(actxContext : Context, alstExpenseList: ArrayList<ExpenseT>)
-class SalaryListAdapter(alstSalaryList: ArrayList<SalaryT>, atContext : Context)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
+class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
 
-            val mltSalaryList: ArrayList<SalaryT> = alstSalaryList
+            val mltSalaryList: ArrayList<Salary> = alstSalaryList
     private val mctContext : Context = atContext
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SalaryListItemViewHolder? {
@@ -37,8 +35,7 @@ class SalaryListAdapter(alstSalaryList: ArrayList<SalaryT>, atContext : Context)
     override fun onBindViewHolder(holder: SalaryListItemViewHolder?, position: Int) {
         val salaryItem = mltSalaryList[position]
 
-       // if(salaryItem.mdtDate!=null)
-        holder?.tvDate?.text = salaryItem.mstrDate//MathService.calendarTimeToString(salaryItem.m)
+        holder?.tvDate?.text = salaryItem.mstrDate
 
         if(salaryItem.msValue!=null)
             holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)

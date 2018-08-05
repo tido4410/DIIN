@@ -51,14 +51,12 @@ object MathService {
         return strMoney
     }
 
-    fun calendarTimeToString(adt : Date) : String {
-        val strFormat = "dd/MM/yyyy"
+    fun calendarTimeToString(adt : Date, strFormat: String) : String {
         val formatter = SimpleDateFormat(strFormat, Locale("pt", "BR"))
         return formatter.format(adt)
     }
 
-    fun stringToCalendarTime(astDate : String) : Date {
-        val strFormat = "dd/MM/yyyy"
+    fun stringToCalendarTime(astDate : String, strFormat : String) : Date {
         val formatter = SimpleDateFormat(strFormat, Locale("pt", "BR"))
         return formatter.parse(astDate)
     }

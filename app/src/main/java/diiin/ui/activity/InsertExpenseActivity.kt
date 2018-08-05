@@ -7,11 +7,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.*
 import br.com.gbmoro.diiin.R
-import diiin.DindinApp
 import diiin.StaticCollections
-import diiin.util.ExpenseSharedPreferences
 import diiin.model.Expense
-import diiin.model.ExpenseT
 import diiin.model.ExpenseType
 import diiin.ui.TWEditPrice
 import diiin.util.MathService
@@ -50,7 +47,7 @@ class InsertExpenseActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time)
+        mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
 
         loadSpinnersContent()
 
@@ -68,16 +65,16 @@ class InsertExpenseActivity : AppCompatActivity() {
                             MessageDialog.showToastMessage(this, resources.getString(R.string.valueIsImportant))
                             adialog.dismiss()
                         } else {
-                            val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
-                            val nExpenseTypeId = ExpenseType.gettingIdFromDescription(this, strExpenseType)
-                            val etExpenseType = if (nExpenseTypeId != null)
-                                ExpenseType.fromInt(nExpenseTypeId)
-                            else null
+//                            val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
+//                            val nExpenseTypeId = ExpenseType.gettingIdFromDescription(this, strExpenseType)
+//                            val etExpenseType = if (nExpenseTypeId != null)
+//                                ExpenseType.fromInt(nExpenseTypeId)
+//                            else null
                             val strDescription = metDescription?.text.toString()
                             val sValue = MathService.formatCurrencyValueToFloat(metValue?.text.toString())
-                            val dtDate = clCalenderChoosed.time
+                            val dtDate = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
 
-                            val newExpense = ExpenseT(null, sValue, strDescription, MathService.calendarTimeToString(dtDate), etExpenseType?.idExpense?.toLong())
+                            val newExpense = Expense(null, sValue, strDescription, dtDate, 1)
                             StaticCollections.mappDataBuilder?.expenseDao()?.add(newExpense)
                             adialog.dismiss()
                             finish()
@@ -96,12 +93,12 @@ class InsertExpenseActivity : AppCompatActivity() {
             clCalenderChoosed.set(Calendar.DAY_OF_MONTH, day)
 
             if(MathService.isTheDateInCurrentYear(clCalenderChoosed.time)) {
-                mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time)
+                mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
             } else {
                 clCalenderChoosed = Calendar.getInstance()
                 Toast.makeText(this, resources.getString(R.string.messageAboutWrongYear), Toast.LENGTH_LONG).show()
             }
-            mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time)
+            mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
         }
         mibChangeDate?.setOnClickListener {
             DatePickerDialog(this, dateSetListener,
@@ -113,7 +110,7 @@ class InsertExpenseActivity : AppCompatActivity() {
 
     private fun loadSpinnersContent() {
         val lstExpenseTypesTitle = ArrayList<String>()
-        ExpenseType.values().forEach { lstExpenseTypesTitle.add(it.description(this)) }
+//        ExpenseType.values().forEach { lstExpenseTypesTitle.add(it.description(this)) }
         val lstArrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lstExpenseTypesTitle)
         lstArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         mspSpinnerExpenseType?.adapter = lstArrayAdapter

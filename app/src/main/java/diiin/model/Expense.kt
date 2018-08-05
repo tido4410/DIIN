@@ -1,5 +1,8 @@
 package diiin.model
 
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import java.util.*
 
 /**
@@ -21,3 +24,17 @@ class Expense(anId : Int?, asValue : Float?, asrDescription : String, adtDate : 
     var mdtDate : Date? = adtDate
     val metType : ExpenseType? = aetType
 }
+
+@Entity(tableName = "expense")
+data class ExpenseT(
+        @PrimaryKey(autoGenerate = true) var mnID : Long?,
+        @ColumnInfo(name = "value") var msValue : Float?,
+        @ColumnInfo(name = "description") var mstrDescription : String,
+        @ColumnInfo(name = "date") var mstrDate : String,
+        @ColumnInfo(name = "type") var mnExpenseType : Long?)
+
+@Entity(tableName = "expense_type")
+data class ExpenseTType(
+        @PrimaryKey(autoGenerate = true) var mnID : Long?,
+        @ColumnInfo(name = "description") var mstrDescription : String,
+        @ColumnInfo(name = "color") val mstrColor : String)

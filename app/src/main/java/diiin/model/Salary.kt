@@ -1,5 +1,8 @@
 package diiin.model
 
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import java.util.*
 
 /**
@@ -17,3 +20,10 @@ class Salary(astSource : String?, asValue : Float?, adtDate : Date?) {
     var msValue : Float? = asValue
     var mdtDate : Date? = adtDate
 }
+
+@Entity(tableName = "salary")
+data class SalaryT(
+        @PrimaryKey(autoGenerate = true) var mnID : Int?,
+        @ColumnInfo(name = "value") var msValue : Float?,
+        @ColumnInfo(name = "source") var mstrSource : String,
+        @ColumnInfo(name = "date") var mstrDate : String)

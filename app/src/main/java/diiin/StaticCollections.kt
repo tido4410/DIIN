@@ -1,5 +1,6 @@
 package diiin
 
+import diiin.dao.DataBaseFactory
 import diiin.model.Expense
 import diiin.model.MonthType
 import diiin.model.Salary
@@ -13,6 +14,7 @@ import diiin.model.Salary
  */
 object StaticCollections {
 
+    var mappDataBuilder : DataBaseFactory? = null
     /**
      * This list stores all expenses created by user
      */

@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.widget.*
 import br.com.gbmoro.diiin.R
+import diiin.StaticCollections
 import diiin.util.SalarySharedPreferences
 import diiin.model.Salary
+import diiin.model.SalaryT
 import diiin.ui.TWEditPrice
 import diiin.util.MathService
 import diiin.util.MessageDialog
@@ -64,8 +66,8 @@ class InsertSalaryActivity : AppCompatActivity() {
                             val dtDate = clCalenderChoosed.time
                             val strDescription = metDescriptionValue?.text.toString()
 
-                            val newSalary = Salary(strDescription, sValue, dtDate)
-                            SalarySharedPreferences.insertNewSalary(application.applicationContext, newSalary)
+                            val newSalary = SalaryT(null, sValue, strDescription, dtDate.toString())
+                            StaticCollections.mappDataBuilder?.salaryDao()?.add(newSalary)
                             adialog.dismiss()
                             finish()
                         }

@@ -7,8 +7,11 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.*
 import br.com.gbmoro.diiin.R
+import diiin.DindinApp
+import diiin.StaticCollections
 import diiin.util.ExpenseSharedPreferences
 import diiin.model.Expense
+import diiin.model.ExpenseT
 import diiin.model.ExpenseType
 import diiin.ui.TWEditPrice
 import diiin.util.MathService
@@ -74,8 +77,8 @@ class InsertExpenseActivity : AppCompatActivity() {
                             val sValue = MathService.formatCurrencyValueToFloat(metValue?.text.toString())
                             val dtDate = clCalenderChoosed.time
 
-                            val newExpense = Expense(null, sValue, strDescription, dtDate, etExpenseType)
-                            ExpenseSharedPreferences.insertNewExpense(application.applicationContext, newExpense)
+                            val newExpense = ExpenseT(null, sValue, strDescription, MathService.calendarTimeToString(dtDate), etExpenseType?.idExpense?.toLong())
+                            StaticCollections.mappDataBuilder?.expenseDao()?.add(newExpense)
                             adialog.dismiss()
                             finish()
                         }

@@ -44,13 +44,15 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
 
         holder.tvDate.text = expenseItem.mstrDate
 
-//        if (expenseItem.mstrDescription.isEmpty()) {
-//            holder.tvExpenseType.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
-//            holder.tvDescription.text = ""
-//        } else {
-//            holder.tvExpenseType.text = expenseItem.msrDescription
-//            holder.tvDescription.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
-//        }
+        val strDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(expenseItem.mnID)
+
+        if (expenseItem.mstrDescription.isEmpty()) {
+            holder.tvExpenseType.text = strDescription
+            holder.tvDescription.text = ""
+        } else {
+            holder.tvExpenseType.text = expenseItem.mstrDescription
+            holder.tvDescription.text = strDescription?.toUpperCase()
+        }
 
 
 //        if (expenseItem.metType != null) {

@@ -65,17 +65,16 @@ class InsertExpenseActivity : AppCompatActivity() {
                             MessageDialog.showToastMessage(this, resources.getString(R.string.valueIsImportant))
                             adialog.dismiss()
                         } else {
-//                            val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
-//                            val nExpenseTypeId = ExpenseType.gettingIdFromDescription(this, strExpenseType)
-//                            val etExpenseType = if (nExpenseTypeId != null)
-//                                ExpenseType.fromInt(nExpenseTypeId)
-//                            else null
-                            val strDescription = metDescription?.text.toString()
-                            val sValue = MathService.formatCurrencyValueToFloat(metValue?.text.toString())
-                            val dtDate = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
+                            val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
+                            val nExpenseTypeId = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getId(strExpenseType)
+                            if(nExpenseTypeId != null) {
+                                val strDescription = metDescription?.text.toString()
+                                val sValue = MathService.formatCurrencyValueToFloat(metValue?.text.toString())
+                                val dtDate = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
 
-                            val newExpense = Expense(null, sValue, strDescription, dtDate, 1)
-                            StaticCollections.mappDataBuilder?.expenseDao()?.add(newExpense)
+                                val newExpense = Expense(null, sValue, strDescription, dtDate, nExpenseTypeId)
+                                StaticCollections.mappDataBuilder?.expenseDao()?.add(newExpense)
+                            }
                             adialog.dismiss()
                             finish()
                         }
@@ -110,7 +109,9 @@ class InsertExpenseActivity : AppCompatActivity() {
 
     private fun loadSpinnersContent() {
         val lstExpenseTypesTitle = ArrayList<String>()
-//        ExpenseType.values().forEach { lstExpenseTypesTitle.add(it.description(this)) }
+        StaticCollections.mappDataBuilder?.expenseTypeDao()?.all()?.forEach {
+            lstExpenseTypesTitle.add(it.mstrDescription)
+        }
         val lstArrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lstExpenseTypesTitle)
         lstArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         mspSpinnerExpenseType?.adapter = lstArrayAdapter

@@ -2,6 +2,7 @@ package diiin
 
 import android.app.Application
 import android.arch.persistence.room.Room
+import android.util.Log
 import br.com.gbmoro.diiin.R
 import diiin.dao.DataBaseFactory
 import diiin.dao.ExpenseTypeDAO
@@ -44,16 +45,16 @@ class DindinApp : Application() {
     private fun loadDefaultExpenseTypeIfDataBaseIsEmpty() {
         val expenseDAO : ExpenseTypeDAO = StaticCollections.mappDataBuilder?.expenseTypeDao() ?: return
         if(expenseDAO.all().isEmpty()) {
-            expenseDAO.add(ExpenseType(null, resources.getString(R.string.food), "#d74902"))
-            expenseDAO.add(ExpenseType(null, resources.getString(R.string.transport), "#af9825"))
-            expenseDAO.add(ExpenseType(null, resources.getString(R.string.phone), "#4591dc"))
-            expenseDAO.add(ExpenseType(null, resources.getString(R.string.pets), "#d74902"))
-            expenseDAO.add(ExpenseType(null, resources.getString(R.string.education), "#2c7308"))
-            expenseDAO.add(ExpenseType(null, resources.getString(R.string.health), "#810d07"))
-            expenseDAO.add(ExpenseType(null, resources.getString(R.string.funn), "#3eaeac"))
-            expenseDAO.add(ExpenseType(null, resources.getString(R.string.rent), "#a80fd2"))
-            expenseDAO.add(ExpenseType(null, resources.getString(R.string.travel), "#ff8e8e"))
-            expenseDAO.add(ExpenseType(null, resources.getString(R.string.other), "#974646"))
+            expenseDAO.add(ExpenseType(null, "Food", "#d74902"))
+            expenseDAO.add(ExpenseType(null, "Transport", "#af9825"))
+            expenseDAO.add(ExpenseType(null, "Phone", "#4591dc"))
+            expenseDAO.add(ExpenseType(null, "Pets", "#d74902"))
+            expenseDAO.add(ExpenseType(null, "Education", "#2c7308"))
+            expenseDAO.add(ExpenseType(null, "Health", "#810d07"))
+            expenseDAO.add(ExpenseType(null, "Funn", "#3eaeac"))
+            expenseDAO.add(ExpenseType(null, "Rent", "#a80fd2"))
+            expenseDAO.add(ExpenseType(null, "Travel", "#ff8e8e"))
+            expenseDAO.add(ExpenseType(null, "Other", "#974646"))
         }
     }
 

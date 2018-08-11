@@ -57,7 +57,6 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
     private var mvwChartItemExpenseType : View? = null
     private var mllChartItemLinearLayout : LinearLayout? = null
     private var mivChartItemReorder : ImageView? = null
-    private var mivExpenseType : ImageView? = null
     private var mtvChartItemExpenseType : TextView? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -78,7 +77,6 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
         mvwChartItemExpenseType = view?.findViewById(R.id.vwExpenseType)
         mllChartItemLinearLayout = view?.findViewById(R.id.llLine2)
         mivChartItemReorder = view?.findViewById(R.id.ivReorder)
-        mivExpenseType = view?.findViewById(R.id.ivExpenseType)
 
         mpcPieChart?.setUsePercentValues(true)
         mpcPieChart?.description?.isEnabled = false

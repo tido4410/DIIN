@@ -6,16 +6,6 @@
     <string name="title_chartreport">Demonstrativo</string>
     <string name="title_newexpense">Nova Despesa</string>
     <string name="title_newsalary">Nova Entrada</string>
-    <string name="food">Comida</string>
-    <string name="transport">Transporte</string>
-    <string name="phone">Telefone</string>
-    <string name="pets">Animais</string>
-    <string name="education">Educação</string>
-    <string name="health">Saúde</string>
-    <string name="funn">Lazer</string>
-    <string name="rent">Aluguel</string>
-    <string name="travel">Viagem</string>
-    <string name="other">Outros</string>
     <string name="type_label">Categoria:</string>
     <string name="value_label">Valor:</string>
     <string name="description_label">Descrição:</string>

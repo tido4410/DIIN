@@ -2,6 +2,7 @@ package diiin.ui.adapter
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -40,26 +41,28 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
         if (expenseItem.msValue != null)
             holder.tvValue.text = MathService.formatFloatToCurrency(expenseItem.msValue!!)
 
-        holder.tvDescription.text = expenseItem.mstrDescription
 
         holder.tvDate.text = expenseItem.mstrDate
 
-        val strDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(expenseItem.mnID)
+        val strTypeDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(expenseItem.mnID)
+        holder.tvDescription.text = strTypeDescription
 
         if (expenseItem.mstrDescription.isEmpty()) {
-            holder.tvExpenseType.text = strDescription
+            holder.tvExpenseType.text = strTypeDescription
             holder.tvDescription.text = ""
         } else {
             holder.tvExpenseType.text = expenseItem.mstrDescription
-            holder.tvDescription.text = strDescription?.toUpperCase()
+            holder.tvDescription.text = strTypeDescription?.toUpperCase()
         }
 
 
-//        if (expenseItem.metType != null) {
-//            holder.vwExpenseType.setBackgroundColor(expenseItem.metType.backgroundColor(mctContext))
-//            holder.ivExpenseType.setImageResource(expenseItem.metType.imageIconId())
-//            holder.tvValue.setTextColor(expenseItem.metType.backgroundColor(mctContext))
-//        }
+        val strColor = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getColor(expenseItem.mnID)
+
+        if (strColor != null) {
+            val nColor = Color.parseColor(strColor)
+            holder.vwExpenseType.setBackgroundColor(nColor)
+            holder.tvValue.setTextColor(nColor)
+        }
 
         holder.llLine2.visibility = LinearLayout.GONE
 
@@ -74,7 +77,6 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
     }
 
     class ExpenseListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {
-        val ivExpenseType: ImageView = avwView.findViewById(R.id.ivExpenseType)
         val tvExpenseType: TextView = avwView.findViewById(R.id.tvExpenseType)
         val tvDescription: TextView = avwView.findViewById(R.id.tvDescription)
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)

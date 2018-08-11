@@ -24,11 +24,16 @@ interface ExpenseTypeDAO {
     @Query("SELECT * From expense_type")
     fun all() : List<ExpenseType>
 
-    @Query("SELECT mnID From expense_type WHERE description == :a_strDescription")
+    @Query("SELECT mnExpenseTypeID From expense_type WHERE description LIKE :a_strDescription")
     fun getId(a_strDescription : String) : Long?
 
-    @Query("SELECT description From expense_type WHERE mnID == :a_nLongID")
+    @Query("SELECT description From expense_type WHERE mnExpenseTypeID=:a_nLongID")
     fun getDescription(a_nLongID : Long?) : String
+
+    @Query("SELECT color From expense_type WHERE mnExpenseTypeID=:a_nLongID")
+    fun getColor(a_nLongID : Long?) : String
+
+    //@Query("SELECT * FROM repo WHERE userId=:userId")
 
     @Insert
     fun add(vararg expense: ExpenseType)

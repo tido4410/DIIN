@@ -3,6 +3,8 @@ package diiin.model
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.ForeignKey.CASCADE
 import android.arch.persistence.room.PrimaryKey
 
 /**
@@ -23,10 +25,12 @@ data class Salary(
  * Define the model of expense in the system.
  *
  * @author Gabriel Moro
- *
  */
-
-@Entity(tableName = "expense")
+@Entity(tableName = "expense",
+        foreignKeys = [ForeignKey(entity = ExpenseType::class,
+                parentColumns = arrayOf("mnExpenseTypeID"),
+                childColumns = arrayOf("type"),
+                onDelete = CASCADE)])
 data class Expense(
         @PrimaryKey(autoGenerate = true) var mnID : Long?,
         @ColumnInfo(name = "value") var msValue : Float?,
@@ -40,6 +44,6 @@ data class Expense(
  */
 @Entity(tableName = "expense_type")
 data class ExpenseType(
-        @PrimaryKey(autoGenerate = true) var mnID : Long?,
+        @PrimaryKey(autoGenerate = true) var mnExpenseTypeID : Long?,
         @ColumnInfo(name = "description") var mstrDescription : String,
         @ColumnInfo(name = "color") val mstrColor : String)

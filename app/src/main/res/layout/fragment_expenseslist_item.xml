@@ -38,16 +38,6 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/ivExpenseType"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="false"
-                    android:contentDescription="@string/iconExpenseTypeDescription"
-                    android:cropToPadding="false"
-                    app:srcCompat="@drawable/ic_food" />
-
                 <me.grantland.widget.AutofitTextView
                     android:id="@+id/tvExpenseType"
                     android:layout_width="match_parent"
@@ -55,7 +45,7 @@
                     android:layout_weight="1"
                     android:gravity="center|start"
                     android:maxLines="1"
-                    android:text="Comida"
+                    android:text="Teste"
                     android:textAllCaps="true"
                     android:textColor="@color/cellFontColor"
                     android:textSize="18sp"
@@ -101,8 +91,8 @@
             android:background="@color/activityColorBackground"
             android:gravity="center_vertical|end"
             android:maxLines="1"
-            android:text="R$45,00"
-            android:textColor="@color/redFontColor"
+            android:text="R$0,00"
+            android:textColor="@android:color/background_dark"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/vwExpenseType"
@@ -113,7 +103,7 @@
             android:id="@+id/vwExpenseType"
             android:layout_width="12dp"
             android:layout_height="0dp"
-            android:background="@color/foodbkg"
+            android:background="@android:color/background_dark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ivReorder"
             app:layout_constraintStart_toEndOf="@+id/tvValue"

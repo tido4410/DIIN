@@ -1,6 +1,7 @@
 package diiin
 
 import diiin.dao.DataBaseFactory
+import diiin.model.ExpenseType
 import diiin.model.MonthType
 
 /**

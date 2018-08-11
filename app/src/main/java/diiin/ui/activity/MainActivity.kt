@@ -1,6 +1,7 @@
 package diiin.ui.activity
 
 import android.content.DialogInterface
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -149,6 +150,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             if (fgCurrentFragment is MainPageFragments)
                 fgCurrentFragment.loadPageContent()
         }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        val nIndex = mvwViewPager?.currentItem
+        if(nIndex != null)
+            ((mvwViewPager?.adapter as ViewPagerAdapter).getItem(nIndex) as MainPageFragments).loadPageContent()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

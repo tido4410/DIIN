@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.*
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
@@ -67,6 +68,7 @@ class InsertExpenseActivity : AppCompatActivity() {
                         } else {
                             val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
                             val nExpenseTypeId = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getId(strExpenseType)
+                            Log.d("DB", "ID $nExpenseTypeId - DESC $strExpenseType")
                             if(nExpenseTypeId != null) {
                                 val strDescription = metDescription?.text.toString()
                                 val sValue = MathService.formatCurrencyValueToFloat(metValue?.text.toString())

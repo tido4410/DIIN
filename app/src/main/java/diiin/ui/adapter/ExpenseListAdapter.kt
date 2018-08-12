@@ -44,7 +44,7 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
 
         holder.tvDate.text = expenseItem.mstrDate
 
-        val strTypeDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(expenseItem.mnID)
+        val strTypeDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(expenseItem.mnExpenseType)
         holder.tvDescription.text = strTypeDescription
 
         if (expenseItem.mstrDescription.isEmpty()) {
@@ -56,7 +56,7 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
         }
 
 
-        val strColor = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getColor(expenseItem.mnID)
+        val strColor = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getColor(expenseItem.mnExpenseType)
 
         if (strColor != null) {
             val nColor = Color.parseColor(strColor)

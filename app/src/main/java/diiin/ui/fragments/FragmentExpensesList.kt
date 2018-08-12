@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,23 +78,19 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
         val lstFilteredList : ArrayList<Expense> = ArrayList()
         val elAdapter : ExpenseListAdapter
 
-        if(StaticCollections.mmtMonthSelected == null) {
-            lstFilteredList.addAll(lstExpenses)
-            elAdapter = ExpenseListAdapter(context, lstFilteredList)
-            mrvExpenseList?.adapter = elAdapter
-            loadTouchHelperListener(elAdapter)
-        } else {
-            lstExpenses.forEach{
-                val clCalendar = Calendar.getInstance()
-                clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
-                if(clCalendar.get(Calendar.MONTH)==StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR)==StaticCollections.mnYearSelected) {
-                    lstFilteredList.add(it)
-                }
+        StaticCollections.mmtMonthSelected ?: return
+
+        lstExpenses.forEach{
+            val clCalendar = Calendar.getInstance()
+            clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
+            if(clCalendar.get(Calendar.MONTH)==StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR)==StaticCollections.mnYearSelected) {
+                lstFilteredList.add(it)
+                Log.d("DBTT", "ID ${it.mnID} - DESC ${it.mnID}")
             }
-            elAdapter = ExpenseListAdapter(context, lstFilteredList)
-            mrvExpenseList?.adapter = elAdapter
-            loadTouchHelperListener(elAdapter)
         }
+        elAdapter = ExpenseListAdapter(context, lstFilteredList)
+        mrvExpenseList?.adapter = elAdapter
+        loadTouchHelperListener(elAdapter)
     }
 
     private fun loadTouchHelperListener(aeaExpenseAdapter: ExpenseListAdapter) {

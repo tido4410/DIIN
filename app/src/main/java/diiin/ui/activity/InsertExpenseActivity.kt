@@ -68,7 +68,7 @@ class InsertExpenseActivity : AppCompatActivity() {
                         } else {
                             val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
                             val nExpenseTypeId = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getId(strExpenseType)
-                            Log.d("DB", "ID $nExpenseTypeId - DESC $strExpenseType")
+                            Log.d("DBTT", "ID $nExpenseTypeId - DESC $strExpenseType")
                             if(nExpenseTypeId != null) {
                                 val strDescription = metDescription?.text.toString()
                                 val sValue = MathService.formatCurrencyValueToFloat(metValue?.text.toString())

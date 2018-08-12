@@ -2,12 +2,12 @@ package diiin
 
 import android.app.Application
 import android.arch.persistence.room.Room
-import android.util.Log
-import br.com.gbmoro.diiin.R
 import diiin.dao.DataBaseFactory
 import diiin.dao.ExpenseTypeDAO
 import diiin.model.ExpenseType
-import kotlin.math.exp
+import diiin.util.ExpenseSharedPreferences
+import diiin.util.SalarySharedPreferences
+import diiin.util.SelectionSharedPreferences
 
 /**
  * The main class of application.
@@ -16,22 +16,9 @@ import kotlin.math.exp
  */
 class DindinApp : Application() {
 
-
     override fun onCreate() {
         super.onCreate()
 
-//        /**
-//         * Load salary preferences to start Static Collections data objects
-//         */
-//        SalarySharedPreferences.getSalaryList(this)
-//        /**
-//         * Load expenses preferences to start Static Collections data objects
-//         */
-//        ExpenseSharedPreferences.getExpensesList(this)
-//        /**
-//         * Load month preference to start Static Collections data objects
-//         */
-//        SelectionSharedPreferences.getSelectedMonth(this)
 
         StaticCollections.mappDataBuilder = Room.databaseBuilder(this,
                 DataBaseFactory::class.java,
@@ -39,12 +26,22 @@ class DindinApp : Application() {
                 .allowMainThreadQueries()
                 .build()
 
-        loadDefaultExpenseTypeIfDataBaseIsEmpty()
-    }
+        /**
+         * Load the sharedpreferences
+         */
+        SelectionSharedPreferences.getSelectedMonth(this)
+        // Keepping the compability between previous and current version
+        val lstSalary = SalarySharedPreferences.getSalaryList(this)
+        lstSalary.forEach { StaticCollections.mappDataBuilder?.salaryDao()?.add(it) }
+        // Keepping the compability between previous and current version
+        val lstExpenses = ExpenseSharedPreferences.getExpensesList(this)
+        lstExpenses.forEach { StaticCollections.mappDataBuilder?.expenseDao()?.add(it) }
 
-    private fun loadDefaultExpenseTypeIfDataBaseIsEmpty() {
-        val expenseDAO : ExpenseTypeDAO = StaticCollections.mappDataBuilder?.expenseTypeDao() ?: return
-        if(expenseDAO.all().isEmpty()) {
+        /**
+         * Load default ExpenseType if DataBase is empty
+         */
+        val expenseDAO: ExpenseTypeDAO? = StaticCollections.mappDataBuilder?.expenseTypeDao()
+        if (expenseDAO != null && expenseDAO.all().isEmpty()) {
             expenseDAO.add(ExpenseType(null, "Food", "#d74902"))
             expenseDAO.add(ExpenseType(null, "Transport", "#af9825"))
             expenseDAO.add(ExpenseType(null, "Phone", "#4591dc"))

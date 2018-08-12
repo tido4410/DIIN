@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -120,44 +121,76 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
         StaticCollections.mappDataBuilder?.expenseDao()?.all()?.forEach {
             val clCalendar = Calendar.getInstance()
             clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
-            if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid) {
+            if(clCalendar.get(Calendar.MONTH)==StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR)==StaticCollections.mnYearSelected) {
                 lstExpensesOfMonth.add(it)
-                if(it.msValue != null) sTotalExpenseMonth+=it.msValue!!
+                if(it.msValue != null) sTotalExpenseMonth += it.msValue!!
             }
         }
 
 
-        lstExpensesOfMonth.sortWith(
+         lstExpensesOfMonth.sortWith(
                 Comparator { t0: Expense, t1: Expense ->
                     if(t0.mnExpenseType != null && t1.mnExpenseType != null) t0.mnExpenseType!!.compareTo(t1.mnExpenseType!!)
                     else {
-                        if(t0.mnExpenseType == null) -1
-                        else if(t1.mnExpenseType == null) 1
-                        else 0
+                        when {
+                            t0.mnExpenseType == null -> -1
+                            t1.mnExpenseType == null -> 1
+                            else -> 0
+                        }
                     }
                 }
         )
 
-        val iterator = lstExpensesOfMonth.iterator()
+
+        Log.d("CHART", "$sTotalExpenseMonth")
+        lstExpensesOfMonth.forEach { Log.d("CHART", "${it.mnExpenseType} - ${it.msValue}") }
+
         var currentCategory : Long? = null
         var sValueCurrentCategory = 0f
-        while (iterator.hasNext()) {
-            val expenseTarget = iterator.next()
-            if (currentCategory == null)
-                currentCategory = expenseTarget.mnExpenseType
+        lstExpensesOfMonth.forEachIndexed { nCount, it ->
+            if(nCount == 0) {
+                currentCategory = it.mnExpenseType
+            }
 
-            if (expenseTarget.mnExpenseType == currentCategory) {
-                if (expenseTarget.msValue != null)
-                    sValueCurrentCategory += expenseTarget.msValue!!
+            if(it.mnExpenseType == currentCategory) {
+                val sValue = it.msValue ?: 0f
+                sValueCurrentCategory += sValue
             } else {
-                val strDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(currentCategory!!)
-                if(strDescription != null)
-                {
-                    lstEntries.add(initPieEntry(sValueCurrentCategory, strDescription))
-                    lstColors.add(ContextCompat.getColor(context, R.color.petsbkg))
+                var strDescription = ""
+                var strColor = ""
+
+                if(currentCategory != null) {
+                    strDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(currentCategory!!) ?: ""
+                    strColor = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getColor(currentCategory!!) ?: ""
                 }
-                sValueCurrentCategory = 0f
+                val color : Int = if(strColor.isEmpty()) Color.parseColor("#ffff") else Color.parseColor(strColor)
+                lstColors.add(color)
+                val pieEntry = initPieEntry(sValueCurrentCategory / sTotalExpenseMonth, strDescription)
+                lstEntries.add(pieEntry)
                 currentCategory = null
+                sValueCurrentCategory = 0f
+            }
+
+            if(currentCategory == null && nCount > 0) {
+                currentCategory = it.mnExpenseType
+                val sValue = it.msValue ?: 0f
+                sValueCurrentCategory =+ sValue
+
+                if(nCount == lstExpensesOfMonth.size - 1) {
+                    var strDescription = ""
+                    var strColor = ""
+
+                    if(currentCategory != null) {
+                        strDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(currentCategory!!) ?: ""
+                        strColor = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getColor(currentCategory!!) ?: ""
+                    }
+                    val color : Int = if(strColor.isEmpty()) Color.parseColor("#ffff") else Color.parseColor(strColor)
+                    lstColors.add(color)
+                    val pieEntry = initPieEntry(sValueCurrentCategory / sTotalExpenseMonth, strDescription)
+                    lstEntries.add(pieEntry)
+                    currentCategory = null
+                    sValueCurrentCategory = 0f
+                }
             }
         }
 
@@ -177,7 +210,7 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
         mpcPieChart?.data = dataPie
         mpcPieChart?.highlightValues(null)
         mpcPieChart?.invalidate()
-//
+
         mpcPieChart?.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
             override fun onNothingSelected() {
                 mrlChartItem?.visibility = RelativeLayout.GONE
@@ -196,22 +229,22 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
 
         mtvExpenseTotalValue?.text = MathService.formatFloatToCurrency(sTotalExpenseMonth)
 
-//        var sTotalSalary = 0f
-//        StaticCollections.mastSalary?.forEach {
-//            val clCalendar = Calendar.getInstance()
-//            clCalendar.time = it.mdtDate
-//            if(clCalendar.get(Calendar.MONTH) == StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected){
-//                if(it.msValue != null)
-//                    sTotalSalary += it.msValue!!
-//            }
-//        }
-//
-//        mtvSalaryTotalValue?.text = MathService.formatFloatToCurrency(sTotalSalary)
-//
-//        val sWalletValue = sTotalSalary - sSumTotal
-//        mtvWalletTotalValue?.text = MathService.formatFloatToCurrency(sWalletValue)
-//
-//        mrlChartItem?.visibility = RelativeLayout.GONE
+        var sTotalSalary = 0f
+        StaticCollections.mappDataBuilder?.salaryDao()?.all()?.forEach {
+            val clCalendar = Calendar.getInstance()
+            clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
+            if(clCalendar.get(Calendar.MONTH) == StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected){
+                val sValue = it.msValue ?: 0f
+                sTotalSalary += sValue
+            }
+        }
+
+        mtvSalaryTotalValue?.text = MathService.formatFloatToCurrency(sTotalSalary)
+
+        val sWalletValue = sTotalSalary - sTotalExpenseMonth
+        mtvWalletTotalValue?.text = MathService.formatFloatToCurrency(sWalletValue)
+
+        mrlChartItem?.visibility = RelativeLayout.GONE
     }
 
 

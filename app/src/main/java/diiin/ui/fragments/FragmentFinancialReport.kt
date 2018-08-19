@@ -139,7 +139,7 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
                         }
                     }
                 }
-        )
+         )
 
 
         Log.d("CHART", "$sTotalExpenseMonth")

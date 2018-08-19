@@ -22,6 +22,7 @@ import diiin.ui.fragments.FragmentExpensesList
 import diiin.ui.fragments.FragmentFinancialReport
 import diiin.ui.fragments.FragmentSalaryList
 import diiin.util.MessageDialog
+import diiin.util.SelectionSharedPreferences
 
 /**
  * This screen is used by user to see the expenses and salary report by month of year.
@@ -123,7 +124,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     monthType
                 } else { null } ?: return
 
-//                SelectionSharedPreferences.insertMonthSelectPreference(baseContext, StaticCollections.mmtMonthSelected)
+                SelectionSharedPreferences.insertMonthSelectPreference(baseContext, StaticCollections.mmtMonthSelected)
+                loadViewPageAdapter()
                 showFragmentContent()
             }
         }

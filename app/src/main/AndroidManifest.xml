@@ -13,6 +13,7 @@
         <activity
             android:name="diiin.ui.activity.MainActivity"
             android:configChanges="orientation|screenSize|screenLayout">
+
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
@@ -27,11 +28,13 @@
             android:label="@string/title_newsalary"
             android:parentActivityName="diiin.ui.activity.MainActivity" />
         <activity android:name="diiin.ui.activity.SettingsActivity">
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity android:name="diiin.ui.activity.InsertExpenseType"></activity>
     </application>
 
 </manifest>

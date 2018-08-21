@@ -1,5 +1,6 @@
 package diiin.ui.activity
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -27,5 +28,9 @@ class SettingsActivity : AppCompatActivity() {
 
         val lstExpenseType = StaticCollections.mappDataBuilder?.expenseTypeDao()?.all()
         if(lstExpenseType!=null) mrvExpenseTypeList?.adapter = ExpenseTypeListAdapter(this, lstExpenseType as ArrayList<ExpenseType>)
+
+        mbtInsertExpenseType?.setOnClickListener {
+            startActivity(Intent(this, InsertExpenseType::class.java))
+        }
     }
 }

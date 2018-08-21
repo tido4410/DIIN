@@ -1,41 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:orientation="vertical"
     tools:context="diiin.ui.activity.SettingsActivity">
 
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvLabelExpenseType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:text="Tipos de Despesa"
-        app:layout_constraintBottom_toTopOf="@+id/cdExpenseType"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textAllCaps="true"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cdExpenseType"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.17"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvExpenseTypeList"
             android:layout_width="match_parent"
-            android:layout_height="275dp" />
+            android:layout_height="350dp" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnaddExpenseType"
@@ -49,4 +44,4 @@
             app:layout_anchorGravity="bottom|right|end" />
 
     </android.support.design.widget.CoordinatorLayout>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

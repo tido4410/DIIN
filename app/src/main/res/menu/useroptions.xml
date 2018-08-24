@@ -14,6 +14,10 @@
         android:id="@+id/menu_done"
         app:showAsAction="always"/>
 
+    <item android:title="@string/settings"
+        android:id="@+id/menu_settings"
+        app:showAsAction="always"/>
+
     <item android:title="@string/info"
         android:id="@+id/menu_info" />
 </menu>

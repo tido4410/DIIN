@@ -26,11 +26,20 @@ class SettingsActivity : AppCompatActivity() {
         val llManager = LinearLayoutManager(this)
         mrvExpenseTypeList?.layoutManager = llManager
 
-        val lstExpenseType = StaticCollections.mappDataBuilder?.expenseTypeDao()?.all()
-        if(lstExpenseType!=null) mrvExpenseTypeList?.adapter = ExpenseTypeListAdapter(this, lstExpenseType as ArrayList<ExpenseType>)
+        loadExpenseTypes()
 
         mbtInsertExpenseType?.setOnClickListener {
             startActivity(Intent(this, InsertExpenseType::class.java))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadExpenseTypes()
+    }
+
+    private fun loadExpenseTypes() {
+        val lstExpenseType = StaticCollections.mappDataBuilder?.expenseTypeDao()?.all()
+        if (lstExpenseType != null) mrvExpenseTypeList?.adapter = ExpenseTypeListAdapter(this, lstExpenseType as ArrayList<ExpenseType>)
     }
 }

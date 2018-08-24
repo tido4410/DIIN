@@ -1,6 +1,7 @@
 package diiin.ui.activity
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -185,6 +186,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                             adialog.dismiss()
                         })
             }*/
+            R.id.menu_settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+            }
             R.id.menu_edit -> {
                 StaticCollections.mbEditMode = true
                 showFragmentContent()

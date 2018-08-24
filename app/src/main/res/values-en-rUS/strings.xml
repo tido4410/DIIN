@@ -37,4 +37,6 @@
     <string name="expenseTotal">Expense Total: </string>
     <string name="salaryTotal">Received: </string>
     <string name="walletTotal">Wallet: </string>
+    <string name="chooseColor">Choose the color:</string>
+    <string name="settings">Settings</string>
 </resources>

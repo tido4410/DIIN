@@ -49,7 +49,7 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
     private var mtvExpenseTotalValue : TextView? = null
     private var mtvSalaryTotalValue : TextView? = null
     private var mtvWalletTotalValue : TextView? = null
-    private val mhmExpenseByPercentage : HashMap<ExpenseType, Expense> = HashMap()
+    private val mhmExpenseByPercentage : HashMap<Long, Float> = HashMap()
     /**
      * Chart item elements
      */
@@ -128,70 +128,48 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
         }
 
 
-         lstExpensesOfMonth.sortWith(
-                Comparator { t0: Expense, t1: Expense ->
-                    if(t0.mnExpenseType != null && t1.mnExpenseType != null) t0.mnExpenseType!!.compareTo(t1.mnExpenseType!!)
-                    else {
-                        when {
-                            t0.mnExpenseType == null -> -1
-                            t1.mnExpenseType == null -> 1
-                            else -> 0
-                        }
+        lstExpensesOfMonth.sortWith(
+            Comparator { t0: Expense, t1: Expense ->
+                if(t0.mnExpenseType != null && t1.mnExpenseType != null) t0.mnExpenseType!!.compareTo(t1.mnExpenseType!!)
+                else {
+                    when {
+                        t0.mnExpenseType == null -> -1
+                        t1.mnExpenseType == null -> 1
+                        else -> 0
                     }
                 }
-         )
-
-
-        Log.d("CHART", "$sTotalExpenseMonth")
-        lstExpensesOfMonth.forEach { Log.d("CHART", "${it.mnExpenseType} - ${it.msValue}") }
+            }
+        )
 
         var currentCategory : Long? = null
         var sValueCurrentCategory = 0f
-        lstExpensesOfMonth.forEachIndexed { nCount, it ->
-            if(nCount == 0) {
-                currentCategory = it.mnExpenseType
-            }
+        var nCount = 0
+        val nSize = lstExpensesOfMonth.size
 
-            if(it.mnExpenseType == currentCategory) {
+        while(nCount < nSize) {
+            val it = lstExpensesOfMonth[nCount]
+            val nextIt = if(nCount + 1 < nSize) lstExpensesOfMonth[nCount+1] else null
+            if (currentCategory == null)
+                currentCategory = it.mnExpenseType
+
+            if (currentCategory == it.mnExpenseType) {
                 val sValue = it.msValue ?: 0f
                 sValueCurrentCategory += sValue
-            } else {
-                var strDescription = ""
-                var strColor = ""
+            }
 
-                if(currentCategory != null) {
-                    strDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(currentCategory!!) ?: ""
-                    strColor = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getColor(currentCategory!!) ?: ""
-                }
-                val color : Int = if(strColor.isEmpty()) Color.parseColor("#ffff") else Color.parseColor(strColor)
-                lstColors.add(color)
-                val pieEntry = initPieEntry(sValueCurrentCategory / sTotalExpenseMonth, strDescription)
-                lstEntries.add(pieEntry)
+            if(currentCategory != nextIt?.mnExpenseType || nextIt == null){
+                val strDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(currentCategory)
+                        ?: ""
+                val strColor = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getColor(currentCategory)
+                        ?: ""
+                lstColors.add(if (strColor.isEmpty()) Color.parseColor("#ffff") else Color.parseColor(strColor))
+                lstEntries.add(initPieEntry(sValueCurrentCategory / sTotalExpenseMonth, strDescription))
+
+                mhmExpenseByPercentage[currentCategory!!] = sValueCurrentCategory
                 currentCategory = null
                 sValueCurrentCategory = 0f
             }
-
-            if(currentCategory == null && nCount > 0) {
-                currentCategory = it.mnExpenseType
-                val sValue = it.msValue ?: 0f
-                sValueCurrentCategory =+ sValue
-
-                if(nCount == lstExpensesOfMonth.size - 1) {
-                    var strDescription = ""
-                    var strColor = ""
-
-                    if(currentCategory != null) {
-                        strDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(currentCategory!!) ?: ""
-                        strColor = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getColor(currentCategory!!) ?: ""
-                    }
-                    val color : Int = if(strColor.isEmpty()) Color.parseColor("#ffff") else Color.parseColor(strColor)
-                    lstColors.add(color)
-                    val pieEntry = initPieEntry(sValueCurrentCategory / sTotalExpenseMonth, strDescription)
-                    lstEntries.add(pieEntry)
-                    currentCategory = null
-                    sValueCurrentCategory = 0f
-                }
-            }
+            nCount++
         }
 
 
@@ -219,11 +197,16 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
 
             override fun onValueSelected(e: Entry, h: Highlight?) {
 
-//                val pieEntry = e as PieEntry
-//                val nId = ExpenseType.gettingIdFromDescription(context, pieEntry.label) ?: return
-//                val expenseTarget = mhmExpenseByPercentage[ExpenseType.fromInt(nId)]
-//                if(expenseTarget != null)
-//                    loadChartItemCard(expenseTarget)
+                val pieEntry = e as PieEntry
+
+                val epExpenseType =
+                        StaticCollections.mappDataBuilder?.expenseTypeDao()?.all()?.first {
+                            it.mstrDescription == pieEntry.label
+                        }?: return
+
+                val sValue = mhmExpenseByPercentage[epExpenseType.mnExpenseTypeID]
+                if(sValue != null)
+                    loadChartItemCard(epExpenseType, sValue)
             }
         })
 
@@ -249,22 +232,13 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
 
 
 
-    private fun loadChartItemCard(aExpenseItem : Expense?) {
-        aExpenseItem ?: return
-
+    private fun loadChartItemCard(aetExpenseType: ExpenseType, a_sValue : Float) {
         mivChartItemReorder?.visibility = ImageView.GONE
         mtvChartItemDate?.visibility = TextView.GONE
-
-        if(aExpenseItem.msValue != null) mtvChartItemValue?.text = MathService.formatFloatToCurrency(aExpenseItem.msValue!!)
-
-//        if(aExpenseItem.metType != null) {
-//            mtvChartItemExpenseType?.text = aExpenseItem.metType.description(context)
-//            mtvChartItemValue?.setTextColor(aExpenseItem.metType.backgroundColor(context))
-//            mvwChartItemExpenseType?.setBackgroundColor(aExpenseItem.metType.backgroundColor(context))
-//            mivChartItemReorder?.visibility = ImageView.GONE
-//            mivExpenseType?.setImageResource(aExpenseItem.metType.imageIconId())
-//        }
-
+        mtvChartItemValue?.text = MathService.formatFloatToCurrency(a_sValue)
+        mtvChartItemExpenseType?.text = aetExpenseType.mstrDescription
+        mvwChartItemExpenseType?.setBackgroundColor(Color.parseColor(aetExpenseType.mstrColor))
+        mivChartItemReorder?.visibility = ImageView.GONE
         mrlChartItem?.visibility = RelativeLayout.VISIBLE
         mrlWalletPanel?.visibility = RelativeLayout.GONE
     }

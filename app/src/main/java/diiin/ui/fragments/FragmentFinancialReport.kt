@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,8 +56,8 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
     private var mtvChartItemDate : TextView? = null
     private var mvwChartItemExpenseType : View? = null
     private var mllChartItemLinearLayout : LinearLayout? = null
-    private var mivChartItemReorder : ImageView? = null
     private var mtvChartItemExpenseType : TextView? = null
+    private var mivChartItemButtonMenu : ImageView? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_financialreport, container, false)
@@ -77,6 +76,7 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
         mtvChartItemExpenseType = view?.findViewById(R.id.tvExpenseType)
         mvwChartItemExpenseType = view?.findViewById(R.id.vwExpenseType)
         mllChartItemLinearLayout = view?.findViewById(R.id.llLine2)
+        mivChartItemButtonMenu = view?.findViewById(R.id.ivMenuOption)
 
         mpcPieChart?.setUsePercentValues(true)
         mpcPieChart?.description?.isEnabled = false
@@ -232,12 +232,12 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
 
 
     private fun loadChartItemCard(aetExpenseType: ExpenseType, a_sValue : Float) {
-        mivChartItemReorder?.visibility = ImageView.GONE
         mtvChartItemDate?.visibility = TextView.GONE
+        mivChartItemButtonMenu?.visibility = ImageView.GONE
         mtvChartItemValue?.text = MathService.formatFloatToCurrency(a_sValue)
+        mtvChartItemValue?.setTextColor(Color.parseColor(aetExpenseType.mstrColor))
         mtvChartItemExpenseType?.text = aetExpenseType.mstrDescription
         mvwChartItemExpenseType?.setBackgroundColor(Color.parseColor(aetExpenseType.mstrColor))
-        mivChartItemReorder?.visibility = ImageView.GONE
         mrlChartItem?.visibility = RelativeLayout.VISIBLE
         mrlWalletPanel?.visibility = RelativeLayout.GONE
     }

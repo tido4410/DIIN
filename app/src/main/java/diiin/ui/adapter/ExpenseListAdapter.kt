@@ -2,6 +2,7 @@ package diiin.ui.adapter
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
@@ -17,6 +18,7 @@ import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.Expense
+import diiin.ui.activity.InsertExpenseActivity
 import diiin.util.MathService
 import diiin.util.MessageDialog
 import java.util.*
@@ -94,6 +96,10 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
                         true
                     }
                     R.id.ctxmenuedit -> {
+                        val intent = Intent(mctContext, InsertExpenseActivity::class.java)
+                        val nExpenseId : Long? = mltExpenseList[position].mnID
+                        intent.putExtra(InsertExpenseActivity.INTENT_KEY_EXPENSEID, nExpenseId)
+                        mctContext.startActivity(intent)
                         true
                     }
                     else -> {  false }

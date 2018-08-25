@@ -5,6 +5,7 @@
     <string name="title_salary">Acumulado</string>
     <string name="title_chartreport">Demonstrativo</string>
     <string name="title_newexpense">Nova Despesa</string>
+    <string name="title_editexpense">Atualizar Despesa</string>
     <string name="title_newsalary">Nova Entrada</string>
     <string name="type_label">Categoria:</string>
     <string name="value_label">Valor:</string>

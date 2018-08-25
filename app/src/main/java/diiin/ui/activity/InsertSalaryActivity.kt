@@ -21,12 +21,17 @@ import java.util.*
  */
 class InsertSalaryActivity : AppCompatActivity() {
 
+    companion object {
+        const val INTENT_KEY_SALARYID : String = "IdOfSalaryToEdit"
+    }
+
     private var clCalenderChoosed: Calendar = Calendar.getInstance()
     private var mtvDate: TextView? = null
     private var mibChangeDate: ImageButton? = null
     private var metDescriptionValue: EditText? = null
     private var metPriceValue: EditText? = null
     private var mbtSave: Button? = null
+    private var mnSalaryId : Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +42,17 @@ class InsertSalaryActivity : AppCompatActivity() {
         metDescriptionValue = findViewById(R.id.etDescriptionValue)
         metPriceValue = findViewById(R.id.etPriceValue)
         mbtSave = findViewById(R.id.btnSave)
+
+        if(intent.extras.get(INTENT_KEY_SALARYID) != null) {
+            mnSalaryId = intent.extras.getLong(INTENT_KEY_SALARYID)
+            title = resources.getString(R.string.title_editsalary)
+            val salaryTarget = StaticCollections.mappDataBuilder?.salaryDao()?.all()?.filter { it.mnID == mnSalaryId }?.first()
+            val strValue =
+                    if(salaryTarget?.msValue!=null) MathService.formatFloatToCurrency(salaryTarget.msValue!!)
+                    else ""
+            metPriceValue?.setText(strValue)
+            metDescriptionValue?.setText(salaryTarget?.mstrSource)
+        }
     }
 
     override fun onStart() {
@@ -64,8 +80,13 @@ class InsertSalaryActivity : AppCompatActivity() {
                             val dtDate = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
                             val strDescription = metDescriptionValue?.text.toString()
 
-                            val newSalary = Salary(null, sValue, strDescription, dtDate)
-                            StaticCollections.mappDataBuilder?.salaryDao()?.add(newSalary)
+                            if(mnSalaryId != null){
+                                val currentSalary = Salary(mnSalaryId, sValue, strDescription, dtDate)
+                                StaticCollections.mappDataBuilder?.salaryDao()?.update(currentSalary)
+                            } else {
+                                val newSalary = Salary(null, sValue, strDescription, dtDate)
+                                StaticCollections.mappDataBuilder?.salaryDao()?.add(newSalary)
+                            }
                             adialog.dismiss()
                             finish()
                         }

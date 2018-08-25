@@ -13,6 +13,8 @@ import diiin.util.SelectionSharedPreferences
  * The main class of application.
  *
  * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
  */
 class DindinApp : Application() {
 

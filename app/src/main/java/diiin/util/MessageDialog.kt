@@ -6,7 +6,10 @@ import android.content.DialogInterface
 import android.widget.Toast
 
 /**
- * This class defines all user alerts and toasts
+ * This class defines all user alerts and toasts.
+ * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
  */
 object MessageDialog {
 

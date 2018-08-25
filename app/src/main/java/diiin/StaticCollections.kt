@@ -1,7 +1,6 @@
 package diiin
 
 import diiin.dao.DataBaseFactory
-import diiin.model.ExpenseType
 import diiin.model.MonthType
 
 /**
@@ -10,6 +9,8 @@ import diiin.model.MonthType
  * according the users interaction.
  *
  * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
  */
 object StaticCollections {
 

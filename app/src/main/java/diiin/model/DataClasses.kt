@@ -11,7 +11,8 @@ import android.arch.persistence.room.PrimaryKey
  * Define the model of salary in the system.
  *
  * @author Gabriel Moro
- *
+ * @since 24/08/2018
+ * @version 1.0.9
  */
 @Entity(tableName = "salary")
 data class Salary(
@@ -25,6 +26,8 @@ data class Salary(
  * Define the model of expense in the system.
  *
  * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
  */
 @Entity(tableName = "expense",
         foreignKeys = [ForeignKey(entity = ExpenseType::class,
@@ -40,7 +43,10 @@ data class Expense(
 )
 
 /**
- *
+ * The expense type model has color, description, and id.
+ * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
  */
 @Entity(tableName = "expense_type")
 data class ExpenseType(

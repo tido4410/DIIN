@@ -7,7 +7,12 @@ import diiin.model.Expense
 import diiin.model.MonthType
 import diiin.model.Salary
 
-
+/**
+ * Provides the sharedpreferences connection.
+ * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
+ */
 object SharedPreferenceConnection {
 
     private const val SHARED_PREFERENCE_NAME = "dindin"
@@ -22,11 +27,19 @@ object SharedPreferenceConnection {
     }
 }
 
-
+/**
+ * Provides access to get and update specific preferences.
+ * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
+ */
 object SelectionSharedPreferences {
 
     private const val SELECTION_PREFERENCE_KEY = "SelectionPreferenceKey"
 
+    /**
+     * Get the last month selected by User.
+     */
     fun getSelectedMonth(actContext: Context) : MonthType? {
         val strValue = SharedPreferenceConnection.selector(actContext, SELECTION_PREFERENCE_KEY, "")
         if(strValue.isNotEmpty()) {
@@ -41,6 +54,9 @@ object SelectionSharedPreferences {
         return null
     }
 
+    /**
+     * Save the month selected by User.
+     */
     fun insertMonthSelectPreference(actContext: Context, amtMonthType: MonthType?) {
         amtMonthType ?: return
         SharedPreferenceConnection.editor(actContext).putString(SELECTION_PREFERENCE_KEY,amtMonthType.description(actContext)).commit()
@@ -48,6 +64,9 @@ object SelectionSharedPreferences {
     }
 }
 
+/**
+ * Use to keep the compability between room and sharedpreferences
+ */
 object SalarySharedPreferences {
     private const val SALARY_PREFERENCE_KEY = "SalaryKey"
 
@@ -70,6 +89,9 @@ object SalarySharedPreferences {
     }
 }
 
+/**
+ * Use to keep the compability between room and sharedpreferences
+ */
 object ExpenseSharedPreferences {
 
     private const val EXPENSES_PREFERENCE_KEY = "ExpensesKey"

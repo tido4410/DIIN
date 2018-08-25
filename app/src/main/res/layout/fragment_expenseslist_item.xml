@@ -14,20 +14,29 @@
         android:layout_marginStart="4dp"
         android:background="@drawable/backgroundexpensescell">
 
+        <ImageView
+            android:id="@+id/ivMenuOption"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/outline_keyboard_arrow_down_black_48" />
+
         <LinearLayout
             android:id="@+id/llLines"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:orientation="vertical"
             android:weightSum="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvValue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toEndOf="@+id/ivMenuOption"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.511">
 
             <LinearLayout
                 android:id="@+id/llLine1"
@@ -85,9 +94,9 @@
 
         <me.grantland.widget.AutofitTextView
             android:id="@+id/tvValue"
-            android:layout_width="70dp"
+            android:layout_width="80dp"
             android:layout_height="0dp"
-            android:layout_marginStart="1dp"
+            android:layout_marginStart="8dp"
             android:background="@color/activityColorBackground"
             android:gravity="center_vertical|end"
             android:maxLines="1"
@@ -101,7 +110,7 @@
 
         <View
             android:id="@+id/vwExpenseType"
-            android:layout_width="12dp"
+            android:layout_width="11dp"
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
             android:background="@android:color/background_dark"
@@ -109,7 +118,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvValue"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="1.0" />
 
     </android.support.constraint.ConstraintLayout>
 

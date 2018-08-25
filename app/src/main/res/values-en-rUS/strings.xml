@@ -6,16 +6,6 @@
     <string name="title_chartreport">Overview</string>
     <string name="title_newexpense">New Expense</string>
     <string name="title_newsalary">New Money Received</string>
-    <string name="food">Food</string>
-    <string name="transport">Transport</string>
-    <string name="phone">Phone</string>
-    <string name="pets">Pets</string>
-    <string name="education">Education</string>
-    <string name="health">Health</string>
-    <string name="funn">Fun</string>
-    <string name="rent">Rent</string>
-    <string name="travel">Travel</string>
-    <string name="other">Others</string>
     <string name="type_label">Type:</string>
     <string name="value_label">Value:</string>
     <string name="description_label">Description:</string>
@@ -47,4 +37,6 @@
     <string name="expenseTotal">Expense Total: </string>
     <string name="salaryTotal">Received: </string>
     <string name="walletTotal">Wallet: </string>
+    <string name="chooseColor">Choose the color:</string>
+    <string name="settings">Settings</string>
 </resources>

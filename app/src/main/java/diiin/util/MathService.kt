@@ -1,12 +1,20 @@
 package diiin.util
 
-import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Provides some services to app.
+ * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
+ */
 object MathService {
 
+    /**
+     * Verify if the date is in the current year.
+     */
     fun isTheDateInCurrentYear(dtDate : Date) : Boolean {
         val targetCalendar = Calendar.getInstance()
         targetCalendar.time = dtDate
@@ -14,21 +22,26 @@ object MathService {
         return (currentCalendar.get(Calendar.YEAR) == targetCalendar.get(Calendar.YEAR))
     }
 
-    fun formatDoubleTwoPlacesAfterComma(asValue : Float) : String {
-        return DecimalFormat("#.##").format(asValue)
-    }
-
+    /**
+     * Format the float number to string to show like text.
+     */
     fun formatFloatToCurrency(asValue : Float) : String {
         val formatter = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
         return formatter.format(asValue)
     }
 
+    /**
+     * Convert the string value to float number.
+     */
     fun formatCurrencyValueToFloat(astValue : String) : Float? {
         return astValue.replace("R$","")
                 .replace(".", "")
                 .replace(",", ".").toFloatOrNull()
     }
 
+    /**
+     * Convert the integer value to string.
+     */
     fun formatIntToCurrencyValue(anNumber : Int) : String {
         val strNumber = anNumber.toString()
         val formatter = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
@@ -51,39 +64,27 @@ object MathService {
         return strMoney
     }
 
-    fun calendarTimeToString(adt : Date) : String {
-        val strFormat = "dd/MM/yyyy"
+    /**
+     * Convert the date time object according to specific format.
+     */
+    fun calendarTimeToString(adt : Date, strFormat: String) : String {
         val formatter = SimpleDateFormat(strFormat, Locale("pt", "BR"))
         return formatter.format(adt)
     }
 
-    fun stringToCalendarTime(astDate : String) : Date {
-        val strFormat = "dd/MM/yyyy"
+    /**
+     * Convert the date string according specific format to date object.
+     */
+    fun stringToCalendarTime(astDate : String, strFormat : String) : Date {
         val formatter = SimpleDateFormat(strFormat, Locale("pt", "BR"))
         return formatter.parse(astDate)
     }
 
-    fun floatToString(asValue : Float) : String {
-        return asValue.toString()
-    }
-
+    /**
+     * Convert string to float number.
+     */
     fun stringToFloat(astrValue : String) : Float {
         return astrValue.replace(",",".").toFloat()
-    }
-
-    fun compareDateObjects(a_dtDate1 : Date?, a_dtDate2 : Date?) : Boolean {
-        return if(a_dtDate1 == null && a_dtDate2== null) true
-        else if(a_dtDate1 == null || a_dtDate2 == null) false
-        else {
-            val clCalendar1 = GregorianCalendar()
-            clCalendar1.time = a_dtDate1
-            val clCalendar2 = GregorianCalendar()
-            clCalendar2.time = a_dtDate2
-
-            (clCalendar1.get(Calendar.MONTH) == clCalendar2.get(Calendar.MONTH)
-                    && clCalendar1.get(Calendar.YEAR) == clCalendar2.get(Calendar.YEAR)
-                    && clCalendar1.get(Calendar.DAY_OF_MONTH) == clCalendar2.get(Calendar.DAY_OF_MONTH))
-        }
     }
 
 }

@@ -8,6 +8,8 @@ import java.util.*
  * Define the months of year
  *
  * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
  *
  * @param aid is the month type identifier
  */

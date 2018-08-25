@@ -20,10 +20,10 @@ import diiin.StaticCollections
 import diiin.model.Salary
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertSalaryActivity
+import diiin.ui.activity.MainActivity
 import diiin.ui.adapter.SalaryListAdapter
 import diiin.util.MathService
 import diiin.util.MessageDialog
-import diiin.util.SalarySharedPreferences
 import java.util.*
 
 /**
@@ -31,12 +31,11 @@ import java.util.*
  *
  * @author Gabriel Moro
  */
-class FragmentSalaryList : Fragment() {
+class FragmentSalaryList : Fragment(), MainActivity.MainPageFragments {
 
     private var mspMonthSelector: Spinner? = null
     private var mrvSalaryList: RecyclerView? = null
             var mbtnInsertSalary: FloatingActionButton? = null
-    private var mithItemHelperReference : ItemTouchHelper? = null
 
     companion object {
         const val NAME = "FragmentSalaryList"
@@ -65,35 +64,23 @@ class FragmentSalaryList : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        loadSalaryList()
+        loadPageContent()
     }
 
-    fun loadSalaryListAccordingEditMode() {
-        mrvSalaryList?.adapter?.notifyDataSetChanged()
-    }
+    override fun loadPageContent() {
+        val lstSalary = StaticCollections.mappDataBuilder?.salaryDao()?.all() ?: return
+        mrvSalaryList ?: return
 
-    private fun loadTouchHelperListener(aslSalaryAdapter : SalaryListAdapter) {
-
-        if(mithItemHelperReference != null) {
-            mithItemHelperReference!!.attachToRecyclerView(null)
-            mithItemHelperReference = null
-        }
-
-        mithItemHelperReference = ItemTouchHelper(SalaryListTouchHelper(context, aslSalaryAdapter))
-        mithItemHelperReference!!.attachToRecyclerView(mrvSalaryList)
-    }
-
-
-    fun loadSalaryList() {
-        val lstSalary = StaticCollections.mastSalary ?: return
+        val lstSalaryFiltered : ArrayList<Salary> = ArrayList<Salary>()
         val slAdapter : SalaryListAdapter
-        if(StaticCollections.mmtMonthSelected == null)
-            slAdapter = SalaryListAdapter(lstSalary, context)
-        else {
-            val lstSalaryFiltered = ArrayList<Salary>()
+
+        if(StaticCollections.mmtMonthSelected == null) {
+            lstSalaryFiltered.addAll(lstSalary)
+            slAdapter = SalaryListAdapter(lstSalaryFiltered, context)
+        } else {
             lstSalary.forEach{
                 val clCalendar = Calendar.getInstance()
-                clCalendar.time = it.mdtDate
+                clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
                 if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected)
                     lstSalaryFiltered.add(it)
             }
@@ -101,7 +88,6 @@ class FragmentSalaryList : Fragment() {
         }
 
         mrvSalaryList?.adapter = slAdapter
-        loadTouchHelperListener(slAdapter)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
@@ -109,79 +95,4 @@ class FragmentSalaryList : Fragment() {
         mrvSalaryList?.adapter?.notifyDataSetChanged()
     }
 
-}
-
-class SalaryListTouchHelper(actxContext : Context, aeaSalaryAdapter : SalaryListAdapter) : ItemTouchHelper.Callback() {
-
-    private val meaSalaryAdapter : SalaryListAdapter = aeaSalaryAdapter
-    private val mctxContext : Context = actxContext
-
-    override fun getMovementFlags(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?): Int {
-        val nDragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-        val nSwipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
-        return makeMovementFlags(nDragFlags, nSwipeFlags)
-    }
-
-    override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        return onItemMove(viewHolder.adapterPosition, target.adapterPosition)
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        onItemDismiss(viewHolder.adapterPosition)
-    }
-
-    override fun isLongPressDragEnabled(): Boolean {
-        return StaticCollections.mbEditMode
-    }
-
-    override fun isItemViewSwipeEnabled(): Boolean {
-        return StaticCollections.mbEditMode
-    }
-
-    private fun onItemMove(nFromPosition : Int, nToPosition : Int) : Boolean {
-        if(nFromPosition < nToPosition) {
-            var nCount = nFromPosition
-            while(nCount < nToPosition) {
-                Collections.swap(meaSalaryAdapter.mltSalaryList, nCount, nCount+1)
-                nCount++
-            }
-        } else {
-            var nCount = nFromPosition
-            while (nCount > nToPosition) {
-                Collections.swap(meaSalaryAdapter.mltSalaryList, nCount, nCount-1)
-                nCount--
-            }
-        }
-        meaSalaryAdapter.notifyItemMoved(nFromPosition, nToPosition)
-        return true
-    }
-
-    private fun onItemDismiss(nPosition : Int) {
-        val salaryTarget = meaSalaryAdapter.mltSalaryList[nPosition]
-
-        MessageDialog.showMessageDialog(mctxContext,
-                mctxContext.resources.getString(R.string.msgAreYouSure),
-                DialogInterface.OnClickListener { adialog, _ ->
-                    var slSalaryTarget : Salary? = null
-
-                    StaticCollections.mastSalary?.forEach {
-                        if(MathService.compareDateObjects(it.mdtDate, salaryTarget.mdtDate) && it.msValue == salaryTarget.msValue
-                        && it.mstSource == salaryTarget.mstSource) {
-                            slSalaryTarget = it
-                        }
-                    }
-
-                    if(slSalaryTarget != null) {
-                        meaSalaryAdapter.mltSalaryList.removeAt(nPosition)
-                        meaSalaryAdapter.notifyItemRemoved(nPosition)
-                        StaticCollections.mastSalary?.remove(slSalaryTarget!!)
-                        SalarySharedPreferences.updateSalaryList(mctxContext)
-                    }
-                    adialog.dismiss()
-                },
-                DialogInterface.OnClickListener { adialog, _ ->
-                    meaSalaryAdapter.notifyItemChanged(nPosition)
-                    adialog.dismiss()
-                })
-    }
 }

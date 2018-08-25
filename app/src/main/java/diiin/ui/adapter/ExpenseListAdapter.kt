@@ -2,19 +2,17 @@ package diiin.ui.adapter
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.Expense
 import diiin.util.MathService
-import java.lang.Comparable
 import java.util.*
 
 /**
@@ -42,47 +40,41 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
         if (expenseItem.msValue != null)
             holder.tvValue.text = MathService.formatFloatToCurrency(expenseItem.msValue!!)
 
-        holder.tvDescription.text = expenseItem.msrDescription
 
-        if (expenseItem.mdtDate != null)
-            holder.tvDate.text = MathService.calendarTimeToString(expenseItem.mdtDate!!)
+        holder.tvDate.text = expenseItem.mstrDate
 
+        val strTypeDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(expenseItem.mnExpenseType)
+        holder.tvDescription.text = strTypeDescription
 
-        if (expenseItem.msrDescription.isEmpty()) {
-            holder.tvExpenseType.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
+        if (expenseItem.mstrDescription.isEmpty()) {
+            holder.tvExpenseType.text = strTypeDescription
             holder.tvDescription.text = ""
         } else {
-            holder.tvExpenseType.text = expenseItem.msrDescription
-            holder.tvDescription.text = expenseItem.metType?.description(mctContext)?.toUpperCase()
+            holder.tvExpenseType.text = expenseItem.mstrDescription
+            holder.tvDescription.text = strTypeDescription?.toUpperCase()
         }
 
 
-        if (expenseItem.metType != null) {
-            holder.vwExpenseType.setBackgroundColor(expenseItem.metType.backgroundColor(mctContext))
-            holder.ivExpenseType.setImageResource(expenseItem.metType.imageIconId())
-            holder.tvValue.setTextColor(expenseItem.metType.backgroundColor(mctContext))
+        val strColor = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getColor(expenseItem.mnExpenseType)
+
+        if (strColor != null) {
+            val nColor = Color.parseColor(strColor)
+            holder.vwExpenseType.setBackgroundColor(nColor)
+            holder.tvValue.setTextColor(nColor)
         }
 
         holder.llLine2.visibility = LinearLayout.GONE
 
         if (mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
             holder.llLine2.visibility = LinearLayout.VISIBLE
-
-        if (StaticCollections.mbEditMode) {
-            holder.ivReorder.visibility = ImageView.VISIBLE
-        } else {
-            holder.ivReorder.visibility = ImageView.GONE
-        }
     }
 
     class ExpenseListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {
-        val ivExpenseType: ImageView = avwView.findViewById(R.id.ivExpenseType)
         val tvExpenseType: TextView = avwView.findViewById(R.id.tvExpenseType)
         val tvDescription: TextView = avwView.findViewById(R.id.tvDescription)
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
         val vwExpenseType: View = avwView.findViewById(R.id.vwExpenseType)
-        val ivReorder: ImageView = avwView.findViewById(R.id.ivReorder)
         val llLine2: LinearLayout = avwView.findViewById(R.id.llLine2)
     }
 }

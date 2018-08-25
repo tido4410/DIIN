@@ -6,10 +6,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
-import diiin.StaticCollections
 import diiin.model.Salary
 import diiin.util.MathService
 
@@ -17,6 +15,7 @@ import diiin.util.MathService
  * This adapter is the manager of salary list.
  * @author Gabriel Moro
  */
+
 class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
 
             val mltSalaryList: ArrayList<Salary> = alstSalaryList
@@ -34,21 +33,17 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
     override fun onBindViewHolder(holder: SalaryListItemViewHolder?, position: Int) {
         val salaryItem = mltSalaryList[position]
 
-        if(salaryItem.mdtDate!=null)
-            holder?.tvDate?.text = MathService.calendarTimeToString(salaryItem.mdtDate!!)
+        holder?.tvDate?.text = salaryItem.mstrDate
 
         if(salaryItem.msValue!=null)
             holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)
 
-        holder?.tvSource?.text = salaryItem.mstSource
+        holder?.tvSource?.text = salaryItem.mstrSource
 
         holder?.tvDate?.visibility = TextView.GONE
 
         if(mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
             holder?.tvDate?.visibility = TextView.VISIBLE
-
-            if (StaticCollections.mbEditMode) holder?.ivReorder?.visibility = ImageView.VISIBLE
-            else holder?.ivReorder?.visibility = ImageView.GONE
         }
 
 
@@ -56,6 +51,5 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
         val tvSource: TextView = avwView.findViewById(R.id.tvSource)
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)
-        val ivReorder : ImageView = avwView.findViewById(R.id.ivReorder)
     }
 }

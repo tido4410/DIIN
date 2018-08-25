@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.widget.*
 import br.com.gbmoro.diiin.R
-import diiin.util.SalarySharedPreferences
+import diiin.StaticCollections
 import diiin.model.Salary
 import diiin.ui.TWEditPrice
 import diiin.util.MathService
@@ -42,7 +42,7 @@ class InsertSalaryActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time)
+        mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
 
         metPriceValue?.addTextChangedListener(TWEditPrice(metPriceValue!!))
 
@@ -61,18 +61,17 @@ class InsertSalaryActivity : AppCompatActivity() {
                         } else {
                             val sValue = MathService.formatCurrencyValueToFloat(metPriceValue?.text.toString())
                                     ?: 0f
-                            val dtDate = clCalenderChoosed.time
+                            val dtDate = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
                             val strDescription = metDescriptionValue?.text.toString()
 
-                            val newSalary = Salary(strDescription, sValue, dtDate)
-                            SalarySharedPreferences.insertNewSalary(application.applicationContext, newSalary)
+                            val newSalary = Salary(null, sValue, strDescription, dtDate)
+                            StaticCollections.mappDataBuilder?.salaryDao()?.add(newSalary)
                             adialog.dismiss()
                             finish()
                         }
                     },
                     DialogInterface.OnClickListener { adialog, _ ->
                         adialog.dismiss()
-                        finish()
                     })
         }
     }
@@ -85,12 +84,12 @@ class InsertSalaryActivity : AppCompatActivity() {
             clCalenderChoosed.set(Calendar.DAY_OF_MONTH, day)
 
             if (MathService.isTheDateInCurrentYear(clCalenderChoosed.time)) {
-                mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time)
+                mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
             } else {
                 clCalenderChoosed = Calendar.getInstance()
                 Toast.makeText(this, resources.getString(R.string.messageAboutWrongYear), Toast.LENGTH_LONG).show()
             }
-            mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time)
+            mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
         }
         mibChangeDate?.setOnClickListener {
             DatePickerDialog(this, dateSetListener,

@@ -26,7 +26,6 @@ class RVWithFLoatingButtonControl(albaFloatingButtonTarget : FloatingActionButto
     override fun onTouch(p0: View?, amotionEvent: MotionEvent?): Boolean {
         when(amotionEvent?.action) {
             MotionEvent.ACTION_UP ->
-                if(!StaticCollections.mbEditMode)
                     mfaFloatingButtonTarget.visibility = FloatingActionButton.VISIBLE
             MotionEvent.ACTION_MOVE ->
                 mfaFloatingButtonTarget.visibility = FloatingActionButton.GONE

@@ -1,15 +1,22 @@
 package diiin.ui.adapter
 
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.res.Configuration
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
+import diiin.StaticCollections
 import diiin.model.Salary
+import diiin.ui.activity.InsertSalaryActivity
 import diiin.util.MathService
+import diiin.util.MessageDialog
 
 /**
  * This adapter is the manager of salary list.
@@ -44,12 +51,45 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
 
         if(mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
             holder?.tvDate?.visibility = TextView.VISIBLE
+
+        holder?.ivImageViewMenu?.setOnClickListener { aview ->
+            val popupMenu = PopupMenu(mctContext, aview)
+            popupMenu.inflate(R.menu.context_menu)
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when(menuItem.itemId) {
+                    R.id.ctxmenudelete -> {
+                        MessageDialog.showMessageDialog(mctContext,
+                                mctContext.resources.getString(R.string.msgAreYouSure),
+                                DialogInterface.OnClickListener { adialog, _ ->
+                                    val salaryTarget : Salary = mltSalaryList[position]
+                                    StaticCollections.mappDataBuilder?.salaryDao()?.delete(salaryTarget)
+                                    mltSalaryList.removeAt(position)
+                                    notifyItemRemoved(position)
+                                },
+                                DialogInterface.OnClickListener { adialog, _ ->
+                                    adialog.dismiss()
+                                })
+                        true
+                    }
+                    R.id.ctxmenuedit -> {
+                        val intent = Intent(mctContext, InsertSalaryActivity::class.java)
+                        val nSalaryId : Long? = mltSalaryList[position].mnID
+                        intent.putExtra(InsertSalaryActivity.INTENT_KEY_SALARYID, nSalaryId)
+                        mctContext.startActivity(intent)
+                        true
+                    }
+                    else -> {  false }
+                }
+            }
+            popupMenu.show()
         }
+    }
 
 
     class SalaryListItemViewHolder(avwView : View) : RecyclerView.ViewHolder(avwView) {
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
         val tvSource: TextView = avwView.findViewById(R.id.tvSource)
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)
+        val ivImageViewMenu : ImageView = avwView.findViewById(R.id.ivMenuOption)
     }
 }

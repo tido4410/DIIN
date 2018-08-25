@@ -1,9 +1,7 @@
 package diiin.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
+import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import diiin.model.Expense
 import diiin.model.ExpenseType
 
@@ -27,6 +25,9 @@ interface ExpenseDAO {
      */
     @Insert
     fun add(vararg expense: Expense)
+
+    @Update(onConflict = REPLACE)
+    fun update(vararg expense: Expense)
 
     /**
      * Remove specific expense object.

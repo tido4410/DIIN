@@ -5,6 +5,8 @@
     <string name="title_salary">Money</string>
     <string name="title_chartreport">Overview</string>
     <string name="title_newexpense">New Expense</string>
+    <string name="title_editexpense">Update Expense</string>
+    <string name="title_editsalary">Update Salary</string>
     <string name="title_newsalary">New Money Received</string>
     <string name="type_label">Type:</string>
     <string name="value_label">Value:</string>
@@ -32,6 +34,7 @@
     <string name="reorderDescriptionIcon">Reorder icon used to sort elements</string>
     <string name="iconExpenseTypeDescription">Icon used to represents a expense type.</string>
     <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
     <string name="done">Done</string>
     <string name="info">About</string>
     <string name="expenseTotal">Expense Total: </string>

@@ -5,12 +5,10 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.*
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.Expense
-import diiin.model.ExpenseType
 import diiin.ui.TWEditPrice
 import diiin.util.MathService
 import diiin.util.MessageDialog
@@ -24,6 +22,10 @@ import java.util.*
  */
 class InsertExpenseActivity : AppCompatActivity() {
 
+    companion object {
+        const val INTENT_KEY_EXPENSEID : String = "IdOfExpenseToEdit"
+    }
+
     private var mspSpinnerExpenseType: Spinner? = null
     private var metValue: EditText? = null
     private var metDescription: EditText? = null
@@ -31,6 +33,7 @@ class InsertExpenseActivity : AppCompatActivity() {
     private var mibChangeDate: ImageButton? = null
     private var clCalenderChoosed : Calendar = Calendar.getInstance()
     private var mbtSave : Button? = null
+    private var mnExpenseId : Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,17 @@ class InsertExpenseActivity : AppCompatActivity() {
         mtvDate = findViewById(R.id.tvDateChoosed)
         mibChangeDate = findViewById(R.id.ibChangeDate)
         mbtSave = findViewById(R.id.btnSave)
+
+        if(intent.extras.get(INTENT_KEY_EXPENSEID) != null) {
+            mnExpenseId = intent.extras.getLong(INTENT_KEY_EXPENSEID)
+            title = resources.getString(R.string.title_editexpense)
+            val expenseTarget = StaticCollections.mappDataBuilder?.expenseDao()?.all()?.filter { it.mnID == mnExpenseId }?.first()
+            val strValue =
+                    if(expenseTarget?.msValue!=null) MathService.formatFloatToCurrency(expenseTarget.msValue!!)
+                    else ""
+            metValue?.setText(strValue)
+            metDescription?.setText(expenseTarget?.mstrDescription)
+        }
     }
 
 
@@ -68,14 +82,19 @@ class InsertExpenseActivity : AppCompatActivity() {
                         } else {
                             val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
                             val nExpenseTypeId = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getId(strExpenseType)
-                            Log.d("DBTT", "ID $nExpenseTypeId - DESC $strExpenseType")
                             if(nExpenseTypeId != null) {
                                 val strDescription = metDescription?.text.toString()
                                 val sValue = MathService.formatCurrencyValueToFloat(metValue?.text.toString())
                                 val dtDate = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
 
-                                val newExpense = Expense(null, sValue, strDescription, dtDate, nExpenseTypeId)
-                                StaticCollections.mappDataBuilder?.expenseDao()?.add(newExpense)
+                                if(mnExpenseId != null) {
+                                    val expenseUpdated = Expense(mnExpenseId, sValue, strDescription, dtDate, nExpenseTypeId)
+                                    StaticCollections.mappDataBuilder?.expenseDao()?.update(expenseUpdated)
+                                }
+                                else {
+                                    val newExpense = Expense(null, sValue, strDescription, dtDate, nExpenseTypeId)
+                                    StaticCollections.mappDataBuilder?.expenseDao()?.add(newExpense)
+                                }
                             }
                             adialog.dismiss()
                             finish()

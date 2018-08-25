@@ -5,6 +5,8 @@
     <string name="title_salary">Acumulado</string>
     <string name="title_chartreport">Demonstrativo</string>
     <string name="title_newexpense">Nova Despesa</string>
+    <string name="title_editexpense">Atualizar Despesa</string>
+    <string name="title_editsalary">Atualizar Salário</string>
     <string name="title_newsalary">Nova Entrada</string>
     <string name="type_label">Categoria:</string>
     <string name="value_label">Valor:</string>
@@ -32,6 +34,7 @@
     <string name="reorderDescriptionIcon">Define um ícone para reordenar</string>
     <string name="iconExpenseTypeDescription">Define um ícone que representa o tipo de despesa</string>
     <string name="edit">Editar</string>
+    <string name="delete">Deletar</string>
     <string name="done">Feito</string>
     <string name="info">Sobre</string>
     <string name="expenseTotal">Despesas: </string>

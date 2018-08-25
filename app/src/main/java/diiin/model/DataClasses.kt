@@ -16,7 +16,7 @@ import android.arch.persistence.room.PrimaryKey
  */
 @Entity(tableName = "salary")
 data class Salary(
-        @PrimaryKey(autoGenerate = true) var mnID : Int?,
+        @PrimaryKey(autoGenerate = true) var mnID : Long?,
         @ColumnInfo(name = "value") var msValue : Float?,
         @ColumnInfo(name = "source") var mstrSource : String,
         @ColumnInfo(name = "date") var mstrDate : String)

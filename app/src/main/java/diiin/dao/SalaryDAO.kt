@@ -1,9 +1,7 @@
 package diiin.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
+import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import diiin.model.Salary
 
 @Dao
@@ -16,4 +14,7 @@ interface SalaryDAO {
 
     @Delete
     fun delete(salaryT: Salary)
+
+    @Update(onConflict = REPLACE)
+    fun update(vararg salary: Salary)
 }

@@ -7,13 +7,6 @@
         <!--android:id="@+id/menu_clearalldata"/>-->
 
 
-    <item android:title="@string/edit"
-        android:id="@+id/menu_edit" />
-
-    <item android:title="@string/done"
-        android:id="@+id/menu_done"
-        app:showAsAction="always"/>
-
     <item android:title="@string/settings"
         android:id="@+id/menu_settings"/>
 

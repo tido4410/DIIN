@@ -6,10 +6,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
-import diiin.StaticCollections
 import diiin.model.Salary
 import diiin.util.MathService
 
@@ -46,9 +44,6 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
 
         if(mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
             holder?.tvDate?.visibility = TextView.VISIBLE
-
-            if (StaticCollections.mbEditMode) holder?.ivReorder?.visibility = ImageView.VISIBLE
-            else holder?.ivReorder?.visibility = ImageView.GONE
         }
 
 
@@ -56,6 +51,5 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
         val tvSource: TextView = avwView.findViewById(R.id.tvSource)
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)
-        val ivReorder : ImageView = avwView.findViewById(R.id.ivReorder)
     }
 }

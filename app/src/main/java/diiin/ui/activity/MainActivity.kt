@@ -166,7 +166,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         menuInflater?.inflate(R.menu.useroptions, menu)
         menuInflater?.inflate(R.menu.deleteoption, menu)
         mMenuInflated = menu
-        mMenuInflated?.findItem(R.id.menu_done)?.isVisible = false
         return true
     }
 
@@ -174,33 +173,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         item ?: return false
 
         when(item.itemId) {
-            /*R.id.menu_clearalldata -> {
-                MessageDialog.showMessageDialog(this,
-                        resources.getString(R.string.msgAreYouSure),
-                        DialogInterface.OnClickListener { adialog, _ ->
-                            SharedPreferenceConnection.clearAllPreferences(this)
-                            MessageDialog.showToastMessage(this, resources.getString(R.string.pleaseRestartTheApp))
-                            adialog.dismiss()
-                        },
-                        DialogInterface.OnClickListener { adialog, _ ->
-                            adialog.dismiss()
-                        })
-            }*/
             R.id.menu_settings -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
-            }
-            R.id.menu_edit -> {
-                StaticCollections.mbEditMode = true
-                showFragmentContent()
-                mMenuInflated?.findItem(R.id.menu_done)?.isVisible = true
-                mMenuInflated?.findItem(R.id.menu_edit)?.isVisible = false
-            }
-
-            R.id.menu_done -> {
-                StaticCollections.mbEditMode = false
-                showFragmentContent()
-                mMenuInflated?.findItem(R.id.menu_edit)?.isVisible = true
-                mMenuInflated?.findItem(R.id.menu_done)?.isVisible = false
             }
             R.id.menu_info -> {
                 val strStringAboutApp = "DINDIN 1.0.${packageManager.getPackageInfo(packageName, 0).versionCode}"

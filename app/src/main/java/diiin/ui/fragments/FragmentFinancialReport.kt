@@ -77,7 +77,6 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
         mtvChartItemExpenseType = view?.findViewById(R.id.tvExpenseType)
         mvwChartItemExpenseType = view?.findViewById(R.id.vwExpenseType)
         mllChartItemLinearLayout = view?.findViewById(R.id.llLine2)
-        mivChartItemReorder = view?.findViewById(R.id.ivReorder)
 
         mpcPieChart?.setUsePercentValues(true)
         mpcPieChart?.description?.isEnabled = false

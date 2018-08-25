@@ -103,28 +103,13 @@
             android:id="@+id/vwExpenseType"
             android:layout_width="12dp"
             android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
             android:background="@android:color/background_dark"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ivReorder"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvValue"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
-            android:id="@+id/ivReorder"
-            android:layout_width="26dp"
-            android:layout_height="78dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="2dp"
-            android:contentDescription="@string/reorderDescriptionIcon"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/vwExpenseType"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/baseline_reorder_black_24dp" />
 
     </android.support.constraint.ConstraintLayout>
 

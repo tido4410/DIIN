@@ -22,12 +22,6 @@ object StaticCollections {
      * Represent the current year.
      */
     var mnYearSelected : Int = 2018
-    /**
-     * Represent the user preference,
-     * if edit mode is enabled, the user can delete expenses
-     * or incomes and sort them.
-     */
-    var mbEditMode : Boolean = false
 
     val mstrDateFormat : String = "dd-MM-yyyy"
 

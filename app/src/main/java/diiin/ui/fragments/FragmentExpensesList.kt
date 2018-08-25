@@ -39,7 +39,6 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
     private var mspMonthSelector: Spinner? = null
     private var mrvExpenseList: RecyclerView? = null
             var mbtInsertExpense: FloatingActionButton? = null
-    private var mithItemHelperReference : ItemTouchHelper? = null
 
     companion object {
         const val NAME = "FragmentExpensesList"
@@ -90,18 +89,6 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
         }
         elAdapter = ExpenseListAdapter(context, lstFilteredList)
         mrvExpenseList?.adapter = elAdapter
-        loadTouchHelperListener(elAdapter)
-    }
-
-    private fun loadTouchHelperListener(aeaExpenseAdapter: ExpenseListAdapter) {
-
-        if(mithItemHelperReference != null) {
-            mithItemHelperReference!!.attachToRecyclerView(null)
-            mithItemHelperReference = null
-        }
-
-        mithItemHelperReference = ItemTouchHelper(ExpenseListTouchHelper(context, aeaExpenseAdapter))
-        mithItemHelperReference!!.attachToRecyclerView(mrvExpenseList)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
@@ -109,82 +96,4 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
         mrvExpenseList?.adapter?.notifyDataSetChanged()
     }
 
-}
-
-class ExpenseListTouchHelper(actxContext : Context, aeaExpenseAdapter : ExpenseListAdapter) : ItemTouchHelper.Callback() {
-
-    private val meaExpenseAdapter : ExpenseListAdapter = aeaExpenseAdapter
-    private val mctxContext : Context = actxContext
-
-    override fun getMovementFlags(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?): Int {
-        val nDragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-        val nSwipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
-        return makeMovementFlags(nDragFlags, nSwipeFlags)
-    }
-
-    override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        return onItemMove(viewHolder.adapterPosition, target.adapterPosition)
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        onItemDismiss(viewHolder.adapterPosition)
-    }
-
-    override fun isLongPressDragEnabled(): Boolean {
-        return StaticCollections.mbEditMode
-    }
-
-    override fun isItemViewSwipeEnabled(): Boolean {
-        return StaticCollections.mbEditMode
-    }
-
-    private fun onItemMove(nFromPosition : Int, nToPosition : Int) : Boolean {
-        if(nFromPosition < nToPosition) {
-            var nCount = nFromPosition
-            while(nCount < nToPosition) {
-                Collections.swap(meaExpenseAdapter.mltExpenseList, nCount, nCount+1)
-                nCount++
-            }
-        } else {
-            var nCount = nFromPosition
-            while (nCount > nToPosition) {
-                Collections.swap(meaExpenseAdapter.mltExpenseList, nCount, nCount-1)
-                nCount--
-            }
-        }
-        meaExpenseAdapter.notifyItemMoved(nFromPosition, nToPosition)
-        return true
-    }
-
-    private fun onItemDismiss(nPosition : Int) {
-        val expTarget = meaExpenseAdapter.mltExpenseList[nPosition]
-
-        MessageDialog.showMessageDialog(mctxContext,
-                mctxContext.resources.getString(R.string.msgAreYouSure),
-                DialogInterface.OnClickListener { adialog, _ ->
-                    var exExpenseTarget : Expense? = null
-
-                    StaticCollections.mappDataBuilder?.expenseDao()?.all()?.forEach {
-                        val dtItDate = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
-                        val dtExpenseTarget = MathService.stringToCalendarTime(expTarget.mstrDate, StaticCollections.mstrDateFormat)
-                        if (MathService.compareDateObjects(dtItDate, dtExpenseTarget)
-                                && it.mstrDescription == expTarget.mstrDescription
-                                && it.msValue == expTarget.msValue) {
-                            exExpenseTarget = it
-                        }
-                    }
-
-                    if(exExpenseTarget!=null) {
-                        meaExpenseAdapter.mltExpenseList.removeAt(nPosition)
-                        meaExpenseAdapter.notifyItemRemoved(nPosition)
-                        StaticCollections.mappDataBuilder?.expenseDao()?.delete(exExpenseTarget!!)
-                    }
-
-                    adialog.dismiss()
-                },
-                DialogInterface.OnClickListener { adialog, _ ->
-                    meaExpenseAdapter.notifyItemChanged(nPosition)
-                    adialog.dismiss()
-                })
-    }
 }

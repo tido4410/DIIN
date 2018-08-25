@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
@@ -68,12 +67,6 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
 
         if (mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
             holder.llLine2.visibility = LinearLayout.VISIBLE
-
-        if (StaticCollections.mbEditMode) {
-            holder.ivReorder.visibility = ImageView.VISIBLE
-        } else {
-            holder.ivReorder.visibility = ImageView.GONE
-        }
     }
 
     class ExpenseListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {
@@ -82,7 +75,6 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
         val vwExpenseType: View = avwView.findViewById(R.id.vwExpenseType)
-        val ivReorder: ImageView = avwView.findViewById(R.id.ivReorder)
         val llLine2: LinearLayout = avwView.findViewById(R.id.llLine2)
     }
 }

@@ -130,11 +130,22 @@ class InsertExpenseActivity : AppCompatActivity() {
 
     private fun loadSpinnersContent() {
         val lstExpenseTypesTitle = ArrayList<String>()
-        StaticCollections.mappDataBuilder?.expenseTypeDao()?.all()?.forEach {
-            lstExpenseTypesTitle.add(it.mstrDescription)
+        val lstExpenseTypeObjects = StaticCollections.mappDataBuilder?.expenseTypeDao()?.all() ?: ArrayList()
+        val nSize = lstExpenseTypeObjects.size
+        val expenseTarget =
+                if(mnExpenseId == null) null
+                else StaticCollections.mappDataBuilder?.expenseDao()?.all()?.filter { it.mnID == mnExpenseId }?.first()
+        var nCount = 0
+        var nCurrentTypeSelected = 0
+        while(nCount < nSize) {
+            val strDescription = lstExpenseTypeObjects[nCount].mstrDescription
+            lstExpenseTypesTitle.add(strDescription)
+            if(expenseTarget?.mnExpenseType == lstExpenseTypeObjects[nCount].mnExpenseTypeID) nCurrentTypeSelected = nCount
+            nCount++
         }
         val lstArrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lstExpenseTypesTitle)
         lstArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         mspSpinnerExpenseType?.adapter = lstArrayAdapter
+        mspSpinnerExpenseType?.setSelection(nCurrentTypeSelected)
     }
 }

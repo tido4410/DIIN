@@ -53,7 +53,7 @@ class FragmentSalaryList : Fragment(), MainActivity.MainPageFragments {
         mrvSalaryList = view?.findViewById(R.id.rvSalaryList)
         mbtnInsertSalary = view?.findViewById(R.id.btnaddSalary)
         mbtnInsertSalary?.setOnClickListener {
-            context.startActivity(Intent(context, InsertSalaryActivity::class.java))
+            activity.startActivity(Intent(activity, InsertSalaryActivity::class.java))
         }
 
         val llManager = LinearLayoutManager(context)

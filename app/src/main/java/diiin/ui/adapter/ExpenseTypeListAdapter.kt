@@ -1,16 +1,22 @@
 package diiin.ui.adapter
 
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.ExpenseType
+import diiin.ui.activity.InsertExpenseType
+import diiin.util.MessageDialog
 
 
 /**
@@ -25,7 +31,7 @@ class ExpenseTypeListAdapter(actxContext : Context, alstExpenseList: ArrayList<E
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseTypeListItemViewHolder {
         return ExpenseTypeListItemViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.activity_settings_expense_item, parent, false), this)
+                .inflate(R.layout.adapter_expensetype_color_item, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -36,41 +42,46 @@ class ExpenseTypeListAdapter(actxContext : Context, alstExpenseList: ArrayList<E
         val expenseTypeItem = mltExpenseTypeList[position]
         holder.tvExpenseType.text = expenseTypeItem.mstrDescription
         holder.vwColorExpenseType.setBackgroundColor(Color.parseColor(expenseTypeItem.mstrColor))
-        holder.nCurrentPosition = position
-    }
-
-    fun loadContent() {
-        val lstExpenseType = StaticCollections.mappDataBuilder?.expenseTypeDao()?.all()
-        if(lstExpenseType!=null) {
-            mltExpenseTypeList.clear()
-            mltExpenseTypeList.addAll(lstExpenseType)
-            notifyDataSetChanged()
-        }
-    }
-
-    class ExpenseTypeListItemViewHolder(avwView: View, adapter: ExpenseTypeListAdapter) : RecyclerView.ViewHolder(avwView), View.OnClickListener{
-
-        val vwColorExpenseType: View = avwView.findViewById(R.id.vwColorRepresentation)
-        val tvExpenseType: TextView = avwView.findViewById(R.id.tvExpenseType)
-        val ibRemoveButton : ImageButton = avwView.findViewById(R.id.ibBtnRemove)
-        var nCurrentPosition : Int? = null
-        val madapter : ExpenseTypeListAdapter = adapter
-
-        init {
-            ibRemoveButton.setOnClickListener(this)
-        }
-
-        override fun onClick(p0: View?) {
-            if(nCurrentPosition!=null) {
-                val expenseType = madapter.mltExpenseTypeList[nCurrentPosition!!]
-                val lstExpenses = StaticCollections.mappDataBuilder?.expenseDao()?.all()
-                val bIsItPossibleToClear = lstExpenses?.filter { it.mnExpenseType!! == expenseType.mnExpenseTypeID}?.count() == 0
-                if(bIsItPossibleToClear) {
-                    StaticCollections.mappDataBuilder?.expenseTypeDao()?.delete(expenseType)
-                    madapter.loadContent()
+        holder.ivImageViewMenu.setOnClickListener { aview ->
+            val popupMenu = PopupMenu(mctContext, aview)
+            popupMenu.inflate(R.menu.context_menu)
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when(menuItem.itemId) {
+                    R.id.ctxmenudelete -> {
+                        MessageDialog.showMessageDialog(mctContext,
+                                mctContext.resources.getString(R.string.msgAreYouSure),
+                                DialogInterface.OnClickListener { adialog, _ ->
+                                    val expenseTypeTarget: ExpenseType = mltExpenseTypeList[position]
+                                    val lstExpenses = StaticCollections.mappDataBuilder?.expenseDao()?.all()
+                                    val bIsItPossibleToClear = lstExpenses?.filter { it.mnExpenseType!! == expenseTypeTarget.mnExpenseTypeID}?.count() == 0
+                                    if(bIsItPossibleToClear) {
+                                        StaticCollections.mappDataBuilder?.expenseTypeDao()?.delete(expenseTypeTarget)
+                                        mltExpenseTypeList.removeAt(position)
+                                        notifyItemRemoved(position)
+                                    }
+                                },
+                                DialogInterface.OnClickListener { adialog, _ ->
+                                    adialog.dismiss()
+                                })
+                        true
+                    }
+                    R.id.ctxmenuedit -> {
+                        val intent = Intent(mctContext, InsertExpenseType::class.java)
+                        val nExpenseTypeId : Long? = mltExpenseTypeList[position].mnExpenseTypeID
+                        intent.putExtra(InsertExpenseType.INTENT_KEY_EXPENSETYPEID, nExpenseTypeId)
+                        mctContext.startActivity(intent)
+                        true
+                    }
+                    else -> {  false }
                 }
             }
+            popupMenu.show()
         }
+    }
 
+    class ExpenseTypeListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {
+        val vwColorExpenseType: View = avwView.findViewById(R.id.vwColorRepresentation)
+        val tvExpenseType: TextView = avwView.findViewById(R.id.tvExpenseType)
+        val ivImageViewMenu : ImageView = avwView.findViewById(R.id.ivMenuOption)
     }
 }

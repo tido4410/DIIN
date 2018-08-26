@@ -1,62 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
-    android:orientation="vertical"
     tools:context="diiin.ui.activity.SettingsActivity">
 
-
-    <TextView
-        android:id="@+id/tvLabelExpenseType"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Tipos de Despesa"
-        android:textAllCaps="true"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/cdExpenseType"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/cdExpenseType"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="match_parent"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLabelExpenseType">
+        android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvExpenseTypeList"
+        <TextView
+            android:id="@+id/tvCurrentYear"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnaddExpenseType"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="2dp"
-            android:src="@drawable/baseline_add"
-            android:tint="@color/activityColorBackground"
-            app:layout_anchor="@id/rvExpenseTypeList"
-            app:layout_anchorGravity="bottom|right|end" />
+            android:text="@string/yearselected"
+            android:textAllCaps="true"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/cdExpenseType"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.design.widget.CoordinatorLayout>
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etYearSelected"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:inputType="numberDecimal"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnToSaveTheYearSelected"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_weight="2"
+                android:background="@drawable/bgselector"
+                android:text="@string/savelabel"
+                android:textColor="#ffff" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tvLabelExpenseType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/expenseTypes"
+            android:textAllCaps="true"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/cdExpenseType"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/cdExpenseType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLabelExpenseType">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvExpenseTypeList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="false" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btnaddExpenseType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="2dp"
+                android:src="@drawable/baseline_add"
+                android:tint="@color/activityColorBackground"
+                app:layout_anchor="@id/rvExpenseTypeList"
+                app:layout_anchorGravity="bottom|right|end" />
+
+        </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
+</ScrollView>

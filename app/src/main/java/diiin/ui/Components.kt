@@ -25,11 +25,9 @@ class RVWithFLoatingButtonControl(albaFloatingButtonTarget : FloatingActionButto
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(p0: View?, amotionEvent: MotionEvent?): Boolean {
         when(amotionEvent?.action) {
-            MotionEvent.ACTION_UP ->
-                    mfaFloatingButtonTarget.visibility = FloatingActionButton.VISIBLE
             MotionEvent.ACTION_MOVE ->
                 mfaFloatingButtonTarget.visibility = FloatingActionButton.GONE
-            else -> { }
+            else -> { mfaFloatingButtonTarget.visibility = FloatingActionButton.VISIBLE }
         }
         return false
     }

@@ -22,7 +22,7 @@ object StaticCollections {
     /**
      * Represent the current year.
      */
-    var mnYearSelected : Int = 2018
+    var mnYearSelected : Int? = null
 
     val mstrDateFormat : String = "dd-MM-yyyy"
 

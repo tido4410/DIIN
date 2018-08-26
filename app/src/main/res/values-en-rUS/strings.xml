@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--<string name="app_name">DINDIN</string>-->
+    <!--<string name="expenseTypes">Expense types</string>-->
+    <!--<string name="yearselected">Year Selected</string>-->
+    <!--<string name="title_editexpensetype">Update Expense Type</string>-->
     <!--<string name="title_expenses">Expenses</string>-->
     <!--<string name="title_salary">Money</string>-->
     <!--<string name="title_chartreport">Overview</string>-->

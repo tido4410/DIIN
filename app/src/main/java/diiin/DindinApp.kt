@@ -32,6 +32,7 @@ class DindinApp : Application() {
          * Load the sharedpreferences
          */
         SelectionSharedPreferences.getSelectedMonth(this)
+        SelectionSharedPreferences.getSelectedYear(this)
         // Keepping the compability between previous and current version
         val lstSalary = SalarySharedPreferences.getSalaryList(this)
         lstSalary.forEach { StaticCollections.mappDataBuilder?.salaryDao()?.add(it) }

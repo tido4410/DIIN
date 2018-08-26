@@ -6,8 +6,6 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,7 +33,7 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseListItemViewHolder {
         return ExpenseListItemViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.fragment_expenseslist_item, parent, false))
+                .inflate(R.layout.adapter_expenseslist_item, parent, false))
     }
 
     override fun getItemCount(): Int {

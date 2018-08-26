@@ -6,6 +6,7 @@ import diiin.StaticCollections
 import diiin.model.Expense
 import diiin.model.MonthType
 import diiin.model.Salary
+import java.util.*
 
 /**
  * Provides the sharedpreferences connection.
@@ -35,13 +36,14 @@ object SharedPreferenceConnection {
  */
 object SelectionSharedPreferences {
 
-    private const val SELECTION_PREFERENCE_KEY = "SelectionPreferenceKey"
+    private const val KEY_MONTH = "month"
+    private const val KEY_YEAR = "year"
 
     /**
      * Get the last month selected by User.
      */
     fun getSelectedMonth(actContext: Context) : MonthType? {
-        val strValue = SharedPreferenceConnection.selector(actContext, SELECTION_PREFERENCE_KEY, "")
+        val strValue = SharedPreferenceConnection.selector(actContext, KEY_MONTH, "")
         if(strValue.isNotEmpty()) {
             val nId = MonthType.gettingIdFromDescription(actContext, strValue)
             if(nId != null) {
@@ -59,8 +61,34 @@ object SelectionSharedPreferences {
      */
     fun insertMonthSelectPreference(actContext: Context, amtMonthType: MonthType?) {
         amtMonthType ?: return
-        SharedPreferenceConnection.editor(actContext).putString(SELECTION_PREFERENCE_KEY,amtMonthType.description(actContext)).commit()
+        SharedPreferenceConnection.editor(actContext).putString(KEY_MONTH,amtMonthType.description(actContext)).commit()
         getSelectedMonth(actContext)
+    }
+
+    /**
+     * Save the year selected by User.
+     */
+    fun insertYearSelectPreference(actContext: Context, anYear : Int?) {
+        anYear ?: return
+        SharedPreferenceConnection.editor(actContext).putString(KEY_YEAR, anYear.toString()).commit()
+        getSelectedYear(actContext)
+    }
+
+    /**
+     * Get the last year selected by User.
+     */
+    fun getSelectedYear(actContext: Context) : Int? {
+        val defaultYear = Calendar.getInstance().get(Calendar.YEAR).toString()
+        val strValue = SharedPreferenceConnection.selector(actContext, KEY_YEAR, defaultYear)
+        if(strValue.isNotEmpty()) {
+            val nYear = strValue.toIntOrNull()
+            if(nYear != null) {
+                StaticCollections.mnYearSelected = nYear
+                return nYear
+            }
+            return null
+        }
+        return null
     }
 }
 

@@ -74,6 +74,12 @@ interface ExpenseTypeDAO {
     fun add(vararg expense: ExpenseType)
 
     /**
+     * Update the expense type element.
+     */
+    @Update(onConflict = REPLACE)
+    fun update(vararg expenseType : ExpenseType)
+
+    /**
      * Remove specific expense type object.
      */
     @Delete

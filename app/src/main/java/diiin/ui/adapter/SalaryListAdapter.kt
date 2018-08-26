@@ -30,7 +30,7 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SalaryListItemViewHolder? {
         return SalaryListItemViewHolder(LayoutInflater.from(parent?.context)
-                .inflate(R.layout.fragment_salarylist_item, parent, false))
+                .inflate(R.layout.adapter_salarylist_item, parent, false))
     }
 
     override fun getItemCount(): Int {

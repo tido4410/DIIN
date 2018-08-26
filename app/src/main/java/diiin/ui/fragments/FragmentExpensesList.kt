@@ -56,7 +56,7 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
         mrvExpenseList = view?.findViewById(R.id.rvExpenseList)
         mbtInsertExpense = view?.findViewById(R.id.btnaddExpense)
         mbtInsertExpense?.setOnClickListener {
-            context.startActivity(Intent(context, InsertExpenseActivity::class.java))
+            activity.startActivity(Intent(activity, InsertExpenseActivity::class.java))
         }
 
         val llManager = LinearLayoutManager(context)

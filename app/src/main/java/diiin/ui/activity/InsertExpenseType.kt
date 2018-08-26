@@ -41,6 +41,7 @@ class InsertExpenseType : AppCompatActivity() {
             mnExpenseTypeId = intent.extras.getLong(INTENT_KEY_EXPENSETYPEID)
             title = resources.getString(R.string.title_editexpensetype)
             val expenseTypeTarget = StaticCollections.mappDataBuilder?.expenseTypeDao()?.all()?.filter { it.mnExpenseTypeID == mnExpenseTypeId }?.first()
+            mstrColorSelected = expenseTypeTarget?.mstrColor
             metEditText?.setText(expenseTypeTarget?.mstrDescription)
             mvwCurrentColor?.setBackgroundColor(Color.parseColor(expenseTypeTarget?.mstrColor))
         }
@@ -70,6 +71,8 @@ class InsertExpenseType : AppCompatActivity() {
                                 StaticCollections.mappDataBuilder?.expenseTypeDao()?.update(ExpenseType(mnExpenseTypeId, strDescriptionType, mstrColorSelected!!))
                             }
                         }
+                        adialog.dismiss()
+                        finish()
                     },
                     DialogInterface.OnClickListener { adialog, _ ->
                         adialog.dismiss()

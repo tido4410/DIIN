@@ -45,16 +45,16 @@ class DindinApp : Application() {
          */
         val expenseDAO: ExpenseTypeDAO? = StaticCollections.mappDataBuilder?.expenseTypeDao()
         if (expenseDAO != null && expenseDAO.all().isEmpty()) {
-            expenseDAO.add(ExpenseType(null, "Food", "#d74902"))
-            expenseDAO.add(ExpenseType(null, "Transport", "#af9825"))
-            expenseDAO.add(ExpenseType(null, "Phone", "#4591dc"))
-            expenseDAO.add(ExpenseType(null, "Pets", "#d74902"))
-            expenseDAO.add(ExpenseType(null, "Education", "#2c7308"))
-            expenseDAO.add(ExpenseType(null, "Health", "#810d07"))
-            expenseDAO.add(ExpenseType(null, "Funn", "#3eaeac"))
-            expenseDAO.add(ExpenseType(null, "Rent", "#a80fd2"))
-            expenseDAO.add(ExpenseType(null, "Travel", "#ff8e8e"))
-            expenseDAO.add(ExpenseType(null, "Other", "#974646"))
+            expenseDAO.add(ExpenseType(null, "Comida", "#d74902"))
+            expenseDAO.add(ExpenseType(null, "Transporte", "#af9825"))
+            expenseDAO.add(ExpenseType(null, "Telefone", "#4591dc"))
+            expenseDAO.add(ExpenseType(null, "Animais", "#d74902"))
+            expenseDAO.add(ExpenseType(null, "Educação", "#2c7308"))
+            expenseDAO.add(ExpenseType(null, "Saúde", "#810d07"))
+            expenseDAO.add(ExpenseType(null, "Lazer", "#3eaeac"))
+            expenseDAO.add(ExpenseType(null, "Aluguel", "#a80fd2"))
+            expenseDAO.add(ExpenseType(null, "Viagens", "#ff8e8e"))
+            expenseDAO.add(ExpenseType(null, "Outros", "#974646"))
         }
     }
 

@@ -46,7 +46,7 @@ class InsertExpenseActivity : AppCompatActivity() {
         mibChangeDate = findViewById(R.id.ibChangeDate)
         mbtSave = findViewById(R.id.btnSave)
 
-        if(intent.extras.get(INTENT_KEY_EXPENSEID) != null) {
+        if(intent.hasExtra(INTENT_KEY_EXPENSEID)) {
             mnExpenseId = intent.extras.getLong(INTENT_KEY_EXPENSEID)
             title = resources.getString(R.string.title_editexpense)
             val expenseTarget = StaticCollections.mappDataBuilder?.expenseDao()?.all()?.filter { it.mnID == mnExpenseId }?.first()

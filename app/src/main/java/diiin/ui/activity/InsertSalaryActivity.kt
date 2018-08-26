@@ -43,7 +43,7 @@ class InsertSalaryActivity : AppCompatActivity() {
         metPriceValue = findViewById(R.id.etPriceValue)
         mbtSave = findViewById(R.id.btnSave)
 
-        if(intent.extras.get(INTENT_KEY_SALARYID) != null) {
+        if(intent.hasExtra(INTENT_KEY_SALARYID)) {
             mnSalaryId = intent.extras.getLong(INTENT_KEY_SALARYID)
             title = resources.getString(R.string.title_editsalary)
             val salaryTarget = StaticCollections.mappDataBuilder?.salaryDao()?.all()?.filter { it.mnID == mnSalaryId }?.first()

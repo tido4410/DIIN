@@ -37,7 +37,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="diiin.ui.activity.MainActivity" />
         </activity>
-        <activity android:name="diiin.ui.activity.InsertExpenseType">
+        <activity android:name="diiin.ui.activity.InsertExpenseTypeActivity">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="diiin.ui.activity.SettingsActivity" />

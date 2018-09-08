@@ -11,8 +11,12 @@ import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.EditText
 import br.com.gbmoro.diiin.R
+import diiin.DindinApp
 import diiin.StaticCollections
+import diiin.dao.LocalCacheManager
+import diiin.model.Expense
 import diiin.model.ExpenseType
+import diiin.model.Salary
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.adapter.ExpenseTypeListAdapter
 import diiin.util.MessageDialog
@@ -40,7 +44,7 @@ class SettingsActivity : AppCompatActivity() {
         mrvExpenseTypeList?.layoutManager = llManager
 
         mbtInsertExpenseType?.setOnClickListener {
-            startActivity(Intent(this, InsertExpenseType::class.java))
+            startActivity(Intent(this, InsertExpenseTypeActivity::class.java))
         }
         mbtnSaveYear?.setOnClickListener {
             MessageDialog.showMessageDialog(this,
@@ -66,7 +70,17 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun loadExpenseTypes() {
-        val lstExpenseType = StaticCollections.mappDataBuilder?.expenseTypeDao()?.all()
-        if (lstExpenseType != null) mrvExpenseTypeList?.adapter = ExpenseTypeListAdapter(this, lstExpenseType as ArrayList<ExpenseType>)
+        DindinApp.mlcmDataManager?.getAllExpenseTypeObjects(object : LocalCacheManager.DatabaseCallBack {
+            override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
+            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {
+                mrvExpenseTypeList?.adapter = ExpenseTypeListAdapter(applicationContext, ArrayList(alstExpensesType))
+            }
+            override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
+            override fun onExpenseIdReceived(aexpense: Expense) { }
+            override fun onExpenseTypeColorReceived(astrColor: String) { }
+            override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
+            override fun onExpenseTypeIDReceived(anID: Long?) { }
+            override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
+        })
     }
 }

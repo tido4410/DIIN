@@ -8,14 +8,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.StaticCollections
 import diiin.model.ExpenseType
-import diiin.ui.activity.InsertExpenseType
+import diiin.ui.activity.InsertExpenseTypeActivity
 import diiin.util.MessageDialog
 
 
@@ -51,14 +50,14 @@ class ExpenseTypeListAdapter(actxContext : Context, alstExpenseList: ArrayList<E
                         MessageDialog.showMessageDialog(mctContext,
                                 mctContext.resources.getString(R.string.msgAreYouSure),
                                 DialogInterface.OnClickListener { adialog, _ ->
-                                    val expenseTypeTarget: ExpenseType = mltExpenseTypeList[position]
-                                    val lstExpenses = StaticCollections.mappDataBuilder?.expenseDao()?.all()
-                                    val bIsItPossibleToClear = lstExpenses?.filter { it.mnExpenseType!! == expenseTypeTarget.mnExpenseTypeID}?.count() == 0
-                                    if(bIsItPossibleToClear) {
-                                        StaticCollections.mappDataBuilder?.expenseTypeDao()?.delete(expenseTypeTarget)
-                                        mltExpenseTypeList.removeAt(position)
-                                        notifyItemRemoved(position)
-                                    }
+//                                    val expenseTypeTarget: ExpenseType = mltExpenseTypeList[position]
+//                                    val lstExpenses = StaticCollections.mappDataBuilder?.expenseDao()?.all()
+//                                    val bIsItPossibleToClear = lstExpenses?.filter { it.mnExpenseType!! == expenseTypeTarget.mnExpenseTypeID}?.count() == 0
+//                                    if(bIsItPossibleToClear) {
+//                                        StaticCollections.mappDataBuilder?.expenseTypeDao()?.delete(expenseTypeTarget)
+//                                        mltExpenseTypeList.removeAt(position)
+//                                        notifyItemRemoved(position)
+//                                    }
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->
                                     adialog.dismiss()
@@ -66,9 +65,9 @@ class ExpenseTypeListAdapter(actxContext : Context, alstExpenseList: ArrayList<E
                         true
                     }
                     R.id.ctxmenuedit -> {
-                        val intent = Intent(mctContext, InsertExpenseType::class.java)
+                        val intent = Intent(mctContext, InsertExpenseTypeActivity::class.java)
                         val nExpenseTypeId : Long? = mltExpenseTypeList[position].mnExpenseTypeID
-                        intent.putExtra(InsertExpenseType.INTENT_KEY_EXPENSETYPEID, nExpenseTypeId)
+                        intent.putExtra(InsertExpenseTypeActivity.INTENT_KEY_EXPENSETYPEID, nExpenseTypeId)
                         mctContext.startActivity(intent)
                         true
                     }

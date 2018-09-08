@@ -1,11 +1,8 @@
 package diiin.model
 
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.*
 import android.arch.persistence.room.ForeignKey.CASCADE
-import android.arch.persistence.room.PrimaryKey
 
 /**
  * Define the model of salary in the system.
@@ -39,8 +36,18 @@ data class Expense(
         @ColumnInfo(name = "value") var msValue : Float?,
         @ColumnInfo(name = "description") var mstrDescription : String,
         @ColumnInfo(name = "date") var mstrDate : String,
-        @ColumnInfo(name = "type") var mnExpenseType : Long?
-)
+        @ColumnInfo(name = "type") var mnExpenseType : Long?,
+        @Ignore var mstrExpenseTypeColor : String? = null,
+        @Ignore var mstrExpenseTypeDescription : String? = null
+) {
+    constructor() : this(null,
+            null,
+            "",
+            "",
+            null,
+            null,
+            null)
+}
 
 /**
  * The expense type model has color, description, and id.

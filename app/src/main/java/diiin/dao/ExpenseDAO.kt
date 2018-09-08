@@ -4,6 +4,7 @@ import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import diiin.model.Expense
 import diiin.model.ExpenseType
+import io.reactivex.Maybe
 
 /**
  * This interface defines the base operations over expense table.
@@ -14,11 +15,15 @@ import diiin.model.ExpenseType
  */
 @Dao
 interface ExpenseDAO {
+
+    @Query("SELECT * FROM expense WHERE mnID =:anLong")
+    fun getExpensesAccordingID(vararg anLong: Long): Maybe<Expense>
+
     /**
      * Get all elements from expense table.
      */
     @Query("SELECT * FROM expense")
-    fun all() : List<Expense>
+    fun all() : Maybe<List<Expense>>
 
     /**
      * Add some expense element.
@@ -50,22 +55,22 @@ interface ExpenseTypeDAO {
      * Get all elements from expensetype table.
      */
     @Query("SELECT * FROM expense_type")
-    fun all() : List<ExpenseType>
+    fun all() : Maybe<List<ExpenseType>>
 
     @Query("SELECT mnExpenseTypeID FROM expense_type WHERE description = :a_strDescription")
-    fun getId(a_strDescription : String) : Long?
+    fun getId(a_strDescription : String) : Maybe<Long?>
 
     /**
      * Get description according to id
      */
     @Query("SELECT description FROM expense_type WHERE mnExpenseTypeID = :a_nLongID")
-    fun getDescription(a_nLongID : Long?) : String
+    fun getDescription(a_nLongID : Long?) : Maybe<String>
 
     /**
      * Get color according to expense id.
      */
     @Query("SELECT color FROM expense_type WHERE mnExpenseTypeID = :a_nLongID")
-    fun getColor(a_nLongID : Long?) : String
+    fun getColor(a_nLongID : Long?) : Maybe<String>
 
     /**
      * Add some expense type element.

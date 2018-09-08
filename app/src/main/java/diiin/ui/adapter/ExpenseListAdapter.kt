@@ -14,11 +14,17 @@ import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
-import diiin.StaticCollections
+import diiin.DindinApp
+import diiin.dao.LocalCacheManager
 import diiin.model.Expense
+import diiin.model.ExpenseType
+import diiin.model.Salary
 import diiin.ui.activity.InsertExpenseActivity
 import diiin.util.MathService
 import diiin.util.MessageDialog
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 /**
@@ -49,25 +55,51 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
 
         holder.tvDate.text = expenseItem.mstrDate
 
-        val strTypeDescription = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getDescription(expenseItem.mnExpenseType)
-        holder.tvDescription.text = strTypeDescription
+        val nExpenseTypeId = expenseItem.mnExpenseType
 
-        if (expenseItem.mstrDescription.isEmpty()) {
-            holder.tvExpenseType.text = strTypeDescription
-            holder.tvDescription.text = ""
-        } else {
-            holder.tvExpenseType.text = expenseItem.mstrDescription
-            holder.tvDescription.text = strTypeDescription?.toUpperCase()
+        if(nExpenseTypeId != null) {
+            if (expenseItem.mstrExpenseTypeColor == null) {
+                DindinApp.mlcmDataManager?.getExpenseTypeColor(nExpenseTypeId, object : LocalCacheManager.DatabaseCallBack{
+                    override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
+                    override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
+                    override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
+                    override fun onExpenseIdReceived(aexpense: Expense) { }
+                    override fun onExpenseTypeColorReceived(astrColor: String) {
+                        expenseItem.mstrExpenseTypeColor = astrColor
+                    }
+                    override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
+                    override fun onExpenseTypeIDReceived(anID: Long?) { }
+                    override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
+                })
+            } else {
+                val nColor = Color.parseColor(expenseItem.mstrExpenseTypeColor)
+                holder.vwExpenseType.setBackgroundColor(nColor)
+                holder.tvValue.setTextColor(nColor)
+            }
+
+            if (expenseItem.mstrExpenseTypeDescription == null) {
+                DindinApp.mlcmDataManager?.getExpenseTypeDescription(nExpenseTypeId, object : LocalCacheManager.DatabaseCallBack{
+                    override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
+                    override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
+                    override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
+                    override fun onExpenseIdReceived(aexpense: Expense) { }
+                    override fun onExpenseTypeColorReceived(astrColor: String) { }
+                    override fun onExpenseTypeDescriptionReceived(astrDescription: String) {
+                        expenseItem.mstrExpenseTypeDescription = astrDescription
+                        notifyItemChanged(position)
+                    }
+                    override fun onExpenseTypeIDReceived(anID: Long?) { }
+                    override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
+                })
+
+                holder.tvDescription.text = expenseItem.mstrDescription
+                holder.tvExpenseType.text = ""
+            } else {
+                holder.tvDescription.text = expenseItem.mstrDescription
+                holder.tvExpenseType.text = expenseItem.mstrExpenseTypeDescription
+            }
         }
 
-
-        val strColor = StaticCollections.mappDataBuilder?.expenseTypeDao()?.getColor(expenseItem.mnExpenseType)
-
-        if (strColor != null) {
-            val nColor = Color.parseColor(strColor)
-            holder.vwExpenseType.setBackgroundColor(nColor)
-            holder.tvValue.setTextColor(nColor)
-        }
 
         holder.llLine2.visibility = LinearLayout.GONE
 
@@ -84,9 +116,12 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
                                 mctContext.resources.getString(R.string.msgAreYouSure),
                                 DialogInterface.OnClickListener { adialog, _ ->
                                     val expenseTarget : Expense = mltExpenseList[position]
-                                    StaticCollections.mappDataBuilder?.expenseDao()?.delete(expenseTarget)
-                                    mltExpenseList.removeAt(position)
-                                    notifyItemRemoved(position)
+                                    Observable.just(true).subscribeOn(Schedulers.io())
+                                            .subscribe {
+                                                DindinApp.mlcmDataManager?.mappDataBaseBuilder?.expenseDao()?.delete(expenseTarget)
+                                                mltExpenseList.removeAt(position)
+                                                notifyItemRemoved(position)
+                                            }
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->
                                     adialog.dismiss()
@@ -105,8 +140,6 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
             }
             popupMenu.show()
         }
-
-
     }
 
     class ExpenseListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {

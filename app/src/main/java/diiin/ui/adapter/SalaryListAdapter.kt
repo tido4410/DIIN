@@ -61,10 +61,10 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
                         MessageDialog.showMessageDialog(mctContext,
                                 mctContext.resources.getString(R.string.msgAreYouSure),
                                 DialogInterface.OnClickListener { adialog, _ ->
-                                    val salaryTarget : Salary = mltSalaryList[position]
-                                    StaticCollections.mappDataBuilder?.salaryDao()?.delete(salaryTarget)
-                                    mltSalaryList.removeAt(position)
-                                    notifyItemRemoved(position)
+//                                    val salaryTarget : Salary = mltSalaryList[position]
+//                                    StaticCollections.mappDataBuilder?.salaryDao()?.delete(salaryTarget)
+//                                    mltSalaryList.removeAt(position)
+//                                    notifyItemRemoved(position)
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->
                                     adialog.dismiss()

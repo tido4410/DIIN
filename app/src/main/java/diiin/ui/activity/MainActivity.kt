@@ -16,14 +16,22 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
+import diiin.DindinApp
 import diiin.model.MonthType
 import diiin.StaticCollections
+import diiin.dao.LocalCacheManager
+import diiin.model.Expense
+import diiin.model.ExpenseType
+import diiin.model.Salary
 import diiin.ui.adapter.ViewPagerAdapter
 import diiin.ui.fragments.FragmentExpensesList
 import diiin.ui.fragments.FragmentFinancialReport
 import diiin.ui.fragments.FragmentSalaryList
+import diiin.util.ExpenseSharedPreferences
 import diiin.util.MessageDialog
+import diiin.util.SalarySharedPreferences
 import diiin.util.SelectionSharedPreferences
+import io.reactivex.Observable
 
 /**
  * This screen is used by user to see the expenses and salary report by month of year.

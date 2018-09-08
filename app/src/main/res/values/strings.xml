@@ -43,6 +43,10 @@
     <string name="expenseTotal">Despesas: </string>
     <string name="salaryTotal">Recebido: </string>
     <string name="walletTotal">Carteira: </string>
-    <string name="chooseColor">Escolha a cor:</string>
+    <string name="chooseColor">Choose the color:</string>
     <string name="settings">Configurações</string>
+    <string name="fillAreFields">Fill are fields!</string>
+    <string name="sucessaction">The item was performed with sucess</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 </resources>

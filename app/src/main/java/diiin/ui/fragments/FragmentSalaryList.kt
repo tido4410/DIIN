@@ -16,14 +16,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Spinner
 import br.com.gbmoro.diiin.R
+import diiin.DindinApp
 import diiin.StaticCollections
+import diiin.dao.LocalCacheManager
+import diiin.model.Expense
+import diiin.model.ExpenseType
 import diiin.model.Salary
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertSalaryActivity
 import diiin.ui.activity.MainActivity
 import diiin.ui.adapter.SalaryListAdapter
 import diiin.util.MathService
-import diiin.util.MessageDialog
 import java.util.*
 
 /**
@@ -68,26 +71,38 @@ class FragmentSalaryList : Fragment(), MainActivity.MainPageFragments {
     }
 
     override fun loadPageContent() {
-        val lstSalary = StaticCollections.mappDataBuilder?.salaryDao()?.all() ?: return
-        mrvSalaryList ?: return
 
-        val lstSalaryFiltered : ArrayList<Salary> = ArrayList<Salary>()
-        val slAdapter : SalaryListAdapter
 
-        if(StaticCollections.mmtMonthSelected == null) {
-            lstSalaryFiltered.addAll(lstSalary)
-            slAdapter = SalaryListAdapter(lstSalaryFiltered, context)
-        } else {
-            lstSalary.forEach{
-                val clCalendar = Calendar.getInstance()
-                clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
-                if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected)
-                    lstSalaryFiltered.add(it)
+        DindinApp.mlcmDataManager?.getAllSalaries(object : LocalCacheManager.DatabaseCallBack {
+            override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
+            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
+            override fun onSalariesLoaded(alstSalaries: List<Salary>) {
+
+                mrvSalaryList ?: return
+
+                val lstSalaryFiltered : ArrayList<Salary> = ArrayList()
+                val slAdapter : SalaryListAdapter
+
+                if(StaticCollections.mmtMonthSelected == null) {
+                    lstSalaryFiltered.addAll(alstSalaries)
+                    slAdapter = SalaryListAdapter(lstSalaryFiltered, context)
+                } else {
+                    alstSalaries.forEach{
+                        val clCalendar = Calendar.getInstance()
+                        clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
+                        if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected)
+                            lstSalaryFiltered.add(it)
+                    }
+                    slAdapter = SalaryListAdapter(lstSalaryFiltered, context)
+                }
+                mrvSalaryList?.adapter = slAdapter
             }
-            slAdapter = SalaryListAdapter(lstSalaryFiltered, context)
-        }
-
-        mrvSalaryList?.adapter = slAdapter
+            override fun onExpenseIdReceived(aexpense: Expense) { }
+            override fun onExpenseTypeColorReceived(astrColor: String) { }
+            override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
+            override fun onExpenseTypeIDReceived(anID: Long?) { }
+            override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
+        })
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {

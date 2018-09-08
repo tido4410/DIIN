@@ -17,17 +17,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Spinner
 import br.com.gbmoro.diiin.R
+import diiin.DindinApp
 import diiin.StaticCollections
+import diiin.dao.LocalCacheManager
 import diiin.model.Expense
+import diiin.model.ExpenseType
+import diiin.model.Salary
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertExpenseActivity
 import diiin.ui.activity.MainActivity
 import diiin.ui.adapter.ExpenseListAdapter
-//import diiin.util.ExpenseSharedPreferences
 import diiin.util.MathService
-import diiin.util.MessageDialog
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 /**
  * Screen that shows to user the expenses filter and list
@@ -71,24 +74,34 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
     }
 
     override fun loadPageContent() {
-        val lstExpenses = StaticCollections.mappDataBuilder?.expenseDao()?.all() ?: return
-        mrvExpenseList ?: return
+        DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
+            override fun onExpensesLoaded(alstExpenses: List<Expense>) {
 
-        val lstFilteredList : ArrayList<Expense> = ArrayList()
-        val elAdapter : ExpenseListAdapter
+                mrvExpenseList ?: return
 
-        StaticCollections.mmtMonthSelected ?: return
+                val lstFilteredList : ArrayList<Expense> = ArrayList()
+                val elAdapter : ExpenseListAdapter
 
-        lstExpenses.forEach{
-            val clCalendar = Calendar.getInstance()
-            clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
-            if(clCalendar.get(Calendar.MONTH)==StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR)==StaticCollections.mnYearSelected) {
-                lstFilteredList.add(it)
-                Log.d("DBTT", "ID ${it.mnID} - DESC ${it.mnID}")
+                StaticCollections.mmtMonthSelected ?: return
+
+                alstExpenses.forEach{ expense ->
+                    val clCalendar = Calendar.getInstance()
+                    clCalendar.time = MathService.stringToCalendarTime(expense.mstrDate, StaticCollections.mstrDateFormat)
+                    if(clCalendar.get(Calendar.MONTH)==StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR)==StaticCollections.mnYearSelected) {
+                        lstFilteredList.add(expense)
+                    }
+                }
+                elAdapter = ExpenseListAdapter(context, lstFilteredList)
+                mrvExpenseList?.adapter = elAdapter
             }
-        }
-        elAdapter = ExpenseListAdapter(context, lstFilteredList)
-        mrvExpenseList?.adapter = elAdapter
+            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
+            override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
+            override fun onExpenseIdReceived(aexpense: Expense) { }
+            override fun onExpenseTypeColorReceived(astrColor: String) { }
+            override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
+            override fun onExpenseTypeIDReceived(anID: Long?) { }
+            override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
+        })
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {

@@ -1,6 +1,5 @@
 package diiin
 
-import diiin.dao.DataBaseFactory
 import diiin.model.MonthType
 
 /**
@@ -14,7 +13,6 @@ import diiin.model.MonthType
  */
 object StaticCollections {
 
-    var mappDataBuilder : DataBaseFactory? = null
     /**
      * Represents the month selected in the filter by user
      */

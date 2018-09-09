@@ -55,6 +55,7 @@ class DindinApp : Application() {
                                 mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Transporte", "#af9825"))
                                 mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Outros", "#974646"))
                             }
+                            loadExpensesTypeHashMap()
                         }
             }
             override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
@@ -73,8 +74,6 @@ class DindinApp : Application() {
                     lstSalary.forEach { salary -> mlcmDataManager?.mappDataBaseBuilder?.salaryDao()?.add(salary) }
                     lstExpenses.forEach { expense -> mlcmDataManager?.mappDataBaseBuilder?.expenseDao()?.add(expense) }
                 }
-
-        loadExpensesTypeHashMap()
     }
 
     fun loadExpensesTypeHashMap() {

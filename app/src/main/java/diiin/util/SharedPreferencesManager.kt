@@ -136,7 +136,7 @@ object ExpenseSharedPreferences {
                     val strDescription = lstStrAttributes[2]
                     val strDate = lstStrAttributes[3]
                     val nExpenseType = lstStrAttributes[4].toLongOrNull()
-                    lstToReturn.add(Expense(null, sValue, strDescription, strDate, nExpenseType, null, null))
+                    lstToReturn.add(Expense(null, sValue, strDescription, strDate, nExpenseType))
                 }
             }
         }

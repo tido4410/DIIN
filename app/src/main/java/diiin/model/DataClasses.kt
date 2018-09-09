@@ -36,18 +36,7 @@ data class Expense(
         @ColumnInfo(name = "value") var msValue : Float?,
         @ColumnInfo(name = "description") var mstrDescription : String,
         @ColumnInfo(name = "date") var mstrDate : String,
-        @ColumnInfo(name = "type") var mnExpenseType : Long?,
-        @Ignore var mstrExpenseTypeColor : String? = null,
-        @Ignore var mstrExpenseTypeDescription : String? = null
-) {
-    constructor() : this(null,
-            null,
-            "",
-            "",
-            null,
-            null,
-            null)
-}
+        @ColumnInfo(name = "type") var mnExpenseType : Long?)
 
 /**
  * The expense type model has color, description, and id.

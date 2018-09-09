@@ -1,12 +1,6 @@
 package diiin
 
-import android.annotation.SuppressLint
 import android.app.Application
-import android.arch.persistence.room.Room
-import android.os.AsyncTask
-import android.os.Handler
-import diiin.dao.DataBaseFactory
-import diiin.dao.ExpenseTypeDAO
 import diiin.dao.LocalCacheManager
 import diiin.model.Expense
 import diiin.model.ExpenseType
@@ -28,6 +22,7 @@ class DindinApp : Application() {
 
     companion object {
         var mlcmDataManager : LocalCacheManager? = null
+        var mhmExpenseType  : HashMap<Long, ExpenseType>? = null
     }
 
     override fun onCreate() {
@@ -78,5 +73,31 @@ class DindinApp : Application() {
                     lstSalary.forEach { salary -> mlcmDataManager?.mappDataBaseBuilder?.salaryDao()?.add(salary) }
                     lstExpenses.forEach { expense -> mlcmDataManager?.mappDataBaseBuilder?.expenseDao()?.add(expense) }
                 }
+
+        loadExpensesTypeHashMap()
+    }
+
+    fun loadExpensesTypeHashMap() {
+        mlcmDataManager?.getAllExpenseTypeObjects(object : LocalCacheManager.DatabaseCallBack {
+            override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
+            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {
+                Observable.just(true).subscribeOn(Schedulers.io())
+                        .subscribe {
+                            mhmExpenseType = HashMap()
+                            alstExpensesType.forEach { expense ->
+                                if (expense.mnExpenseTypeID != null)
+                                    mhmExpenseType?.put(expense.mnExpenseTypeID!!, expense)
+                            }
+
+                        }
+            }
+
+            override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
+            override fun onExpenseIdReceived(aexpense: Expense) {}
+            override fun onExpenseTypeColorReceived(astrColor: String) {}
+            override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
+            override fun onExpenseTypeIDReceived(anID: Long?) {}
+            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
+        })
     }
 }

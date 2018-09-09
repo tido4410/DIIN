@@ -129,7 +129,7 @@ class InsertExpensePresenter(avwView : InsertExpenseContract.View) : InsertExpen
                 override fun onExpenseTypeColorReceived(astrColor: String) { }
                 override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
                 override fun onExpenseTypeIDReceived(anID: Long?) {
-                    val expenseTarget = Expense(anExpenseId, sValue, astrDescription, strDate, anID, null, null)
+                    val expenseTarget = Expense(anExpenseId, sValue, astrDescription, strDate, anID)
                     Observable.just(anExpenseId != null).subscribeOn(Schedulers.io()).subscribe{
                         if(it)
                             dataBaseFactory?.expenseDao()?.update(expenseTarget)

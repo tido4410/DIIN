@@ -12,11 +12,15 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
+import diiin.DindinApp
 import diiin.StaticCollections
 import diiin.model.Salary
 import diiin.ui.activity.InsertSalaryActivity
 import diiin.util.MathService
 import diiin.util.MessageDialog
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 /**
  * This adapter is the manager of salary list.
@@ -61,10 +65,16 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
                         MessageDialog.showMessageDialog(mctContext,
                                 mctContext.resources.getString(R.string.msgAreYouSure),
                                 DialogInterface.OnClickListener { adialog, _ ->
-//                                    val salaryTarget : Salary = mltSalaryList[position]
-//                                    StaticCollections.mappDataBuilder?.salaryDao()?.delete(salaryTarget)
-//                                    mltSalaryList.removeAt(position)
-//                                    notifyItemRemoved(position)
+                                    Observable.just(true)
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe {
+                                                val salaryTarget = mltSalaryList[position]
+                                                DindinApp.mlcmDataManager?.mappDataBaseBuilder?.salaryDao()?.delete(salaryTarget)
+                                                mltSalaryList.removeAt(position)
+                                                Observable.just(true)
+                                                        .subscribeOn(AndroidSchedulers.mainThread())
+                                                        .subscribe { notifyItemRemoved(position)  }
+                                            }
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->
                                     adialog.dismiss()

@@ -20,6 +20,7 @@ import diiin.ui.activity.InsertExpenseActivity
 import diiin.util.MathService
 import diiin.util.MessageDialog
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
@@ -83,7 +84,9 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
                                             .subscribe {
                                                 DindinApp.mlcmDataManager?.mappDataBaseBuilder?.expenseDao()?.delete(expenseTarget)
                                                 mltExpenseList.removeAt(position)
-                                                notifyItemRemoved(position)
+                                                Observable.just(true)
+                                                        .subscribeOn(AndroidSchedulers.mainThread())
+                                                        .subscribe { notifyItemRemoved(position)  }
                                             }
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->

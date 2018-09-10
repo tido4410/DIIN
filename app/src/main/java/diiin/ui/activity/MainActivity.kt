@@ -16,22 +16,15 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
-import diiin.DindinApp
 import diiin.model.MonthType
 import diiin.StaticCollections
-import diiin.dao.LocalCacheManager
-import diiin.model.Expense
-import diiin.model.ExpenseType
-import diiin.model.Salary
+import diiin.ui.adapter.RefreshData
 import diiin.ui.adapter.ViewPagerAdapter
 import diiin.ui.fragments.FragmentExpensesList
 import diiin.ui.fragments.FragmentFinancialReport
 import diiin.ui.fragments.FragmentSalaryList
-import diiin.util.ExpenseSharedPreferences
 import diiin.util.MessageDialog
-import diiin.util.SalarySharedPreferences
 import diiin.util.SelectionSharedPreferences
-import io.reactivex.Observable
 
 /**
  * This screen is used by user to see the expenses and salary report by month of year.
@@ -78,12 +71,22 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             override fun onPageSelected(position: Int) {
                 mPrevMenuItem?.isChecked = false
 
-                val mTargetMenu: MenuItem? = when {
-                    position == 0 -> mnvNavigation?.menu?.findItem(R.id.navigation_expenses)
-                    position == 1 -> mnvNavigation?.menu?.findItem(R.id.navigation_piechart)
-                    position == 2 -> mnvNavigation?.menu?.findItem(R.id.navigation_salary)
-                    else -> null
+                val mTargetMenu = when(position) {
+                    0 -> {
+                        mnvNavigation?.menu?.findItem(R.id.navigation_expenses)
+                    }
+                    1 -> {
+                        mvwViewPager?.adapter?.notifyDataSetChanged()
+                        mnvNavigation?.menu?.findItem(R.id.navigation_piechart)
+                    }
+                    2 -> {
+                        mnvNavigation?.menu?.findItem(R.id.navigation_salary)
+                    }
+                    else -> {
+                        null
+                    }
                 }
+
                 mTargetMenu?.isChecked = true
                 mPrevMenuItem = mTargetMenu
             }
@@ -158,8 +161,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val nCurrentIndex = mvwViewPager?.currentItem
         if (nCurrentIndex != null) {
             val fgCurrentFragment = (mvwViewPager?.adapter as ViewPagerAdapter).getItem(nCurrentIndex)
-            if (fgCurrentFragment is MainPageFragments)
-                fgCurrentFragment.loadPageContent()
+            if (fgCurrentFragment is RefreshData)
+                fgCurrentFragment.refresh()
         }
     }
 
@@ -167,7 +170,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onConfigurationChanged(newConfig)
         val nIndex = mvwViewPager?.currentItem
         if(nIndex != null)
-            ((mvwViewPager?.adapter as ViewPagerAdapter).getItem(nIndex) as MainPageFragments).loadPageContent()
+            ((mvwViewPager?.adapter as ViewPagerAdapter).getItem(nIndex) as RefreshData).refresh()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -199,10 +202,5 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         return true
     }
-
-    interface MainPageFragments {
-        fun loadPageContent()
-    }
-
 }
 

@@ -9,11 +9,20 @@ class ViewPagerAdapter(a_fmFragmentManager : FragmentManager, a_lstPages : Array
     private val mlstPages : ArrayList<Fragment> = a_lstPages
 
     override fun getItem(position: Int): Fragment {
-        return mlstPages[position]
+        val page = mlstPages[position]
+        if(page is RefreshData) { page.refresh() }
+        return page
     }
 
     override fun getCount(): Int {
         return mlstPages.size
     }
 
+    override fun getItemPosition(`object`: Any?): Int {
+        return POSITION_NONE
+    }
+}
+
+interface RefreshData {
+    fun refresh()
 }

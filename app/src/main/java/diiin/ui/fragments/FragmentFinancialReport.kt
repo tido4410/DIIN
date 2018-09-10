@@ -29,6 +29,8 @@ import diiin.dao.LocalCacheManager
 import diiin.model.Expense
 import diiin.model.Salary
 import diiin.ui.activity.MainActivity
+import diiin.ui.adapter.RefreshData
+import diiin.ui.adapter.ViewPagerAdapter
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.HashMap
@@ -38,7 +40,7 @@ import kotlin.collections.HashMap
  *
  * @author Gabriel Moro
  */
-class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
+class FragmentFinancialReport : Fragment(), RefreshData {
 
 
     companion object {
@@ -104,7 +106,7 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
 
         mrlChartItem?.visibility = RelativeLayout.GONE
         mrlWalletPanel?.visibility = RelativeLayout.VISIBLE
-        loadPageContent()
+        refresh()
     }
 
     private fun initPieEntry(asFloatPercent : Float, astrString : String) : PieEntry {
@@ -113,7 +115,7 @@ class FragmentFinancialReport : Fragment(), MainActivity.MainPageFragments {
         return entry
     }
 
-    override fun loadPageContent() {
+    override fun refresh() {
         mhmExpenseByPercentage.clear()
 
         DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {

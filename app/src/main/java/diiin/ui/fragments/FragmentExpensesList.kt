@@ -27,6 +27,7 @@ import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertExpenseActivity
 import diiin.ui.activity.MainActivity
 import diiin.ui.adapter.ExpenseListAdapter
+import diiin.ui.adapter.RefreshData
 import diiin.util.MathService
 import java.util.*
 import kotlin.collections.ArrayList
@@ -37,7 +38,7 @@ import kotlin.collections.ArrayList
  *
  * @author Gabriel Moro
  */
-class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
+class FragmentExpensesList : Fragment(), RefreshData {
 
     private var mspMonthSelector: Spinner? = null
     private var mrvExpenseList: RecyclerView? = null
@@ -70,10 +71,10 @@ class FragmentExpensesList : Fragment(), MainActivity.MainPageFragments {
 
     override fun onResume() {
         super.onResume()
-        loadPageContent()
+        refresh()
     }
 
-    override fun loadPageContent() {
+    override fun refresh() {
         DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
             override fun onExpensesLoaded(alstExpenses: List<Expense>) {
 

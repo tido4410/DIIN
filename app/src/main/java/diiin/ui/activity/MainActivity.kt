@@ -1,5 +1,6 @@
 package diiin.ui.activity
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
@@ -25,13 +26,59 @@ import diiin.ui.fragments.FragmentFinancialReport
 import diiin.ui.fragments.FragmentSalaryList
 import diiin.util.MessageDialog
 import diiin.util.SelectionSharedPreferences
+import java.util.*
 
+interface MainScreenContract {
+    interface View {
+        fun loadViewPageAdapter()
+        fun loadSpinnersContent()
+        fun showFragmentContent()
+        fun getMonthSelected() : String
+        fun getSpinnerMonthsList() : ArrayList<String>
+    }
+    interface Presenter {
+        fun saveMonthSelected(actxContext : Context)
+        fun loadMonthSelected(actxContext: Context) : Int
+    }
+}
+
+class MainPresenter(avwMainView : MainScreenContract.View) : MainScreenContract.Presenter{
+
+    private val mvwMainView : MainScreenContract.View = avwMainView
+
+    override fun saveMonthSelected(actxContext : Context) {
+        val idOfMonth = MonthType.gettingIdFromDescription(actxContext, mvwMainView.getMonthSelected())
+        StaticCollections.mmtMonthSelected = if(idOfMonth != null) {
+            val monthType = MonthType.fromInt(idOfMonth)
+            monthType
+        } else { null } ?: return
+
+        SelectionSharedPreferences.insertMonthSelectPreference(actxContext, StaticCollections.mmtMonthSelected)
+        mvwMainView.loadViewPageAdapter()
+        mvwMainView.showFragmentContent()
+    }
+
+    override fun loadMonthSelected(actxContext: Context) : Int {
+        StaticCollections.mmtMonthSelected ?: return Calendar.getInstance().get(Calendar.MONTH)
+
+        val strMonthValue = StaticCollections.mmtMonthSelected?.description(actxContext)
+
+        var nCount = 0
+        val nSize = mvwMainView.getSpinnerMonthsList().size
+        while(nCount < nSize) {
+            if(mvwMainView.getSpinnerMonthsList()[nCount]==strMonthValue)
+                break
+            nCount++
+        }
+        return nCount
+    }
+}
 /**
  * This screen is used by user to see the expenses and salary report by month of year.
  *
  * @author Gabriel Moro
  */
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, MainScreenContract.View {
 
             var mnvNavigation : BottomNavigationView? = null
             var mspMonthSelector : Spinner? = null
@@ -40,6 +87,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private var mMenuInflated : Menu? = null
     private var mvwViewPager : ViewPager? = null
     private var mPrevMenuItem : MenuItem? = null
+    private var mPresenter : MainScreenContract.Presenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +100,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         mnvNavigation?.setOnNavigationItemSelectedListener(this)
 
+        mPresenter = MainPresenter(this)
         loadViewPageAdapter()
         loadSpinnersContent()
     }
 
-    private fun loadViewPageAdapter() {
+    override fun getMonthSelected(): String {
+        return mspMonthSelector?.selectedItem.toString()
+    }
+
+    override fun loadViewPageAdapter() {
         val lstPages = ArrayList<Fragment>()
         lstPages.add(FragmentExpensesList())
         lstPages.add(FragmentFinancialReport())
@@ -117,7 +170,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return false
     }
 
-    private fun loadSpinnersContent() {
+    override fun loadSpinnersContent() {
         mltSpinnerMonthsList = ArrayList()
         mltSpinnerMonthsList?.add(resources.getString(R.string.All))
 
@@ -127,37 +180,24 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         lstArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mspMonthSelector?.adapter = lstArrayAdapter
         mspMonthSelector?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) { }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val idOfMonth = MonthType.gettingIdFromDescription(baseContext, mspMonthSelector?.selectedItem.toString())
-                StaticCollections.mmtMonthSelected = if(idOfMonth != null) {
-                    val monthType = MonthType.fromInt(idOfMonth)
-                    monthType
-                } else { null } ?: return
-
-                SelectionSharedPreferences.insertMonthSelectPreference(baseContext, StaticCollections.mmtMonthSelected)
-                loadViewPageAdapter()
-                showFragmentContent()
+                mPresenter?.saveMonthSelected(baseContext)
             }
         }
 
-        mltSpinnerMonthsList ?: return
-        StaticCollections.mmtMonthSelected ?: return
-
-        val strMonthValue = StaticCollections.mmtMonthSelected?.description(this)
-
-        var nCount = 0
-        val nSize = mltSpinnerMonthsList?.size
-        while(nCount < nSize!!) {
-            if(mltSpinnerMonthsList!![nCount]==strMonthValue)
-                break
-            nCount++
-        }
-        mspMonthSelector?.setSelection(nCount)
+        val nIndex = mPresenter?.loadMonthSelected(this) ?: 0
+        mspMonthSelector?.setSelection(nIndex)
     }
 
-    private fun showFragmentContent() {
+
+
+    override fun getSpinnerMonthsList() : ArrayList<String>{
+        if(mltSpinnerMonthsList!=null) return mltSpinnerMonthsList!!
+        else return ArrayList()
+    }
+    override fun showFragmentContent() {
         val nCurrentIndex = mvwViewPager?.currentItem
         if (nCurrentIndex != null) {
             val fgCurrentFragment = (mvwViewPager?.adapter as ViewPagerAdapter).getItem(nCurrentIndex)

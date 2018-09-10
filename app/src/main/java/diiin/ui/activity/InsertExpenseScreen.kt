@@ -66,35 +66,34 @@ class InsertExpensePresenter(avwView : InsertExpenseContract.View) : InsertExpen
         val lstCategories = ArrayList<String>()
 
         if(anExpenseId != null) {
-            DindinApp.mlcmDataManager?.getExpenseTypeDescription(anExpenseId, object : LocalCacheManager.DatabaseCallBack {
-                override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
-                override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
-                override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
-                override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
-                override fun onExpenseIdReceived(aexpense: Expense) {}
-                override fun onExpenseTypeColorReceived(astrColor: String) {}
-                override fun onExpenseTypeDescriptionReceived(astrDescription: String) {
+            DindinApp.mlcmDataManager?.getExpenseAccordingId(anExpenseId, object : LocalCacheManager.DatabaseCallBack {
+                override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
+                override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
+                override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
+                override fun onExpenseIdReceived(aexpense: Expense) {
+                    val nExpenseTypeID = aexpense.mnExpenseType
                     DindinApp.mlcmDataManager?.getAllExpenseTypeObjects(object : LocalCacheManager.DatabaseCallBack {
-                        override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
-                        override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
+                        override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
                         override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {
                             var nCount = 0
                             alstExpensesType.forEachIndexed { nIndex, expense ->
                                 lstCategories.add(expense.mstrDescription)
-                                if (expense.mstrDescription == astrDescription) nCount = nIndex
+                                if (expense.mnExpenseTypeID == nExpenseTypeID) nCount = nIndex
                             }
                             view.fillCategoriesInSpinnerContentAndSelectSomeone(lstCategories, nCount)
                         }
-
-                        override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
-                        override fun onExpenseIdReceived(aexpense: Expense) {}
-                        override fun onExpenseTypeColorReceived(astrColor: String) {}
-                        override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
-                        override fun onExpenseTypeIDReceived(anID: Long?) {}
+                        override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
+                        override fun onExpenseIdReceived(aexpense: Expense) { }
+                        override fun onExpenseTypeColorReceived(astrColor: String) { }
+                        override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
+                        override fun onExpenseTypeIDReceived(anID: Long?) { }
+                        override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
                     })
                 }
-
-                override fun onExpenseTypeIDReceived(anID: Long?) {}
+                override fun onExpenseTypeColorReceived(astrColor: String) { }
+                override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
+                override fun onExpenseTypeIDReceived(anID: Long?) { }
+                override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
             })
         } else {
             DindinApp.mlcmDataManager?.getAllExpenseTypeObjects(object : LocalCacheManager.DatabaseCallBack {

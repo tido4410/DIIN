@@ -17,6 +17,7 @@
             android:id="@+id/tvCurrentYear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@string/yearselected"
             android:textAllCaps="true"
             android:textSize="18sp"
@@ -26,29 +27,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/etYearSelected"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:inputType="numberDecimal"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/btnToSaveTheYearSelected"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etYearSelected"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:inputType="numberDecimal"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/btnToSaveTheYearSelected"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="@drawable/bgselector"
-                android:text="@string/savelabel"
-                android:textColor="#ffff" />
-        </LinearLayout>
+            android:layout_weight="1"
+            android:background="@drawable/bgselector"
+            android:text="@string/savelabel"
+            android:textColor="#ffff" />
 
         <TextView
             android:id="@+id/tvLabelExpenseType"

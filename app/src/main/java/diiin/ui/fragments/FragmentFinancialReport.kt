@@ -63,18 +63,29 @@ interface FinancialReportContract {
     }
 }
 
+/**
+ * The presenter to FInancialReportContract.View
+ * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
+ */
 class FinancialReportPresenter(avwView: FinancialReportContract.View) : FinancialReportContract.Presenter {
 
     private val mhmExpenseByPercentage: HashMap<Long, Float> = HashMap()
     private val view: FinancialReportContract.View = avwView
 
-
+    /**
+     * Return the pie entry object with a float percent and label.
+     */
     override fun initPieEntry(asFloatPercent: Float, astrString: String): PieEntry {
         val entry = PieEntry(asFloatPercent)
         entry.label = astrString
         return entry
     }
 
+    /**
+     * Load the financial demonstrative panel according the month and year selected.
+     */
     override fun loadDemonstrativePanel(amnMonthSelected: MonthType, anYearSelected: Int) {
         var sTotalSalary = 0f
         DindinApp.mlcmDataManager?.getAllSalaries(object : LocalCacheManager.DatabaseCallBack {
@@ -125,6 +136,9 @@ class FinancialReportPresenter(avwView: FinancialReportContract.View) : Financia
         })
     }
 
+    /**
+     * Create the new chart draft with the current state.
+     */
     override fun dispareChartConstructor(amnMonthSelected: MonthType, anYearSelected: Int) {
         mhmExpenseByPercentage.clear()
         DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
@@ -201,6 +215,9 @@ class FinancialReportPresenter(avwView: FinancialReportContract.View) : Financia
         })
     }
 
+    /**
+     * Define the event when user clicks in some piece of pie chart.
+     */
     override fun onClickInPiePiece(peEntry: PieEntry) {
         DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
             override fun onExpensesLoaded(alstExpenses: List<Expense>) {
@@ -231,8 +248,9 @@ class FinancialReportPresenter(avwView: FinancialReportContract.View) : Financia
 
 /**
  * Screen that shows to user the financial overview
- *
  * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
  */
 class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract.View {
 
@@ -297,6 +315,9 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         refresh()
     }
 
+    /**
+     * Refresh method is used to show the current data state.
+     */
     override fun refresh() {
         val mnMonthSelected = DindinApp.mmtMonthSelected ?: return
         val nYear = DindinApp.mnYearSelected ?: return
@@ -304,6 +325,9 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         presenter?.loadDemonstrativePanel(mnMonthSelected, nYear)
     }
 
+    /**
+     * Draw the pie chart according to pie entries list and colors arguments
+     */
     override fun drawPieChart(alstPieEntries: ArrayList<PieEntry>, alstColors: ArrayList<Int>) {
         val dataSet = PieDataSet(alstPieEntries, "")
         dataSet.sliceSpace = 2f
@@ -334,6 +358,9 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         })
     }
 
+    /**
+     * Show the cell with more details according the piece selected for user.
+     */
     override fun showChartItemCard(aetExpenseType: ExpenseType, asValue: Float) {
         mtvChartItemDate?.visibility = TextView.GONE
         mivChartItemButtonMenu?.visibility = ImageView.GONE
@@ -345,18 +372,30 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         mrlWalletPanel?.visibility = RelativeLayout.GONE
     }
 
+    /**
+     * Change the salary text value
+     */
     override fun setSalaryTotal(astrValue: String) {
         mtvSalaryTotalValue?.text = astrValue
     }
 
+    /**
+     * Change the expense text value
+     */
     override fun setExpenseTotal(astrValue: String) {
         mtvExpenseTotalValue?.text = astrValue
     }
 
+    /**
+     * Change the wallet text value
+     */
     override fun setWalletTotal(astrValue: String) {
         mtvWalletTotalValue?.text = astrValue
     }
 
+    /**
+     * Hide the chart item card.
+     */
     override fun hideChartItem() {
         mrlChartItem?.visibility = RelativeLayout.GONE
     }

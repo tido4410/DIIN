@@ -49,11 +49,22 @@ interface InsertExpenseContract {
     }
 }
 
+/**
+ * Presenter of InsertExpenseScreen.
+ * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
+ */
 class InsertExpensePresenter(avwView: InsertExpenseContract.View) : InsertExpenseContract.Presenter {
 
     private var view: InsertExpenseContract.View = avwView
     var dataBaseFactory: DataBaseFactory? = DindinApp.mlcmDataManager?.mappDataBaseBuilder
 
+    /**
+     * If user wants to update some expense, this function
+     * is called to get the values of the expense that will be
+     * updated.
+     */
     override fun loadExpenseValues(anExpenseId: Long?) {
         anExpenseId ?: return
         DindinApp.mlcmDataManager?.getExpenseAccordingId(anExpenseId,
@@ -75,6 +86,11 @@ class InsertExpensePresenter(avwView: InsertExpenseContract.View) : InsertExpens
                 })
     }
 
+    /**
+     * This method load all expense types available in app: food, pets.
+     * @param anExpenseId is used to select the current expense type used
+     * for expense (when update expense)
+     */
     override fun loadCategories(anExpenseId: Long?) {
 
         val lstCategories = ArrayList<String>()
@@ -129,6 +145,10 @@ class InsertExpensePresenter(avwView: InsertExpenseContract.View) : InsertExpens
         }
     }
 
+    /**
+     * This function save the new expense or the expense update.
+     * When expense update operation, the anExpenseId is not null.
+     */
     override fun saveExpense(anExpenseId: Long?, astrCategory: String, astrDescription: String, astrValue: String, adtDate: Date) {
         if (astrValue.isEmpty()) {
             view.showUnsucessMessage()
@@ -220,6 +240,9 @@ class InsertExpenseActivity : AppCompatActivity(), InsertExpenseContract.View {
         }
     }
 
+    /**
+     * Define data picker setup.
+     */
     private fun loadDataPickerListener() {
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
             clCalenderChoosed.set(Calendar.YEAR, year)
@@ -242,14 +265,23 @@ class InsertExpenseActivity : AppCompatActivity(), InsertExpenseContract.View {
         }
     }
 
+    /**
+     * Show the sucess message when user save a new expense or update it.
+     */
     override fun showSucessMessage() {
         MessageDialog.showToastMessage(this, resources.getString(R.string.sucessaction))
     }
 
+    /**
+     * Show the unsucess message when user save a new expense or update it.
+     */
     override fun showUnsucessMessage() {
         MessageDialog.showToastMessage(this, resources.getString(R.string.fillAreFields))
     }
 
+    /**
+     * Fill the spinner content with expense types available in app.
+     */
     override fun fillCategoriesInSpinnerContentAndSelectSomeone(alstValues: ArrayList<String>, anItem: Int) {
         val lstArrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, alstValues)
         lstArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
@@ -257,14 +289,23 @@ class InsertExpenseActivity : AppCompatActivity(), InsertExpenseContract.View {
         mspSpinnerExpenseType?.setSelection(anItem)
     }
 
+    /**
+     * Change the description text value.
+     */
     override fun setDescription(astrDescription: String) {
         metDescription?.setText(astrDescription)
     }
 
+    /**
+     * Change the date text value.
+     */
     override fun setDate(astrDate: String) {
         mtvDate?.text = astrDate
     }
 
+    /**
+     * Change the value text.
+     */
     override fun setValue(astrValue: String) {
         metValue?.setText(astrValue)
     }

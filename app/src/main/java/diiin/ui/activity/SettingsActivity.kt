@@ -50,19 +50,34 @@ interface SettingsScreenContract {
     }
 }
 
+/**
+ * Presenter of the SettingsScreen
+ * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
+ */
 class SettingsPresenter(avwView: SettingsScreenContract.View) : SettingsScreenContract.Presenter {
     private val view: SettingsScreenContract.View = avwView
 
+    /**
+     * Save the year in shared preferences.
+     */
     override fun saveYear(actxContext: Context, astrYear: String) {
         val nYear = astrYear.toIntOrNull() ?: return
         SelectionSharedPreferences.insertYearSelectPreference(actxContext, nYear)
     }
 
+    /**
+     * Load the last year defined for user.
+     */
     override fun loadYear() {
         val strCurrentYear = DindinApp.mnYearSelected.toString()
         view.setYear(strCurrentYear)
     }
 
+    /**
+     * Load all expense types available in app.
+     */
     override fun loadExpenseTypes() {
         DindinApp.mlcmDataManager?.getAllExpenseTypeObjects(object : LocalCacheManager.DatabaseCallBack {
             override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
@@ -90,6 +105,12 @@ class SettingsPresenter(avwView: SettingsScreenContract.View) : SettingsScreenCo
 
 }
 
+/**
+ * View of the SettingsScreen.
+ * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
+ */
 class SettingsActivity : AppCompatActivity(), SettingsScreenContract.View {
 
     private var mrvExpenseTypeList: RecyclerView? = null
@@ -137,14 +158,23 @@ class SettingsActivity : AppCompatActivity(), SettingsScreenContract.View {
         presenter?.loadYear()
     }
 
+    /**
+     * Call the screen to insert a new expense type
+     */
     override fun callExpenseTypeInsertScreen() {
         startActivity(Intent(this, InsertExpenseTypeActivity::class.java))
     }
 
+    /**
+     * Update adapter list with the current expense types list.
+     */
     override fun setExpenseTypeList(alstArrayList: ArrayList<ExpenseType>) {
         mrvExpenseTypeList?.adapter = ExpenseTypeListAdapter(this, alstArrayList)
     }
 
+    /**
+     * Change the year text value.
+     */
     override fun setYear(astrYear: String) {
         metYear?.setText(astrYear)
     }

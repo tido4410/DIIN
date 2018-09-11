@@ -45,10 +45,20 @@ interface InsertSalaryContract {
     }
 }
 
+/**
+ * Presenter of InsertSalaryContract.View
+ * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
+ */
 class InsertSalaryPresenter(avwView: InsertSalaryContract.View) : InsertSalaryContract.Presenter {
 
     private var view: InsertSalaryContract.View = avwView
 
+    /**
+     * Load the last salary registry according to ID.
+     * If the Id is not null, this load occurs.
+     */
     override fun loadSalaryValues(anSalaryID: Long?) {
         if (anSalaryID != null) {
             DindinApp.mlcmDataManager?.getSalaryAccordingId(anSalaryID,
@@ -69,6 +79,9 @@ class InsertSalaryPresenter(avwView: InsertSalaryContract.View) : InsertSalaryCo
         }
     }
 
+    /**
+     * Save the new salary or the update of it.
+     */
     override fun saveSalary(anSalaryID: Long?, astrDescription: String, astrValue: String, adtDate: Date) {
         if (astrDescription.isEmpty() && astrValue.isEmpty()) {
             view.showUnsucessMessage()
@@ -91,6 +104,8 @@ class InsertSalaryPresenter(avwView: InsertSalaryContract.View) : InsertSalaryCo
  * This screen is used by user to create the incoming register
  *
  * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
  */
 class InsertSalaryActivity : AppCompatActivity(), InsertSalaryContract.View {
 
@@ -143,6 +158,9 @@ class InsertSalaryActivity : AppCompatActivity(), InsertSalaryContract.View {
     }
 
 
+    /**
+     * Setup of data picker.
+     */
     private fun loadDataPickerListener() {
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
             clCalenderChoosed.set(Calendar.YEAR, year)
@@ -165,18 +183,30 @@ class InsertSalaryActivity : AppCompatActivity(), InsertSalaryContract.View {
         }
     }
 
+    /**
+     * Show sucess message when operation result is correct.
+     */
     override fun showSucessMessage() {
         MessageDialog.showToastMessage(this, resources.getString(R.string.sucessaction))
     }
 
+    /**
+     * Show unsucess message when operation result is not correct.
+     */
     override fun showUnsucessMessage() {
         MessageDialog.showToastMessage(this, resources.getString(R.string.fillAreFields))
     }
 
+    /**
+     * Change the description text value.
+     */
     override fun setDescription(astrDescription: String) {
         metDescriptionValue?.setText(astrDescription)
     }
 
+    /**
+     * Change the value text.
+     */
     override fun setValue(astrValue: String) {
         metPriceValue?.setText(astrValue)
     }

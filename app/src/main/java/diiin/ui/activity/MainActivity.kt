@@ -56,10 +56,19 @@ interface MainScreenContract {
     }
 }
 
+/**
+ * Presenter of MainActivityContract.View.
+ * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
+ */
 class MainPresenter(avwMainView: MainScreenContract.View) : MainScreenContract.Presenter {
 
     private val view: MainScreenContract.View = avwMainView
 
+    /**
+     * Save the month selected for user.
+     */
     override fun saveMonthSelected(actxContext: Context) {
         val idOfMonth = MonthType.gettingIdFromDescription(actxContext, view.getMonthSelected())
         DindinApp.mmtMonthSelected = if (idOfMonth != null) {
@@ -74,6 +83,9 @@ class MainPresenter(avwMainView: MainScreenContract.View) : MainScreenContract.P
         view.showFragmentContent()
     }
 
+    /**
+     * Load the month selected for user in the last use.
+     */
     override fun loadMonthSelected(actxContext: Context): Int {
         DindinApp.mmtMonthSelected ?: return Calendar.getInstance().get(Calendar.MONTH)
 
@@ -94,6 +106,8 @@ class MainPresenter(avwMainView: MainScreenContract.View) : MainScreenContract.P
  * This screen is used by user to see the expenses and salary report by month of year.
  *
  * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
  */
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, MainScreenContract.View {
 
@@ -122,10 +136,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         loadSpinnersContent()
     }
 
+    /**
+     * Return the month text value selected for user.
+     */
     override fun getMonthSelected(): String {
         return mspMonthSelector?.selectedItem.toString()
     }
 
+    /**
+     * ViewPager setup.
+     */
     override fun loadViewPageAdapter() {
         val lstPages = ArrayList<Fragment>()
         lstPages.add(FragmentExpensesList())
@@ -187,6 +207,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return false
     }
 
+    /**
+     * Load the content of the spinner component.
+     */
     override fun loadSpinnersContent() {
         mltSpinnerMonthsList = ArrayList()
         mltSpinnerMonthsList?.add(resources.getString(R.string.All))
@@ -208,12 +231,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         mspMonthSelector?.setSelection(nIndex)
     }
 
-
+    /**
+     * Return the months list used in spinner component.
+     */
     override fun getSpinnerMonthsList(): ArrayList<String> {
         if (mltSpinnerMonthsList != null) return mltSpinnerMonthsList!!
         else return ArrayList()
     }
 
+    /**
+     * Show the fragment content.
+     */
     override fun showFragmentContent() {
         val nCurrentIndex = mvwViewPager?.currentItem
         if (nCurrentIndex != null) {

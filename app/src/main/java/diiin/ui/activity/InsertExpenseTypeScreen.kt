@@ -45,10 +45,19 @@ interface InsertExpenseTypeContract {
     }
 }
 
+/**
+ * Presenter of InsertExpenseTypeScreen
+ * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
+ */
 class InsertExpenseTypePresenter(avwView: InsertExpenseTypeContract.View) : InsertExpenseTypeContract.Presenter {
 
     private var view: InsertExpenseTypeContract.View = avwView
 
+    /**
+     * Load all expenseType available in app
+     */
     override fun loadExpenseTypeValues(anLongExpenseID: Long?) {
         anLongExpenseID ?: return
 
@@ -82,6 +91,9 @@ class InsertExpenseTypePresenter(avwView: InsertExpenseTypeContract.View) : Inse
         })
     }
 
+    /**
+     * Save a new expense type or some update.
+     */
     override fun saveExpenseType(anExpenseTypeID: Long?, astrDescription: String, anColorSelected: Int) {
         val expenseTarget = ExpenseType(anExpenseTypeID, astrDescription, "#${Integer.toHexString(anColorSelected)}")
         if (astrDescription.isEmpty()) {
@@ -100,6 +112,12 @@ class InsertExpenseTypePresenter(avwView: InsertExpenseTypeContract.View) : Inse
 
 }
 
+/**
+ * Define InsertExpenseTypeActivity view.
+ * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
+ */
 class InsertExpenseTypeActivity : AppCompatActivity(), InsertExpenseTypeContract.View {
 
     private var presenter: InsertExpenseTypeContract.Presenter? = null
@@ -149,18 +167,30 @@ class InsertExpenseTypeActivity : AppCompatActivity(), InsertExpenseTypeContract
         }
     }
 
+    /**
+     * Show the sucess message when user insert new expense type or some update.
+     */
     override fun showSucessMessage() {
         MessageDialog.showToastMessage(this, resources.getString(R.string.sucessaction))
     }
 
+    /**
+     * Show the unsucess message when user insert new expense type or some update.
+     */
     override fun showUnsucessMessage() {
         MessageDialog.showToastMessage(this, resources.getString(R.string.fillAreFields))
     }
 
+    /**
+     * Change the color value.
+     */
     override fun setColor(anColorValue: Int) {
         mvwCurrentColor?.setBackgroundColor(anColorValue)
     }
 
+    /**
+     * Change the description text value.
+     */
     override fun setDecription(astrDescription: String) {
         metEditText?.setText(astrDescription)
     }

@@ -12,10 +12,9 @@ import diiin.util.MathService
 /**
  * RVWithFLoatingButtonControl defines a method to hide the floating action button when
  * user does some action.
- *
  * @author Gabriel Moro
- *
- * @param albaFloatingButtonTarget define a kind of button
+ * @since 11/09/2018
+ * @version 1.0.9
  */
 class RVWithFLoatingButtonControl(albaFloatingButtonTarget: FloatingActionButton) : View.OnTouchListener {
 
@@ -39,6 +38,8 @@ class RVWithFLoatingButtonControl(albaFloatingButtonTarget: FloatingActionButton
  * this component autoadjust the integer numbers to currency value.
  *
  * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
  *
  * @param aetPrice is the edittext component
  */

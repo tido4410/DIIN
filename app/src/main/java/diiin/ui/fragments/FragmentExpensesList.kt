@@ -50,10 +50,19 @@ interface ExpenseListContract {
     }
 }
 
+/**
+ * Define the presenter to expense list fragment.
+ * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
+ */
 class FragmentExpenseListPresenter(avwView: ExpenseListContract.View) : ExpenseListContract.Presenter {
 
     private val view: ExpenseListContract.View = avwView
 
+    /**
+     * Load all expenses according to month and year selected for user.
+     */
     override fun loadExpenses(amnMonthSelected: MonthType, anYearSelected: Int) {
         DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
             override fun onExpensesLoaded(alstExpenses: List<Expense>) {
@@ -86,6 +95,8 @@ class FragmentExpenseListPresenter(avwView: ExpenseListContract.View) : ExpenseL
  * Screen that shows to user the expenses filter and list
  *
  * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
  */
 class FragmentExpensesList : Fragment(), RefreshData, ExpenseListContract.View {
 
@@ -122,6 +133,9 @@ class FragmentExpensesList : Fragment(), RefreshData, ExpenseListContract.View {
         refresh()
     }
 
+    /**
+     * Refresh is used to restart the adapter list content with the current state.
+     */
     override fun refresh() {
         val mnMonthSelected = DindinApp.mmtMonthSelected ?: return
         val mnYearSelected = DindinApp.mnYearSelected ?: return
@@ -133,6 +147,9 @@ class FragmentExpensesList : Fragment(), RefreshData, ExpenseListContract.View {
         mrvExpenseList?.adapter?.notifyDataSetChanged()
     }
 
+    /**
+     * Change the adapter list.
+     */
     override fun loadExpenseListAdapter(alstExpenses: ArrayList<Expense>) {
         val elAdapter = ExpenseListAdapter(context, alstExpenses)
         mrvExpenseList?.adapter = elAdapter

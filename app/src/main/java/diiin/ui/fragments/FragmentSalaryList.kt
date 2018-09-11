@@ -49,10 +49,19 @@ interface SalaryListContract {
     }
 }
 
+/**
+ * Presenter to SalaryListContract.View.
+ * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
+ */
 class FragmentSalaryPresenter(avwView: SalaryListContract.View) : SalaryListContract.Presenter {
 
     private val view: SalaryListContract.View = avwView
 
+    /**
+     * Load the salaries according to month and year selected for user.
+     */
     override fun loadSalaries(amnMonthSelected: MonthType, anYearSelected: Int) {
         DindinApp.mlcmDataManager?.getAllSalaries(object : LocalCacheManager.DatabaseCallBack {
             override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
@@ -81,8 +90,9 @@ class FragmentSalaryPresenter(avwView: SalaryListContract.View) : SalaryListCont
 
 /**
  * Screen that shows to user the incomes filter and salary list
- *
  * @author Gabriel Moro
+ * @since 11/09/2018
+ * @version 1.0.9
  */
 class FragmentSalaryList : Fragment(), RefreshData, SalaryListContract.View {
 
@@ -119,6 +129,9 @@ class FragmentSalaryList : Fragment(), RefreshData, SalaryListContract.View {
         refresh()
     }
 
+    /**
+     * This method refresh to current data state
+     */
     override fun refresh() {
         val mnMonthSelected = DindinApp.mmtMonthSelected ?: return
         val mnYear = DindinApp.mnYearSelected ?: return
@@ -132,6 +145,9 @@ class FragmentSalaryList : Fragment(), RefreshData, SalaryListContract.View {
         mrvSalaryList?.adapter?.notifyDataSetChanged()
     }
 
+    /**
+     * Load the adapter content.
+     */
     override fun loadSalaryListAdapter(alstSalary: ArrayList<Salary>) {
         val slAdapter = SalaryListAdapter(alstSalary, context)
         mrvSalaryList?.adapter = slAdapter

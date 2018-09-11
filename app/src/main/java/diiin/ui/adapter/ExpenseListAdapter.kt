@@ -59,7 +59,6 @@ class ExpenseListAdapter(actxContext: Context, alstExpenseList: ArrayList<Expens
             if (expenseType != null) {
                 val nColor = Color.parseColor(expenseType.mstrColor)
                 holder.vwExpenseType.setBackgroundColor(nColor)
-                holder.tvValue.setTextColor(nColor)
                 holder.tvDescription.text = expenseItem.mstrDescription
                 holder.tvExpenseType.text = expenseType.mstrDescription
             }

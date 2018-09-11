@@ -365,7 +365,6 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         mtvChartItemDate?.visibility = TextView.GONE
         mivChartItemButtonMenu?.visibility = ImageView.GONE
         mtvChartItemValue?.text = MathService.formatFloatToCurrency(asValue)
-        mtvChartItemValue?.setTextColor(Color.parseColor(aetExpenseType.mstrColor))
         mtvChartItemExpenseType?.text = aetExpenseType.mstrDescription
         mvwChartItemExpenseType?.setBackgroundColor(Color.parseColor(aetExpenseType.mstrColor))
         mrlChartItem?.visibility = RelativeLayout.VISIBLE

@@ -228,7 +228,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
 
         val nIndex = presenter?.loadMonthSelected(this) ?: 0
-        mspMonthSelector?.setSelection(nIndex)
+        mspMonthSelector?.setSelection(nIndex + 1) //the content has more one element (all)
     }
 
     /**

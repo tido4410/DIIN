@@ -87,7 +87,7 @@ class MainPresenter(avwMainView: MainScreenContract.View) : MainScreenContract.P
      * Load the month selected for user in the last use.
      */
     override fun loadMonthSelected(actxContext: Context): Int {
-        DindinApp.mmtMonthSelected ?: return Calendar.getInstance().get(Calendar.MONTH)
+        DindinApp.mmtMonthSelected ?: return (Calendar.getInstance().get(Calendar.MONTH) + 1)
 
         val strMonthValue = DindinApp.mmtMonthSelected?.description(actxContext)
 
@@ -228,7 +228,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
 
         val nIndex = presenter?.loadMonthSelected(this) ?: 0
-        mspMonthSelector?.setSelection(nIndex + 1) //the content has more one element (all)
+        mspMonthSelector?.setSelection(nIndex) //the content has more one element (all)
     }
 
     /**

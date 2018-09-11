@@ -61,7 +61,7 @@ object MathService {
             }
             strMoney = formatter?.format(sFloatNumber) ?: ""
         }
-        return strMoney
+        return strMoney.replace("R$", "")
     }
 
     /**

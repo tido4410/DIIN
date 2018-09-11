@@ -13,7 +13,6 @@ import android.widget.Button
 import android.widget.EditText
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp
-import diiin.StaticCollections
 import diiin.dao.LocalCacheManager
 import diiin.model.Expense
 import diiin.model.ExpenseType
@@ -47,7 +46,7 @@ class SettingsPresenter(avwView: SettingsScreenContract.View) : SettingsScreenCo
     }
 
     override fun loadYear() {
-        val strCurrentYear = StaticCollections.mnYearSelected.toString()
+        val strCurrentYear = DindinApp.mnYearSelected.toString()
         view.setYear(strCurrentYear)
     }
 

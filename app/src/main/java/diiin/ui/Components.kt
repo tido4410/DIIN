@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
-import diiin.StaticCollections
 import diiin.util.MathService
 
 /**

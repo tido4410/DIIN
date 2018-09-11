@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.*
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp
-import diiin.StaticCollections
 import diiin.dao.DataBaseFactory
 import diiin.dao.LocalCacheManager
 import diiin.model.Expense
@@ -122,7 +121,7 @@ class InsertExpensePresenter(avwView: InsertExpenseContract.View) : InsertExpens
             view.showUnsucessMessage()
         } else {
             val sValue = MathService.formatCurrencyValueToFloat(astrValue)
-            val strDate = MathService.calendarTimeToString(adtDate, StaticCollections.mstrDateFormat)
+            val strDate = MathService.calendarTimeToString(adtDate, DindinApp.mstrDateFormat)
 
             DindinApp.mlcmDataManager?.getExpenseTypeID(astrCategory, object : LocalCacheManager.DatabaseCallBack {
                 override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
@@ -192,7 +191,7 @@ class InsertExpenseActivity : AppCompatActivity(), InsertExpenseContract.View {
     override fun onStart() {
         super.onStart()
 
-        mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
+        mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, DindinApp.mstrDateFormat)
 
         metValue?.addTextChangedListener(TWEditPrice(metValue!!))
 
@@ -215,12 +214,12 @@ class InsertExpenseActivity : AppCompatActivity(), InsertExpenseContract.View {
             clCalenderChoosed.set(Calendar.DAY_OF_MONTH, day)
 
             if (MathService.isTheDateInCurrentYear(clCalenderChoosed.time)) {
-                mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
+                mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, DindinApp.mstrDateFormat)
             } else {
                 clCalenderChoosed = Calendar.getInstance()
                 Toast.makeText(this, resources.getString(R.string.messageAboutWrongYear), Toast.LENGTH_LONG).show()
             }
-            mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
+            mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, DindinApp.mstrDateFormat)
         }
         mibChangeDate?.setOnClickListener {
             DatePickerDialog(this, dateSetListener,

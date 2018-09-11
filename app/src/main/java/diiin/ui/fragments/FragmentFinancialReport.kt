@@ -12,7 +12,6 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
-import diiin.StaticCollections
 import diiin.model.ExpenseType
 import diiin.util.MathService
 import com.github.mikephil.charting.charts.PieChart
@@ -46,7 +45,7 @@ interface FinancialReportContract {
         fun dispareChartConstructor(amnMonthSelected : MonthType, anYearSelected : Int)
         fun onClickInPiePiece(peEntry : PieEntry)
         fun initPieEntry(asFloatPercent: Float, astrString: String): PieEntry
-        fun loadDemonstrativePanel()
+        fun loadDemonstrativePanel(amnMonthSelected: MonthType, anYearSelected: Int)
     }
 }
 
@@ -62,7 +61,7 @@ class FinancialReportPresenter(avwView : FinancialReportContract.View) : Financi
         return entry
     }
 
-    override fun loadDemonstrativePanel() {
+    override fun loadDemonstrativePanel(amnMonthSelected: MonthType, anYearSelected: Int) {
         var sTotalSalary = 0f
         DindinApp.mlcmDataManager?.getAllSalaries(object : LocalCacheManager.DatabaseCallBack {
             override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
@@ -70,8 +69,8 @@ class FinancialReportPresenter(avwView : FinancialReportContract.View) : Financi
             override fun onSalariesLoaded(alstSalaries: List<Salary>) {
                 alstSalaries.forEach {
                     val clCalendar = Calendar.getInstance()
-                    clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
-                    if (clCalendar.get(Calendar.MONTH) == StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected) {
+                    clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, DindinApp.mstrDateFormat)
+                    if (clCalendar.get(Calendar.MONTH) == DindinApp.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == DindinApp.mnYearSelected) {
                         val sValue = it.msValue ?: 0f
                         sTotalSalary += sValue
                     }
@@ -81,8 +80,8 @@ class FinancialReportPresenter(avwView : FinancialReportContract.View) : Financi
                         var sTotalExpenseMonth = 0f
                         alstExpenses.forEach {
                             val clCalendar = Calendar.getInstance()
-                            clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
-                            if (clCalendar.get(Calendar.MONTH) == StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected) {
+                            clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, DindinApp.mstrDateFormat)
+                            if (clCalendar.get(Calendar.MONTH) == amnMonthSelected.aid && clCalendar.get(Calendar.YEAR) == anYearSelected) {
                                 val sValue = it.msValue ?: 0f
                                 sTotalExpenseMonth += sValue
                             }
@@ -123,7 +122,7 @@ class FinancialReportPresenter(avwView : FinancialReportContract.View) : Financi
 
                 alstExpenses.forEach {
                     val clCalendar = Calendar.getInstance()
-                    clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
+                    clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, DindinApp.mstrDateFormat)
                     if (clCalendar.get(Calendar.MONTH) == amnMonthSelected.aid && clCalendar.get(Calendar.YEAR) == anYearSelected) {
                         lstExpensesOfMonth.add(it)
                         if (it.msValue != null) sTotalExpenseMonth += it.msValue!!
@@ -285,10 +284,10 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
     }
 
     override fun refresh() {
-        val mnMonthSelected = StaticCollections.mmtMonthSelected ?: return
-        val nYear = StaticCollections.mnYearSelected ?: return
+        val mnMonthSelected = DindinApp.mmtMonthSelected ?: return
+        val nYear = DindinApp.mnYearSelected ?: return
         presenter?.dispareChartConstructor(mnMonthSelected, nYear)
-        presenter?.loadDemonstrativePanel()
+        presenter?.loadDemonstrativePanel(mnMonthSelected, nYear)
     }
 
     override fun drawPieChart(alstPieEntries: ArrayList<PieEntry>, alstColors: ArrayList<Int>) {

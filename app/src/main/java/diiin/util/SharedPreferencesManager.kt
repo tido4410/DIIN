@@ -2,7 +2,7 @@ package diiin.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import diiin.StaticCollections
+import diiin.DindinApp
 import diiin.model.Expense
 import diiin.model.MonthType
 import diiin.model.Salary
@@ -48,7 +48,7 @@ object SelectionSharedPreferences {
             val nId = MonthType.gettingIdFromDescription(actContext, strValue)
             if (nId != null) {
                 val monthSelected = MonthType.fromInt(nId)
-                StaticCollections.mmtMonthSelected = monthSelected
+                DindinApp.mmtMonthSelected = monthSelected
                 return monthSelected
             }
             return null
@@ -83,7 +83,7 @@ object SelectionSharedPreferences {
         if (strValue.isNotEmpty()) {
             val nYear = strValue.toIntOrNull()
             if (nYear != null) {
-                StaticCollections.mnYearSelected = nYear
+                DindinApp.mnYearSelected = nYear
                 return nYear
             }
             return null

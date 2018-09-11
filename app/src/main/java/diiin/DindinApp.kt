@@ -4,6 +4,7 @@ import android.app.Application
 import diiin.dao.LocalCacheManager
 import diiin.model.Expense
 import diiin.model.ExpenseType
+import diiin.model.MonthType
 import diiin.model.Salary
 import diiin.util.ExpenseSharedPreferences
 import diiin.util.SalarySharedPreferences
@@ -23,6 +24,16 @@ class DindinApp : Application() {
     companion object {
         var mlcmDataManager: LocalCacheManager? = null
         var mhmExpenseType: HashMap<Long, ExpenseType>? = null
+        /**
+         * Represents the month selected in the filter by user
+         */
+        var mmtMonthSelected: MonthType? = null
+        /**
+         * Represent the current year.
+         */
+        var mnYearSelected: Int? = null
+
+        val mstrDateFormat: String = "dd-MM-yyyy"
     }
 
     override fun onCreate() {

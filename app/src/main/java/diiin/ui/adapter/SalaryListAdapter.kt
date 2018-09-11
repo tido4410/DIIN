@@ -13,7 +13,6 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp
-import diiin.StaticCollections
 import diiin.model.Salary
 import diiin.ui.activity.InsertSalaryActivity
 import diiin.util.MathService

@@ -17,8 +17,8 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
+import diiin.DindinApp
 import diiin.model.MonthType
-import diiin.StaticCollections
 import diiin.ui.adapter.RefreshData
 import diiin.ui.adapter.ViewPagerAdapter
 import diiin.ui.fragments.FragmentExpensesList
@@ -49,22 +49,22 @@ class MainPresenter(avwMainView: MainScreenContract.View) : MainScreenContract.P
 
     override fun saveMonthSelected(actxContext: Context) {
         val idOfMonth = MonthType.gettingIdFromDescription(actxContext, view.getMonthSelected())
-        StaticCollections.mmtMonthSelected = if (idOfMonth != null) {
+        DindinApp.mmtMonthSelected = if (idOfMonth != null) {
             val monthType = MonthType.fromInt(idOfMonth)
             monthType
         } else {
             null
         } ?: return
 
-        SelectionSharedPreferences.insertMonthSelectPreference(actxContext, StaticCollections.mmtMonthSelected)
+        SelectionSharedPreferences.insertMonthSelectPreference(actxContext, DindinApp.mmtMonthSelected)
         view.loadViewPageAdapter()
         view.showFragmentContent()
     }
 
     override fun loadMonthSelected(actxContext: Context): Int {
-        StaticCollections.mmtMonthSelected ?: return Calendar.getInstance().get(Calendar.MONTH)
+        DindinApp.mmtMonthSelected ?: return Calendar.getInstance().get(Calendar.MONTH)
 
-        val strMonthValue = StaticCollections.mmtMonthSelected?.description(actxContext)
+        val strMonthValue = DindinApp.mmtMonthSelected?.description(actxContext)
 
         var nCount = 0
         val nSize = view.getSpinnerMonthsList().size
@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onResume() {
         super.onResume()
 
-        mtvYearSelected?.text = StaticCollections.mnYearSelected.toString()
+        mtvYearSelected?.text = DindinApp.mnYearSelected.toString()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

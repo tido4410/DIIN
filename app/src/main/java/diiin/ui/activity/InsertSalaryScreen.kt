@@ -7,8 +7,6 @@ import android.support.v4.content.ContextCompat
 import android.widget.*
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp
-import diiin.StaticCollections
-import diiin.dao.DataBaseFactory
 import diiin.dao.LocalCacheManager
 import diiin.model.Expense
 import diiin.model.ExpenseType
@@ -63,7 +61,7 @@ class InsertSalaryPresenter(avwView: InsertSalaryContract.View) : InsertSalaryCo
         if (astrDescription.isEmpty() && astrValue.isEmpty()) {
             view.showUnsucessMessage()
         } else {
-            val salaryTarget = Salary(anSalaryID, MathService.formatCurrencyValueToFloat(astrValue), astrDescription, MathService.calendarTimeToString(adtDate, StaticCollections.mstrDateFormat))
+            val salaryTarget = Salary(anSalaryID, MathService.formatCurrencyValueToFloat(astrValue), astrDescription, MathService.calendarTimeToString(adtDate, DindinApp.mstrDateFormat))
             Observable.just(anSalaryID != null).subscribeOn(Schedulers.io())
                     .subscribe {
                         if (it)
@@ -119,7 +117,7 @@ class InsertSalaryActivity : AppCompatActivity(), InsertSalaryContract.View {
     override fun onStart() {
         super.onStart()
 
-        mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
+        mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, DindinApp.mstrDateFormat)
 
         metPriceValue?.addTextChangedListener(TWEditPrice(metPriceValue!!))
 
@@ -140,12 +138,12 @@ class InsertSalaryActivity : AppCompatActivity(), InsertSalaryContract.View {
             clCalenderChoosed.set(Calendar.DAY_OF_MONTH, day)
 
             if (MathService.isTheDateInCurrentYear(clCalenderChoosed.time)) {
-                mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
+                mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, DindinApp.mstrDateFormat)
             } else {
                 clCalenderChoosed = Calendar.getInstance()
                 Toast.makeText(this, resources.getString(R.string.messageAboutWrongYear), Toast.LENGTH_LONG).show()
             }
-            mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
+            mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, DindinApp.mstrDateFormat)
         }
         mibChangeDate?.setOnClickListener {
             DatePickerDialog(this, dateSetListener,

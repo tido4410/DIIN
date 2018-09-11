@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.Spinner
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp
-import diiin.StaticCollections
 import diiin.dao.LocalCacheManager
 import diiin.model.Expense
 import diiin.model.ExpenseType
@@ -45,20 +44,14 @@ class FragmentSalaryPresenter(avwView : SalaryListContract.View) : SalaryListCon
             override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
             override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
             override fun onSalariesLoaded(alstSalaries: List<Salary>) {
-
                 val lstSalaryFiltered: ArrayList<Salary> = ArrayList()
-                val slAdapter: SalaryListAdapter
 
-                if (StaticCollections.mmtMonthSelected == null) {
-                    lstSalaryFiltered.addAll(alstSalaries)
-                } else {
                     alstSalaries.forEach {
                         val clCalendar = Calendar.getInstance()
-                        clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
-                        if (clCalendar.get(Calendar.MONTH) == StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected)
+                        clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, DindinApp.mstrDateFormat)
+                        if (clCalendar.get(Calendar.MONTH) == amnMonthSelected.aid && clCalendar.get(Calendar.YEAR) == anYearSelected)
                             lstSalaryFiltered.add(it)
                     }
-                }
                 view.loadSalaryListAdapter(lstSalaryFiltered)
             }
 
@@ -113,8 +106,8 @@ class FragmentSalaryList : Fragment(), RefreshData, SalaryListContract.View {
     }
 
     override fun refresh() {
-        val mnMonthSelected = StaticCollections.mmtMonthSelected ?: return
-        val mnYear = StaticCollections.mnYearSelected ?: return
+        val mnMonthSelected = DindinApp.mmtMonthSelected ?: return
+        val mnYear = DindinApp.mnYearSelected ?: return
 
         presenter?.loadSalaries(mnMonthSelected, mnYear)
 

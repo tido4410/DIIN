@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.Spinner
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp
-import diiin.StaticCollections
 import diiin.dao.LocalCacheManager
 import diiin.model.Expense
 import diiin.model.ExpenseType
@@ -47,11 +46,9 @@ class FragmentExpenseListPresenter(avwView : ExpenseListContract.View) : Expense
 
                 val lstFilteredList: ArrayList<Expense> = ArrayList()
 
-                StaticCollections.mmtMonthSelected ?: return
-
                 alstExpenses.forEach { expense ->
                     val clCalendar = Calendar.getInstance()
-                    clCalendar.time = MathService.stringToCalendarTime(expense.mstrDate, StaticCollections.mstrDateFormat)
+                    clCalendar.time = MathService.stringToCalendarTime(expense.mstrDate, DindinApp.mstrDateFormat)
                     if (clCalendar.get(Calendar.MONTH) == amnMonthSelected.aid && clCalendar.get(Calendar.YEAR) == anYearSelected) {
                         lstFilteredList.add(expense)
                     }
@@ -112,8 +109,8 @@ class FragmentExpensesList : Fragment(), RefreshData, ExpenseListContract.View{
     }
 
     override fun refresh() {
-        val mnMonthSelected = StaticCollections.mmtMonthSelected ?: return
-        val mnYearSelected = StaticCollections.mnYearSelected ?: return
+        val mnMonthSelected = DindinApp.mmtMonthSelected ?: return
+        val mnYearSelected = DindinApp.mnYearSelected ?: return
         presenter?.loadExpenses(mnMonthSelected, mnYearSelected)
     }
 

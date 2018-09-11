@@ -12,7 +12,6 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
-import diiin.StaticCollections
 import diiin.model.ExpenseType
 import diiin.ui.activity.InsertExpenseTypeActivity
 import diiin.util.MessageDialog

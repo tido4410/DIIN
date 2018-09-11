@@ -18,6 +18,7 @@ import diiin.StaticCollections
 import diiin.dao.LocalCacheManager
 import diiin.model.Expense
 import diiin.model.ExpenseType
+import diiin.model.MonthType
 import diiin.model.Salary
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertExpenseActivity
@@ -27,17 +28,60 @@ import diiin.util.MathService
 import java.util.*
 import kotlin.collections.ArrayList
 
+interface ExpenseListContract {
+    interface View {
+        fun loadExpenseListAdapter(alstExpenses : ArrayList<Expense>)
+    }
+    interface Presenter {
+        fun loadExpenses(amnMonthSelected : MonthType, anYearSelected : Int)
+    }
+}
+
+class FragmentExpenseListPresenter(avwView : ExpenseListContract.View) : ExpenseListContract.Presenter {
+
+    private val view : ExpenseListContract.View = avwView
+
+    override fun loadExpenses(amnMonthSelected: MonthType, anYearSelected: Int) {
+        DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
+            override fun onExpensesLoaded(alstExpenses: List<Expense>) {
+
+                val lstFilteredList: ArrayList<Expense> = ArrayList()
+
+                StaticCollections.mmtMonthSelected ?: return
+
+                alstExpenses.forEach { expense ->
+                    val clCalendar = Calendar.getInstance()
+                    clCalendar.time = MathService.stringToCalendarTime(expense.mstrDate, StaticCollections.mstrDateFormat)
+                    if (clCalendar.get(Calendar.MONTH) == amnMonthSelected.aid && clCalendar.get(Calendar.YEAR) == anYearSelected) {
+                        lstFilteredList.add(expense)
+                    }
+                }
+                view.loadExpenseListAdapter(lstFilteredList)
+            }
+
+            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
+            override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
+            override fun onExpenseIdReceived(aexpense: Expense) {}
+            override fun onExpenseTypeColorReceived(astrColor: String) {}
+            override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
+            override fun onExpenseTypeIDReceived(anID: Long?) {}
+            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
+        })
+    }
+
+}
 
 /**
  * Screen that shows to user the expenses filter and list
  *
  * @author Gabriel Moro
  */
-class FragmentExpensesList : Fragment(), RefreshData {
+class FragmentExpensesList : Fragment(), RefreshData, ExpenseListContract.View{
 
     private var mspMonthSelector: Spinner? = null
     private var mrvExpenseList: RecyclerView? = null
     var mbtInsertExpense: FloatingActionButton? = null
+    private var presenter : ExpenseListContract.Presenter? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_expenseslist, container, false)
@@ -58,6 +102,8 @@ class FragmentExpensesList : Fragment(), RefreshData {
         mrvExpenseList?.layoutManager = llManager
         if (mbtInsertExpense != null)
             mrvExpenseList?.setOnTouchListener(RVWithFLoatingButtonControl(mbtInsertExpense!!))
+
+        presenter = FragmentExpenseListPresenter(this)
     }
 
     override fun onResume() {
@@ -66,40 +112,20 @@ class FragmentExpensesList : Fragment(), RefreshData {
     }
 
     override fun refresh() {
-        DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
-            override fun onExpensesLoaded(alstExpenses: List<Expense>) {
-
-                mrvExpenseList ?: return
-
-                val lstFilteredList: ArrayList<Expense> = ArrayList()
-                val elAdapter: ExpenseListAdapter
-
-                StaticCollections.mmtMonthSelected ?: return
-
-                alstExpenses.forEach { expense ->
-                    val clCalendar = Calendar.getInstance()
-                    clCalendar.time = MathService.stringToCalendarTime(expense.mstrDate, StaticCollections.mstrDateFormat)
-                    if (clCalendar.get(Calendar.MONTH) == StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected) {
-                        lstFilteredList.add(expense)
-                    }
-                }
-                elAdapter = ExpenseListAdapter(context, lstFilteredList)
-                mrvExpenseList?.adapter = elAdapter
-            }
-
-            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
-            override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
-            override fun onExpenseIdReceived(aexpense: Expense) {}
-            override fun onExpenseTypeColorReceived(astrColor: String) {}
-            override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
-            override fun onExpenseTypeIDReceived(anID: Long?) {}
-            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
-        })
+        val mnMonthSelected = StaticCollections.mmtMonthSelected ?: return
+        val mnYearSelected = StaticCollections.mnYearSelected ?: return
+        presenter?.loadExpenses(mnMonthSelected, mnYearSelected)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
         mrvExpenseList?.adapter?.notifyDataSetChanged()
     }
+
+    override fun loadExpenseListAdapter(alstExpenses: ArrayList<Expense>) {
+        val elAdapter = ExpenseListAdapter(context, alstExpenses)
+        mrvExpenseList?.adapter = elAdapter
+    }
+
 
 }

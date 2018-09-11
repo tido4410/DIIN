@@ -32,27 +32,41 @@ import java.util.*
 import kotlin.Comparator
 import kotlin.collections.HashMap
 
+/**
+ * Define a contract between view and presenter.
+ * MVP pattern.
+ * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
+ */
 interface FinancialReportContract {
+    /**
+     * Define all view operations.
+     */
     interface View {
-        fun drawPieChart(alstPieEntries : ArrayList<PieEntry>, alstColors : ArrayList<Int>)
-        fun showChartItemCard(aetExpenseType: ExpenseType, asValue : Float)
-        fun setSalaryTotal(astrValue : String)
-        fun setExpenseTotal(astrValue : String)
-        fun setWalletTotal(astrValue : String)
+        fun drawPieChart(alstPieEntries: ArrayList<PieEntry>, alstColors: ArrayList<Int>)
+        fun showChartItemCard(aetExpenseType: ExpenseType, asValue: Float)
+        fun setSalaryTotal(astrValue: String)
+        fun setExpenseTotal(astrValue: String)
+        fun setWalletTotal(astrValue: String)
         fun hideChartItem()
     }
+
+    /**
+     * Define all operations connected to model layer
+     */
     interface Presenter {
-        fun dispareChartConstructor(amnMonthSelected : MonthType, anYearSelected : Int)
-        fun onClickInPiePiece(peEntry : PieEntry)
+        fun dispareChartConstructor(amnMonthSelected: MonthType, anYearSelected: Int)
+        fun onClickInPiePiece(peEntry: PieEntry)
         fun initPieEntry(asFloatPercent: Float, astrString: String): PieEntry
         fun loadDemonstrativePanel(amnMonthSelected: MonthType, anYearSelected: Int)
     }
 }
 
-class FinancialReportPresenter(avwView : FinancialReportContract.View) : FinancialReportContract.Presenter {
+class FinancialReportPresenter(avwView: FinancialReportContract.View) : FinancialReportContract.Presenter {
 
     private val mhmExpenseByPercentage: HashMap<Long, Float> = HashMap()
-    private val view : FinancialReportContract.View = avwView
+    private val view: FinancialReportContract.View = avwView
 
 
     override fun initPieEntry(asFloatPercent: Float, astrString: String): PieEntry {
@@ -239,7 +253,7 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
     private var mllChartItemLinearLayout: LinearLayout? = null
     private var mtvChartItemExpenseType: TextView? = null
     private var mivChartItemButtonMenu: ImageView? = null
-    private var presenter : FinancialReportContract.Presenter? = null
+    private var presenter: FinancialReportContract.Presenter? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_financialreport, container, false)

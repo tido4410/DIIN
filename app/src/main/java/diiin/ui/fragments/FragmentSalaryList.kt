@@ -26,18 +26,32 @@ import diiin.ui.adapter.SalaryListAdapter
 import diiin.util.MathService
 import java.util.*
 
+/**
+ * Define a contract between view and presenter.
+ * MVP pattern.
+ * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
+ */
 interface SalaryListContract {
+    /**
+     * Define all view operations.
+     */
     interface View {
-        fun loadSalaryListAdapter(alstSalary : ArrayList<Salary>)
+        fun loadSalaryListAdapter(alstSalary: ArrayList<Salary>)
     }
+
+    /**
+     * Define all operations connected to model layer
+     */
     interface Presenter {
-        fun loadSalaries(amnMonthSelected : MonthType, anYearSelected : Int)
+        fun loadSalaries(amnMonthSelected: MonthType, anYearSelected: Int)
     }
 }
 
-class FragmentSalaryPresenter(avwView : SalaryListContract.View) : SalaryListContract.Presenter {
+class FragmentSalaryPresenter(avwView: SalaryListContract.View) : SalaryListContract.Presenter {
 
-    private val view : SalaryListContract.View = avwView
+    private val view: SalaryListContract.View = avwView
 
     override fun loadSalaries(amnMonthSelected: MonthType, anYearSelected: Int) {
         DindinApp.mlcmDataManager?.getAllSalaries(object : LocalCacheManager.DatabaseCallBack {
@@ -46,12 +60,12 @@ class FragmentSalaryPresenter(avwView : SalaryListContract.View) : SalaryListCon
             override fun onSalariesLoaded(alstSalaries: List<Salary>) {
                 val lstSalaryFiltered: ArrayList<Salary> = ArrayList()
 
-                    alstSalaries.forEach {
-                        val clCalendar = Calendar.getInstance()
-                        clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, DindinApp.mstrDateFormat)
-                        if (clCalendar.get(Calendar.MONTH) == amnMonthSelected.aid && clCalendar.get(Calendar.YEAR) == anYearSelected)
-                            lstSalaryFiltered.add(it)
-                    }
+                alstSalaries.forEach {
+                    val clCalendar = Calendar.getInstance()
+                    clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, DindinApp.mstrDateFormat)
+                    if (clCalendar.get(Calendar.MONTH) == amnMonthSelected.aid && clCalendar.get(Calendar.YEAR) == anYearSelected)
+                        lstSalaryFiltered.add(it)
+                }
                 view.loadSalaryListAdapter(lstSalaryFiltered)
             }
 
@@ -75,7 +89,7 @@ class FragmentSalaryList : Fragment(), RefreshData, SalaryListContract.View {
     private var mspMonthSelector: Spinner? = null
     private var mrvSalaryList: RecyclerView? = null
     var mbtnInsertSalary: FloatingActionButton? = null
-    private var presenter : SalaryListContract.Presenter? = null
+    private var presenter: SalaryListContract.Presenter? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_salarylist, container, false)

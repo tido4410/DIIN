@@ -27,18 +27,32 @@ import diiin.util.MathService
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * Define a contract between view and presenter.
+ * MVP pattern.
+ * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
+ */
 interface ExpenseListContract {
+    /**
+     * Define all view operations.
+     */
     interface View {
-        fun loadExpenseListAdapter(alstExpenses : ArrayList<Expense>)
+        fun loadExpenseListAdapter(alstExpenses: ArrayList<Expense>)
     }
+
+    /**
+     * Define all operations connected to model layer
+     */
     interface Presenter {
-        fun loadExpenses(amnMonthSelected : MonthType, anYearSelected : Int)
+        fun loadExpenses(amnMonthSelected: MonthType, anYearSelected: Int)
     }
 }
 
-class FragmentExpenseListPresenter(avwView : ExpenseListContract.View) : ExpenseListContract.Presenter {
+class FragmentExpenseListPresenter(avwView: ExpenseListContract.View) : ExpenseListContract.Presenter {
 
-    private val view : ExpenseListContract.View = avwView
+    private val view: ExpenseListContract.View = avwView
 
     override fun loadExpenses(amnMonthSelected: MonthType, anYearSelected: Int) {
         DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
@@ -73,12 +87,12 @@ class FragmentExpenseListPresenter(avwView : ExpenseListContract.View) : Expense
  *
  * @author Gabriel Moro
  */
-class FragmentExpensesList : Fragment(), RefreshData, ExpenseListContract.View{
+class FragmentExpensesList : Fragment(), RefreshData, ExpenseListContract.View {
 
     private var mspMonthSelector: Spinner? = null
     private var mrvExpenseList: RecyclerView? = null
     var mbtInsertExpense: FloatingActionButton? = null
-    private var presenter : ExpenseListContract.Presenter? = null
+    private var presenter: ExpenseListContract.Presenter? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_expenseslist, container, false)

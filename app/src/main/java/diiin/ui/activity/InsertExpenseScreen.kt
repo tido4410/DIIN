@@ -19,7 +19,17 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
+/**
+ * Define a contract between view and presenter.
+ * MVP pattern.
+ * @author Gabriel Moro
+ * @since 24/08/2018
+ * @version 1.0.9
+ */
 interface InsertExpenseContract {
+    /**
+     * Define all view operations.
+     */
     interface View {
         fun showSucessMessage()
         fun showUnsucessMessage()
@@ -29,6 +39,9 @@ interface InsertExpenseContract {
         fun fillCategoriesInSpinnerContentAndSelectSomeone(alstValues: ArrayList<String>, anItem: Int)
     }
 
+    /**
+     * Define all operations connected to model layer
+     */
     interface Presenter {
         fun loadExpenseValues(anExpenseId: Long?)
         fun loadCategories(anExpenseId: Long?)

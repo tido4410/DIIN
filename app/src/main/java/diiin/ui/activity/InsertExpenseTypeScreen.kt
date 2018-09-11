@@ -23,58 +23,61 @@ interface InsertExpenseTypeContract {
     interface View {
         fun showSucessMessage()
         fun showUnsucessMessage()
-        fun setColor(anColorValue : Int)
-        fun setDecription(astrDescription : String)
+        fun setColor(anColorValue: Int)
+        fun setDecription(astrDescription: String)
     }
+
     interface Presenter {
-        fun loadExpenseTypeValues(anLongExpenseID : Long?)
-        fun saveExpenseType(anExpenseTypeID : Long?, astrDescription : String, anColorSelected : Int)
+        fun loadExpenseTypeValues(anLongExpenseID: Long?)
+        fun saveExpenseType(anExpenseTypeID: Long?, astrDescription: String, anColorSelected: Int)
     }
 }
 
-class InsertExpenseTypePresenter(avwView : InsertExpenseTypeContract.View) : InsertExpenseTypeContract.Presenter {
+class InsertExpenseTypePresenter(avwView: InsertExpenseTypeContract.View) : InsertExpenseTypeContract.Presenter {
 
-    private var view            : InsertExpenseTypeContract.View = avwView
+    private var view: InsertExpenseTypeContract.View = avwView
 
     override fun loadExpenseTypeValues(anLongExpenseID: Long?) {
         anLongExpenseID ?: return
 
         DindinApp.mlcmDataManager?.getExpenseTypeColor(anLongExpenseID, object : LocalCacheManager.DatabaseCallBack {
-            override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
-            override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
-            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
-            override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
+            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
+            override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
+            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
+            override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
             override fun onExpenseTypeColorReceived(astrColor: String) {
                 val nColor = Color.parseColor(astrColor)
                 view.setColor(nColor)
             }
-            override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
-            override fun onExpenseTypeIDReceived(anID: Long?) { }
-            override fun onExpenseIdReceived(aexpense: Expense) { }
+
+            override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
+            override fun onExpenseTypeIDReceived(anID: Long?) {}
+            override fun onExpenseIdReceived(aexpense: Expense) {}
         })
 
         DindinApp.mlcmDataManager?.getExpenseTypeDescription(anLongExpenseID, object : LocalCacheManager.DatabaseCallBack {
-            override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
-            override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
-            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
-            override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
-            override fun onExpenseTypeColorReceived(astrColor: String) { }
+            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
+            override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
+            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
+            override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
+            override fun onExpenseTypeColorReceived(astrColor: String) {}
             override fun onExpenseTypeDescriptionReceived(astrDescription: String) {
                 view.setDecription(astrDescription)
             }
-            override fun onExpenseTypeIDReceived(anID: Long?) { }
-            override fun onExpenseIdReceived(aexpense: Expense) { }
+
+            override fun onExpenseTypeIDReceived(anID: Long?) {}
+            override fun onExpenseIdReceived(aexpense: Expense) {}
         })
     }
 
     override fun saveExpenseType(anExpenseTypeID: Long?, astrDescription: String, anColorSelected: Int) {
         val expenseTarget = ExpenseType(anExpenseTypeID, astrDescription, "#${Integer.toHexString(anColorSelected)}")
-        if(astrDescription.isEmpty()) {
+        if (astrDescription.isEmpty()) {
             view.showUnsucessMessage()
         } else {
 
-            Observable.just(anExpenseTypeID != null).subscribeOn(Schedulers.io()).subscribe{
-                if(it)
+            Observable.just(anExpenseTypeID != null).subscribeOn(Schedulers.io()).subscribe {
+                if (it)
                     DindinApp.mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.update(expenseTarget)
                 else
                     DindinApp.mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(expenseTarget)
@@ -87,16 +90,16 @@ class InsertExpenseTypePresenter(avwView : InsertExpenseTypeContract.View) : Ins
 
 class InsertExpenseTypeActivity : AppCompatActivity(), InsertExpenseTypeContract.View {
 
-    lateinit var presenter : InsertExpenseTypeContract.Presenter
-    private var mbtnChangeColor : Button? = null
-    private var mvwCurrentColor : View? = null
-    private var mbtnSaveExpenseType : Button? = null
-    private var metEditText : EditText? = null
-    private var mnColorSelected : Int = 0
-    private var mnExpenseTypeId : Long? = null
+    private var presenter: InsertExpenseTypeContract.Presenter? = null
+    private var mbtnChangeColor: Button? = null
+    private var mvwCurrentColor: View? = null
+    private var mbtnSaveExpenseType: Button? = null
+    private var metEditText: EditText? = null
+    private var mnColorSelected: Int = 0
+    private var mnExpenseTypeId: Long? = null
 
     companion object {
-        const val INTENT_KEY_EXPENSETYPEID : String = "IdOfExpenseTypeToEdit"
+        const val INTENT_KEY_EXPENSETYPEID: String = "IdOfExpenseTypeToEdit"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,13 +111,13 @@ class InsertExpenseTypeActivity : AppCompatActivity(), InsertExpenseTypeContract
         mbtnSaveExpenseType = findViewById(R.id.btnSaveExpenseType)
         metEditText = findViewById(R.id.etExpenseTypeDescription)
 
-        if(intent.hasExtra(INTENT_KEY_EXPENSETYPEID)) {
+        if (intent.hasExtra(INTENT_KEY_EXPENSETYPEID)) {
             mnExpenseTypeId = intent.extras.getLong(INTENT_KEY_EXPENSETYPEID)
             title = resources.getString(R.string.title_editexpensetype)
         }
 
         presenter = InsertExpenseTypePresenter(this)
-        presenter.loadExpenseTypeValues(mnExpenseTypeId)
+        presenter?.loadExpenseTypeValues(mnExpenseTypeId)
 
         mbtnChangeColor?.setOnClickListener {
             ColorPickerDialogBuilder
@@ -130,18 +133,22 @@ class InsertExpenseTypeActivity : AppCompatActivity(), InsertExpenseTypeContract
                     .show()
         }
         mbtnSaveExpenseType?.setOnClickListener {
-            presenter.saveExpenseType(mnExpenseTypeId, metEditText?.text.toString(), mnColorSelected)
+            presenter?.saveExpenseType(mnExpenseTypeId, metEditText?.text.toString(), mnColorSelected)
         }
     }
+
     override fun showSucessMessage() {
         MessageDialog.showToastMessage(this, resources.getString(R.string.sucessaction))
     }
+
     override fun showUnsucessMessage() {
         MessageDialog.showToastMessage(this, resources.getString(R.string.fillAreFields))
     }
+
     override fun setColor(anColorValue: Int) {
         mvwCurrentColor?.setBackgroundColor(anColorValue)
     }
+
     override fun setDecription(astrDescription: String) {
         metEditText?.setText(astrDescription)
     }

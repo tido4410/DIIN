@@ -13,10 +13,10 @@ import android.arch.persistence.room.ForeignKey.CASCADE
  */
 @Entity(tableName = "salary")
 data class Salary(
-        @PrimaryKey(autoGenerate = true) var mnID : Long?,
-        @ColumnInfo(name = "value") var msValue : Float?,
-        @ColumnInfo(name = "source") var mstrSource : String,
-        @ColumnInfo(name = "date") var mstrDate : String)
+        @PrimaryKey(autoGenerate = true) var mnID: Long?,
+        @ColumnInfo(name = "value") var msValue: Float?,
+        @ColumnInfo(name = "source") var mstrSource: String,
+        @ColumnInfo(name = "date") var mstrDate: String)
 
 
 /**
@@ -32,11 +32,11 @@ data class Salary(
                 childColumns = arrayOf("type"),
                 onDelete = CASCADE)])
 data class Expense(
-        @PrimaryKey(autoGenerate = true) var mnID : Long?,
-        @ColumnInfo(name = "value") var msValue : Float?,
-        @ColumnInfo(name = "description") var mstrDescription : String,
-        @ColumnInfo(name = "date") var mstrDate : String,
-        @ColumnInfo(name = "type") var mnExpenseType : Long?)
+        @PrimaryKey(autoGenerate = true) var mnID: Long?,
+        @ColumnInfo(name = "value") var msValue: Float?,
+        @ColumnInfo(name = "description") var mstrDescription: String,
+        @ColumnInfo(name = "date") var mstrDate: String,
+        @ColumnInfo(name = "type") var mnExpenseType: Long?)
 
 /**
  * The expense type model has color, description, and id.
@@ -46,6 +46,6 @@ data class Expense(
  */
 @Entity(tableName = "expense_type")
 data class ExpenseType(
-        @PrimaryKey(autoGenerate = true) var mnExpenseTypeID : Long?,
-        @ColumnInfo(name = "description") var mstrDescription : String,
-        @ColumnInfo(name = "color") val mstrColor : String)
+        @PrimaryKey(autoGenerate = true) var mnExpenseTypeID: Long?,
+        @ColumnInfo(name = "description") var mstrDescription: String,
+        @ColumnInfo(name = "color") val mstrColor: String)

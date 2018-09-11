@@ -18,16 +18,18 @@ import diiin.util.MathService
  *
  * @param albaFloatingButtonTarget define a kind of button
  */
-class RVWithFLoatingButtonControl(albaFloatingButtonTarget : FloatingActionButton) : View.OnTouchListener {
+class RVWithFLoatingButtonControl(albaFloatingButtonTarget: FloatingActionButton) : View.OnTouchListener {
 
-    private val mfaFloatingButtonTarget : FloatingActionButton = albaFloatingButtonTarget
+    private val mfaFloatingButtonTarget: FloatingActionButton = albaFloatingButtonTarget
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(p0: View?, amotionEvent: MotionEvent?): Boolean {
-        when(amotionEvent?.action) {
+        when (amotionEvent?.action) {
             MotionEvent.ACTION_MOVE ->
                 mfaFloatingButtonTarget.visibility = FloatingActionButton.GONE
-            else -> { mfaFloatingButtonTarget.visibility = FloatingActionButton.VISIBLE }
+            else -> {
+                mfaFloatingButtonTarget.visibility = FloatingActionButton.VISIBLE
+            }
         }
         return false
     }
@@ -41,7 +43,7 @@ class RVWithFLoatingButtonControl(albaFloatingButtonTarget : FloatingActionButto
  *
  * @param aetPrice is the edittext component
  */
-class TWEditPrice(aetPrice : EditText) : TextWatcher {
+class TWEditPrice(aetPrice: EditText) : TextWatcher {
 
     private val metPrice: EditText = aetPrice
     private var bIgnoreOnTextChange: Boolean = false
@@ -59,7 +61,7 @@ class TWEditPrice(aetPrice : EditText) : TextWatcher {
             val strText = p0.toString()
                     .replace(",", "")
                     .replace(".", "")
-                    .replace("R$","")
+                    .replace("R$", "")
             val nNumber = strText.toIntOrNull() ?: return
             val strMoney = MathService.formatIntToCurrencyValue(nNumber)
             bIgnoreOnTextChange = true
@@ -69,7 +71,7 @@ class TWEditPrice(aetPrice : EditText) : TextWatcher {
         }
     }
 
-    override fun afterTextChanged(p0: Editable) { }
+    override fun afterTextChanged(p0: Editable) {}
 }
 
 

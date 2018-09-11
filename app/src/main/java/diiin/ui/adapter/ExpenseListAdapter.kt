@@ -28,7 +28,7 @@ import java.util.*
  * This adapter is the manager of expense list.
  * @author Gabriel Moro
  */
-class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expense>)
+class ExpenseListAdapter(actxContext: Context, alstExpenseList: ArrayList<Expense>)
     : RecyclerView.Adapter<ExpenseListAdapter.ExpenseListItemViewHolder>() {
 
     val mltExpenseList: ArrayList<Expense> = alstExpenseList
@@ -54,9 +54,9 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
 
         val nExpenseTypeId = expenseItem.mnExpenseType
 
-        if(nExpenseTypeId != null && DindinApp.mhmExpenseType!=null) {
+        if (nExpenseTypeId != null && DindinApp.mhmExpenseType != null) {
             val expenseType = DindinApp.mhmExpenseType!![nExpenseTypeId]
-            if(expenseType != null) {
+            if (expenseType != null) {
                 val nColor = Color.parseColor(expenseType.mstrColor)
                 holder.vwExpenseType.setBackgroundColor(nColor)
                 holder.tvValue.setTextColor(nColor)
@@ -74,19 +74,19 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
             val popupMenu = PopupMenu(mctContext, aview)
             popupMenu.inflate(R.menu.context_menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
-                when(menuItem.itemId) {
+                when (menuItem.itemId) {
                     R.id.ctxmenudelete -> {
                         MessageDialog.showMessageDialog(mctContext,
                                 mctContext.resources.getString(R.string.msgAreYouSure),
                                 DialogInterface.OnClickListener { adialog, _ ->
-                                    val expenseTarget : Expense = mltExpenseList[position]
+                                    val expenseTarget: Expense = mltExpenseList[position]
                                     Observable.just(true).subscribeOn(Schedulers.io())
                                             .subscribe {
                                                 DindinApp.mlcmDataManager?.mappDataBaseBuilder?.expenseDao()?.delete(expenseTarget)
                                                 mltExpenseList.removeAt(position)
                                                 Observable.just(true)
                                                         .subscribeOn(AndroidSchedulers.mainThread())
-                                                        .subscribe { notifyItemRemoved(position)  }
+                                                        .subscribe { notifyItemRemoved(position) }
                                             }
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->
@@ -96,12 +96,14 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
                     }
                     R.id.ctxmenuedit -> {
                         val intent = Intent(mctContext, InsertExpenseActivity::class.java)
-                        val nExpenseId : Long? = mltExpenseList[position].mnID
+                        val nExpenseId: Long? = mltExpenseList[position].mnID
                         intent.putExtra(InsertExpenseActivity.INTENT_KEY_EXPENSEID, nExpenseId)
                         mctContext.startActivity(intent)
                         true
                     }
-                    else -> {  false }
+                    else -> {
+                        false
+                    }
                 }
             }
             popupMenu.show()
@@ -115,6 +117,6 @@ class ExpenseListAdapter(actxContext : Context, alstExpenseList: ArrayList<Expen
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
         val vwExpenseType: View = avwView.findViewById(R.id.vwExpenseType)
         val llLine2: LinearLayout = avwView.findViewById(R.id.llLine2)
-        val ivImageViewMenu : ImageView = avwView.findViewById(R.id.ivMenuOption)
+        val ivImageViewMenu: ImageView = avwView.findViewById(R.id.ivMenuOption)
     }
 }

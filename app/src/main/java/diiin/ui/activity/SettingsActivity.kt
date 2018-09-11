@@ -27,20 +27,21 @@ import java.util.*
 interface SettingsScreenContract {
     interface View {
         fun callExpenseTypeInsertScreen()
-        fun setExpenseTypeList(alstArrayList : ArrayList<ExpenseType>)
-        fun setYear(astrYear : String)
+        fun setExpenseTypeList(alstArrayList: ArrayList<ExpenseType>)
+        fun setYear(astrYear: String)
     }
+
     interface Presenter {
-        fun saveYear(actxContext: Context, astrYear : String)
+        fun saveYear(actxContext: Context, astrYear: String)
         fun loadYear()
         fun loadExpenseTypes()
     }
 }
 
-class SettingsPresenter(avwView : SettingsScreenContract.View) : SettingsScreenContract.Presenter{
-    private val view : SettingsScreenContract.View = avwView
+class SettingsPresenter(avwView: SettingsScreenContract.View) : SettingsScreenContract.Presenter {
+    private val view: SettingsScreenContract.View = avwView
 
-    override fun saveYear(actxContext : Context, astrYear: String) {
+    override fun saveYear(actxContext: Context, astrYear: String) {
         val nYear = astrYear.toIntOrNull() ?: return
         SelectionSharedPreferences.insertYearSelectPreference(actxContext, nYear)
     }
@@ -52,7 +53,7 @@ class SettingsPresenter(avwView : SettingsScreenContract.View) : SettingsScreenC
 
     override fun loadExpenseTypes() {
         DindinApp.mlcmDataManager?.getAllExpenseTypeObjects(object : LocalCacheManager.DatabaseCallBack {
-            override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
+            override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
             override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {
                 view.setExpenseTypeList(ArrayList(alstExpensesType))
                 /**
@@ -65,12 +66,13 @@ class SettingsPresenter(avwView : SettingsScreenContract.View) : SettingsScreenC
                         DindinApp.mhmExpenseType?.put(expense.mnExpenseTypeID!!, expense)
                 }
             }
-            override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
-            override fun onExpenseIdReceived(aexpense: Expense) { }
-            override fun onExpenseTypeColorReceived(astrColor: String) { }
-            override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
-            override fun onExpenseTypeIDReceived(anID: Long?) { }
-            override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
+
+            override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
+            override fun onExpenseIdReceived(aexpense: Expense) {}
+            override fun onExpenseTypeColorReceived(astrColor: String) {}
+            override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
+            override fun onExpenseTypeIDReceived(anID: Long?) {}
+            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
         })
     }
 
@@ -79,10 +81,10 @@ class SettingsPresenter(avwView : SettingsScreenContract.View) : SettingsScreenC
 class SettingsActivity : AppCompatActivity(), SettingsScreenContract.View {
 
     private var mrvExpenseTypeList: RecyclerView? = null
-            var mbtInsertExpenseType: FloatingActionButton? = null
-    private var metYear : EditText? = null
-    private var mbtnSaveYear : Button? = null
-    private var presenter : SettingsScreenContract.Presenter? = null
+    var mbtInsertExpenseType: FloatingActionButton? = null
+    private var metYear: EditText? = null
+    private var mbtnSaveYear: Button? = null
+    private var presenter: SettingsScreenContract.Presenter? = null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,7 +115,7 @@ class SettingsActivity : AppCompatActivity(), SettingsScreenContract.View {
                         adialog.dismiss()
                     })
         }
-        if(mbtInsertExpenseType!=null)
+        if (mbtInsertExpenseType != null)
             mrvExpenseTypeList?.setOnTouchListener(RVWithFLoatingButtonControl(mbtInsertExpenseType!!))
     }
 

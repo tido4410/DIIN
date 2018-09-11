@@ -4,13 +4,15 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
-class ViewPagerAdapter(a_fmFragmentManager : FragmentManager, a_lstPages : ArrayList<Fragment>) : FragmentPagerAdapter(a_fmFragmentManager) {
+class ViewPagerAdapter(a_fmFragmentManager: FragmentManager, a_lstPages: ArrayList<Fragment>) : FragmentPagerAdapter(a_fmFragmentManager) {
 
-    private val mlstPages : ArrayList<Fragment> = a_lstPages
+    private val mlstPages: ArrayList<Fragment> = a_lstPages
 
     override fun getItem(position: Int): Fragment {
         val page = mlstPages[position]
-        if(page is RefreshData) { page.refresh() }
+        if (page is RefreshData) {
+            page.refresh()
+        }
         return page
     }
 

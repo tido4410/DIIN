@@ -22,7 +22,7 @@ import diiin.util.MessageDialog
  * This adapter is the manager of expense list.
  * @author Gabriel Moro
  */
-class ExpenseTypeListAdapter(actxContext : Context, alstExpenseList: ArrayList<ExpenseType>)
+class ExpenseTypeListAdapter(actxContext: Context, alstExpenseList: ArrayList<ExpenseType>)
     : RecyclerView.Adapter<ExpenseTypeListAdapter.ExpenseTypeListItemViewHolder>() {
 
     val mltExpenseTypeList: ArrayList<ExpenseType> = alstExpenseList
@@ -45,12 +45,12 @@ class ExpenseTypeListAdapter(actxContext : Context, alstExpenseList: ArrayList<E
             val popupMenu = PopupMenu(mctContext, aview)
             popupMenu.inflate(R.menu.context_menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
-                when(menuItem.itemId) {
+                when (menuItem.itemId) {
                     R.id.ctxmenudelete -> {
                         MessageDialog.showMessageDialog(mctContext,
                                 mctContext.resources.getString(R.string.msgAreYouSure),
                                 DialogInterface.OnClickListener { adialog, _ ->
-//                                    val expenseTypeTarget: ExpenseType = mltExpenseTypeList[position]
+                                    //                                    val expenseTypeTarget: ExpenseType = mltExpenseTypeList[position]
 //                                    val lstExpenses = StaticCollections.mappDataBuilder?.expenseDao()?.all()
 //                                    val bIsItPossibleToClear = lstExpenses?.filter { it.mnExpenseType!! == expenseTypeTarget.mnExpenseTypeID}?.count() == 0
 //                                    if(bIsItPossibleToClear) {
@@ -66,12 +66,14 @@ class ExpenseTypeListAdapter(actxContext : Context, alstExpenseList: ArrayList<E
                     }
                     R.id.ctxmenuedit -> {
                         val intent = Intent(mctContext, InsertExpenseTypeActivity::class.java)
-                        val nExpenseTypeId : Long? = mltExpenseTypeList[position].mnExpenseTypeID
+                        val nExpenseTypeId: Long? = mltExpenseTypeList[position].mnExpenseTypeID
                         intent.putExtra(InsertExpenseTypeActivity.INTENT_KEY_EXPENSETYPEID, nExpenseTypeId)
                         mctContext.startActivity(intent)
                         true
                     }
-                    else -> {  false }
+                    else -> {
+                        false
+                    }
                 }
             }
             popupMenu.show()
@@ -81,6 +83,6 @@ class ExpenseTypeListAdapter(actxContext : Context, alstExpenseList: ArrayList<E
     class ExpenseTypeListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {
         val vwColorExpenseType: View = avwView.findViewById(R.id.vwColorRepresentation)
         val tvExpenseType: TextView = avwView.findViewById(R.id.tvExpenseType)
-        val ivImageViewMenu : ImageView = avwView.findViewById(R.id.ivMenuOption)
+        val ivImageViewMenu: ImageView = avwView.findViewById(R.id.ivMenuOption)
     }
 }

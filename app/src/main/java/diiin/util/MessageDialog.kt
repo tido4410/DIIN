@@ -21,9 +21,9 @@ object MessageDialog {
      * @param alstPositive defines the positive action listener
      * @param alstNegative defines the negative action listener
      */
-    fun showMessageDialog(actxContext : Context, astrTextInfo : String,
-                          alstPositive : DialogInterface.OnClickListener,
-                          alstNegative : DialogInterface.OnClickListener) {
+    fun showMessageDialog(actxContext: Context, astrTextInfo: String,
+                          alstPositive: DialogInterface.OnClickListener,
+                          alstNegative: DialogInterface.OnClickListener) {
 
         val builder = AlertDialog.Builder(actxContext)
         builder.setMessage(astrTextInfo)
@@ -38,7 +38,7 @@ object MessageDialog {
      * @param actxContext is the context
      * @param astrTextInfo is the message
      */
-    fun showToastMessage(actxContext : Context, astrTextInfo : String) {
+    fun showToastMessage(actxContext: Context, astrTextInfo: String) {
         Toast.makeText(actxContext, astrTextInfo, Toast.LENGTH_SHORT).show()
     }
 }

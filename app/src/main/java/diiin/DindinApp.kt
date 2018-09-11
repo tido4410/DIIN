@@ -21,8 +21,8 @@ import io.reactivex.schedulers.Schedulers
 class DindinApp : Application() {
 
     companion object {
-        var mlcmDataManager : LocalCacheManager? = null
-        var mhmExpenseType  : HashMap<Long, ExpenseType>? = null
+        var mlcmDataManager: LocalCacheManager? = null
+        var mhmExpenseType: HashMap<Long, ExpenseType>? = null
     }
 
     override fun onCreate() {
@@ -39,11 +39,11 @@ class DindinApp : Application() {
 //        Observable.fromCallable {
 
         mlcmDataManager?.getAllExpenseTypeObjects(object : LocalCacheManager.DatabaseCallBack {
-            override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
+            override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
             override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {
                 Observable.just(alstExpensesType.isEmpty()).subscribeOn(Schedulers.io())
                         .subscribe {
-                            if(it) {
+                            if (it) {
                                 mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Comida", "#d74902"))
                                 mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Telefone", "#4591dc"))
                                 mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Animais", "#d74902"))
@@ -58,18 +58,19 @@ class DindinApp : Application() {
                             loadExpensesTypeHashMap()
                         }
             }
-            override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
-            override fun onExpenseIdReceived(aexpense: Expense) { }
-            override fun onExpenseTypeColorReceived(astrColor: String) { }
-            override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
-            override fun onExpenseTypeIDReceived(anID: Long?) { }
-            override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
+
+            override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
+            override fun onExpenseIdReceived(aexpense: Expense) {}
+            override fun onExpenseTypeColorReceived(astrColor: String) {}
+            override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
+            override fun onExpenseTypeIDReceived(anID: Long?) {}
+            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
         })
 
         // Keepping the compability between previous and current version
         val lstSalary = SalarySharedPreferences.getSalaryList(this)
         val lstExpenses = ExpenseSharedPreferences.getExpensesList(this)
-            Observable.just(true).subscribeOn(Schedulers.io())
+        Observable.just(true).subscribeOn(Schedulers.io())
                 .subscribe {
                     lstSalary.forEach { salary -> mlcmDataManager?.mappDataBaseBuilder?.salaryDao()?.add(salary) }
                     lstExpenses.forEach { expense -> mlcmDataManager?.mappDataBaseBuilder?.expenseDao()?.add(expense) }

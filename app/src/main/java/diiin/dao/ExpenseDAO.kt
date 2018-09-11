@@ -23,7 +23,7 @@ interface ExpenseDAO {
      * Get all elements from expense table.
      */
     @Query("SELECT * FROM expense")
-    fun all() : Maybe<List<Expense>>
+    fun all(): Maybe<List<Expense>>
 
     /**
      * Add some expense element.
@@ -55,22 +55,22 @@ interface ExpenseTypeDAO {
      * Get all elements from expensetype table.
      */
     @Query("SELECT * FROM expense_type")
-    fun all() : Maybe<List<ExpenseType>>
+    fun all(): Maybe<List<ExpenseType>>
 
     @Query("SELECT mnExpenseTypeID FROM expense_type WHERE description = :a_strDescription")
-    fun getId(a_strDescription : String) : Maybe<Long?>
+    fun getId(a_strDescription: String): Maybe<Long?>
 
     /**
      * Get description according to id
      */
     @Query("SELECT description FROM expense_type WHERE mnExpenseTypeID = :a_nLongID")
-    fun getDescription(a_nLongID : Long?) : Maybe<String>
+    fun getDescription(a_nLongID: Long?): Maybe<String>
 
     /**
      * Get color according to expense id.
      */
     @Query("SELECT color FROM expense_type WHERE mnExpenseTypeID = :a_nLongID")
-    fun getColor(a_nLongID : Long?) : Maybe<String>
+    fun getColor(a_nLongID: Long?): Maybe<String>
 
     /**
      * Add some expense type element.
@@ -82,7 +82,7 @@ interface ExpenseTypeDAO {
      * Update the expense type element.
      */
     @Update(onConflict = REPLACE)
-    fun update(vararg expenseType : ExpenseType)
+    fun update(vararg expenseType: ExpenseType)
 
     /**
      * Remove specific expense type object.

@@ -24,56 +24,58 @@ interface InsertExpenseContract {
     interface View {
         fun showSucessMessage()
         fun showUnsucessMessage()
-        fun setDescription(astrDescription : String)
-        fun setDate(astrDate : String)
-        fun setValue(astrValue : String)
-        fun fillCategoriesInSpinnerContentAndSelectSomeone(alstValues : ArrayList<String>, anItem : Int)
+        fun setDescription(astrDescription: String)
+        fun setDate(astrDate: String)
+        fun setValue(astrValue: String)
+        fun fillCategoriesInSpinnerContentAndSelectSomeone(alstValues: ArrayList<String>, anItem: Int)
     }
+
     interface Presenter {
         fun loadExpenseValues(anExpenseId: Long?)
         fun loadCategories(anExpenseId: Long?)
-        fun saveExpense(anExpenseId : Long?, astrCategory : String, astrDescription : String, astrValue : String, adtDate : Date)
+        fun saveExpense(anExpenseId: Long?, astrCategory: String, astrDescription: String, astrValue: String, adtDate: Date)
     }
 }
 
-class InsertExpensePresenter(avwView : InsertExpenseContract.View) : InsertExpenseContract.Presenter {
+class InsertExpensePresenter(avwView: InsertExpenseContract.View) : InsertExpenseContract.Presenter {
 
-    private var view : InsertExpenseContract.View  = avwView
-            var dataBaseFactory : DataBaseFactory? = DindinApp.mlcmDataManager?.mappDataBaseBuilder
+    private var view: InsertExpenseContract.View = avwView
+    var dataBaseFactory: DataBaseFactory? = DindinApp.mlcmDataManager?.mappDataBaseBuilder
 
     override fun loadExpenseValues(anExpenseId: Long?) {
         anExpenseId ?: return
         DindinApp.mlcmDataManager?.getExpenseAccordingId(anExpenseId,
-            object : LocalCacheManager.DatabaseCallBack {
-                override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
-                override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
-                override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
-                override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
-                override fun onExpenseIdReceived(aexpense: Expense) {
-                    view.setDate(aexpense.mstrDate)
-                    view.setDescription(aexpense.mstrDescription)
-                    if(aexpense.msValue!=null)
-                        view.setValue(MathService.formatFloatToCurrency(aexpense.msValue!!))
-                }
-                override fun onExpenseTypeColorReceived(astrColor: String) { }
-                override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
-                override fun onExpenseTypeIDReceived(anID: Long?) { }
-            })
+                object : LocalCacheManager.DatabaseCallBack {
+                    override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
+                    override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
+                    override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
+                    override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
+                    override fun onExpenseIdReceived(aexpense: Expense) {
+                        view.setDate(aexpense.mstrDate)
+                        view.setDescription(aexpense.mstrDescription)
+                        if (aexpense.msValue != null)
+                            view.setValue(MathService.formatFloatToCurrency(aexpense.msValue!!))
+                    }
+
+                    override fun onExpenseTypeColorReceived(astrColor: String) {}
+                    override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
+                    override fun onExpenseTypeIDReceived(anID: Long?) {}
+                })
     }
 
-    override fun loadCategories(anExpenseId : Long?) {
+    override fun loadCategories(anExpenseId: Long?) {
 
         val lstCategories = ArrayList<String>()
 
-        if(anExpenseId != null) {
+        if (anExpenseId != null) {
             DindinApp.mlcmDataManager?.getExpenseAccordingId(anExpenseId, object : LocalCacheManager.DatabaseCallBack {
-                override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
-                override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
-                override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
+                override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
+                override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
+                override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
                 override fun onExpenseIdReceived(aexpense: Expense) {
                     val nExpenseTypeID = aexpense.mnExpenseType
                     DindinApp.mlcmDataManager?.getAllExpenseTypeObjects(object : LocalCacheManager.DatabaseCallBack {
-                        override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
+                        override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
                         override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {
                             var nCount = 0
                             alstExpensesType.forEachIndexed { nIndex, expense ->
@@ -82,18 +84,20 @@ class InsertExpensePresenter(avwView : InsertExpenseContract.View) : InsertExpen
                             }
                             view.fillCategoriesInSpinnerContentAndSelectSomeone(lstCategories, nCount)
                         }
-                        override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
-                        override fun onExpenseIdReceived(aexpense: Expense) { }
-                        override fun onExpenseTypeColorReceived(astrColor: String) { }
-                        override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
-                        override fun onExpenseTypeIDReceived(anID: Long?) { }
-                        override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
+
+                        override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
+                        override fun onExpenseIdReceived(aexpense: Expense) {}
+                        override fun onExpenseTypeColorReceived(astrColor: String) {}
+                        override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
+                        override fun onExpenseTypeIDReceived(anID: Long?) {}
+                        override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
                     })
                 }
-                override fun onExpenseTypeColorReceived(astrColor: String) { }
-                override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
-                override fun onExpenseTypeIDReceived(anID: Long?) { }
-                override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
+
+                override fun onExpenseTypeColorReceived(astrColor: String) {}
+                override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
+                override fun onExpenseTypeIDReceived(anID: Long?) {}
+                override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
             })
         } else {
             DindinApp.mlcmDataManager?.getAllExpenseTypeObjects(object : LocalCacheManager.DatabaseCallBack {
@@ -103,34 +107,35 @@ class InsertExpensePresenter(avwView : InsertExpenseContract.View) : InsertExpen
                     alstExpensesType.forEach { expenseType -> lstCategories.add(expenseType.mstrDescription) }
                     view.fillCategoriesInSpinnerContentAndSelectSomeone(lstCategories, 0)
                 }
+
                 override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
                 override fun onExpenseIdReceived(aexpense: Expense) {}
                 override fun onExpenseTypeColorReceived(astrColor: String) {}
-                override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
+                override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
                 override fun onExpenseTypeIDReceived(anID: Long?) {}
             })
         }
     }
 
     override fun saveExpense(anExpenseId: Long?, astrCategory: String, astrDescription: String, astrValue: String, adtDate: Date) {
-        if(astrValue.isEmpty()) {
+        if (astrValue.isEmpty()) {
             view.showUnsucessMessage()
         } else {
             val sValue = MathService.formatCurrencyValueToFloat(astrValue)
             val strDate = MathService.calendarTimeToString(adtDate, StaticCollections.mstrDateFormat)
 
             DindinApp.mlcmDataManager?.getExpenseTypeID(astrCategory, object : LocalCacheManager.DatabaseCallBack {
-                override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
-                override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
-                override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
-                override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
-                override fun onExpenseIdReceived(aexpense: Expense) { }
-                override fun onExpenseTypeColorReceived(astrColor: String) { }
-                override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
+                override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
+                override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
+                override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
+                override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
+                override fun onExpenseIdReceived(aexpense: Expense) {}
+                override fun onExpenseTypeColorReceived(astrColor: String) {}
+                override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
                 override fun onExpenseTypeIDReceived(anID: Long?) {
                     val expenseTarget = Expense(anExpenseId, sValue, astrDescription, strDate, anID)
-                    Observable.just(anExpenseId != null).subscribeOn(Schedulers.io()).subscribe{
-                        if(it)
+                    Observable.just(anExpenseId != null).subscribeOn(Schedulers.io()).subscribe {
+                        if (it)
                             dataBaseFactory?.expenseDao()?.update(expenseTarget)
                         else
                             dataBaseFactory?.expenseDao()?.add(expenseTarget)
@@ -150,17 +155,18 @@ class InsertExpensePresenter(avwView : InsertExpenseContract.View) : InsertExpen
 class InsertExpenseActivity : AppCompatActivity(), InsertExpenseContract.View {
 
     companion object {
-        const val INTENT_KEY_EXPENSEID : String = "IdOfExpenseToEdit"
+        const val INTENT_KEY_EXPENSEID: String = "IdOfExpenseToEdit"
     }
-    lateinit var presenter : InsertExpenseContract.Presenter
+
+    private var presenter: InsertExpenseContract.Presenter? = null
     private var mspSpinnerExpenseType: Spinner? = null
     private var metValue: EditText? = null
     private var metDescription: EditText? = null
     private var mtvDate: TextView? = null
     private var mibChangeDate: ImageButton? = null
-    private var clCalenderChoosed : Calendar = Calendar.getInstance()
-    private var mbtSave : Button? = null
-    private var mnExpenseId : Long? = null
+    private var clCalenderChoosed: Calendar = Calendar.getInstance()
+    private var mbtSave: Button? = null
+    private var mnExpenseId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -173,13 +179,13 @@ class InsertExpenseActivity : AppCompatActivity(), InsertExpenseContract.View {
         mibChangeDate = findViewById(R.id.ibChangeDate)
         mbtSave = findViewById(R.id.btnSave)
 
-        if(intent.hasExtra(INTENT_KEY_EXPENSEID)) {
+        if (intent.hasExtra(INTENT_KEY_EXPENSEID)) {
             mnExpenseId = intent.extras.getLong(INTENT_KEY_EXPENSEID)
             title = resources.getString(R.string.title_editexpense)
         }
         presenter = InsertExpensePresenter(this)
-        presenter.loadExpenseValues(mnExpenseId)
-        presenter.loadCategories(mnExpenseId)
+        presenter?.loadExpenseValues(mnExpenseId)
+        presenter?.loadCategories(mnExpenseId)
 
     }
 
@@ -198,7 +204,7 @@ class InsertExpenseActivity : AppCompatActivity(), InsertExpenseContract.View {
             val strValue = metValue?.text.toString()
             val strDescription = metDescription?.text.toString()
             val strExpenseType = mspSpinnerExpenseType?.selectedItem.toString()
-            presenter.saveExpense(mnExpenseId, strExpenseType, strDescription, strValue, clCalenderChoosed.time)
+            presenter?.saveExpense(mnExpenseId, strExpenseType, strDescription, strValue, clCalenderChoosed.time)
         }
     }
 
@@ -208,7 +214,7 @@ class InsertExpenseActivity : AppCompatActivity(), InsertExpenseContract.View {
             clCalenderChoosed.set(Calendar.MONTH, month)
             clCalenderChoosed.set(Calendar.DAY_OF_MONTH, day)
 
-            if(MathService.isTheDateInCurrentYear(clCalenderChoosed.time)) {
+            if (MathService.isTheDateInCurrentYear(clCalenderChoosed.time)) {
                 mtvDate?.text = MathService.calendarTimeToString(clCalenderChoosed.time, StaticCollections.mstrDateFormat)
             } else {
                 clCalenderChoosed = Calendar.getInstance()
@@ -232,7 +238,7 @@ class InsertExpenseActivity : AppCompatActivity(), InsertExpenseContract.View {
         MessageDialog.showToastMessage(this, resources.getString(R.string.fillAreFields))
     }
 
-    override fun fillCategoriesInSpinnerContentAndSelectSomeone(alstValues: ArrayList<String>, anItem : Int) {
+    override fun fillCategoriesInSpinnerContentAndSelectSomeone(alstValues: ArrayList<String>, anItem: Int) {
         val lstArrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, alstValues)
         lstArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         mspSpinnerExpenseType?.adapter = lstArrayAdapter

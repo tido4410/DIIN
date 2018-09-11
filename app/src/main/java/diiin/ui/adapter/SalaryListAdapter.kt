@@ -27,10 +27,10 @@ import io.reactivex.schedulers.Schedulers
  * @author Gabriel Moro
  */
 
-class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context)  : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
+class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext: Context) : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
 
-            val mltSalaryList: ArrayList<Salary> = alstSalaryList
-    private val mctContext : Context = atContext
+    val mltSalaryList: ArrayList<Salary> = alstSalaryList
+    private val mctContext: Context = atContext
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SalaryListItemViewHolder? {
         return SalaryListItemViewHolder(LayoutInflater.from(parent?.context)
@@ -46,21 +46,21 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
 
         holder?.tvDate?.text = salaryItem.mstrDate
 
-        if(salaryItem.msValue!=null)
+        if (salaryItem.msValue != null)
             holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)
 
         holder?.tvSource?.text = salaryItem.mstrSource
 
         holder?.tvDate?.visibility = TextView.GONE
 
-        if(mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+        if (mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
             holder?.tvDate?.visibility = TextView.VISIBLE
 
         holder?.ivImageViewMenu?.setOnClickListener { aview ->
             val popupMenu = PopupMenu(mctContext, aview)
             popupMenu.inflate(R.menu.context_menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
-                when(menuItem.itemId) {
+                when (menuItem.itemId) {
                     R.id.ctxmenudelete -> {
                         MessageDialog.showMessageDialog(mctContext,
                                 mctContext.resources.getString(R.string.msgAreYouSure),
@@ -73,7 +73,7 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
                                                 mltSalaryList.removeAt(position)
                                                 Observable.just(true)
                                                         .subscribeOn(AndroidSchedulers.mainThread())
-                                                        .subscribe { notifyItemRemoved(position)  }
+                                                        .subscribe { notifyItemRemoved(position) }
                                             }
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->
@@ -83,12 +83,14 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
                     }
                     R.id.ctxmenuedit -> {
                         val intent = Intent(mctContext, InsertSalaryActivity::class.java)
-                        val nSalaryId : Long? = mltSalaryList[position].mnID
+                        val nSalaryId: Long? = mltSalaryList[position].mnID
                         intent.putExtra(InsertSalaryActivity.INTENT_KEY_SALARYID, nSalaryId)
                         mctContext.startActivity(intent)
                         true
                     }
-                    else -> {  false }
+                    else -> {
+                        false
+                    }
                 }
             }
             popupMenu.show()
@@ -96,10 +98,10 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext : Context) 
     }
 
 
-    class SalaryListItemViewHolder(avwView : View) : RecyclerView.ViewHolder(avwView) {
+    class SalaryListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
         val tvSource: TextView = avwView.findViewById(R.id.tvSource)
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)
-        val ivImageViewMenu : ImageView = avwView.findViewById(R.id.ivMenuOption)
+        val ivImageViewMenu: ImageView = avwView.findViewById(R.id.ivMenuOption)
     }
 }

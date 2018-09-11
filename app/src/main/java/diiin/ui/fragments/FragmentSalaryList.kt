@@ -1,8 +1,6 @@
 package diiin.ui.fragments
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -10,7 +8,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,11 +36,7 @@ class FragmentSalaryList : Fragment(), RefreshData {
 
     private var mspMonthSelector: Spinner? = null
     private var mrvSalaryList: RecyclerView? = null
-            var mbtnInsertSalary: FloatingActionButton? = null
-
-    companion object {
-        const val NAME = "FragmentSalaryList"
-    }
+    var mbtnInsertSalary: FloatingActionButton? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_salarylist, container, false)
@@ -62,7 +55,7 @@ class FragmentSalaryList : Fragment(), RefreshData {
 
         val llManager = LinearLayoutManager(context)
         mrvSalaryList?.layoutManager = llManager
-        if(mbtnInsertSalary!=null)
+        if (mbtnInsertSalary != null)
             mrvSalaryList?.setOnTouchListener(RVWithFLoatingButtonControl(mbtnInsertSalary!!))
     }
 
@@ -75,34 +68,35 @@ class FragmentSalaryList : Fragment(), RefreshData {
 
 
         DindinApp.mlcmDataManager?.getAllSalaries(object : LocalCacheManager.DatabaseCallBack {
-            override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
-            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
+            override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
+            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
             override fun onSalariesLoaded(alstSalaries: List<Salary>) {
 
                 mrvSalaryList ?: return
 
-                val lstSalaryFiltered : ArrayList<Salary> = ArrayList()
-                val slAdapter : SalaryListAdapter
+                val lstSalaryFiltered: ArrayList<Salary> = ArrayList()
+                val slAdapter: SalaryListAdapter
 
-                if(StaticCollections.mmtMonthSelected == null) {
+                if (StaticCollections.mmtMonthSelected == null) {
                     lstSalaryFiltered.addAll(alstSalaries)
                     slAdapter = SalaryListAdapter(lstSalaryFiltered, context)
                 } else {
-                    alstSalaries.forEach{
+                    alstSalaries.forEach {
                         val clCalendar = Calendar.getInstance()
                         clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, StaticCollections.mstrDateFormat)
-                        if(clCalendar.get(Calendar.MONTH)== StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected)
+                        if (clCalendar.get(Calendar.MONTH) == StaticCollections.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == StaticCollections.mnYearSelected)
                             lstSalaryFiltered.add(it)
                     }
                     slAdapter = SalaryListAdapter(lstSalaryFiltered, context)
                 }
                 mrvSalaryList?.adapter = slAdapter
             }
-            override fun onExpenseIdReceived(aexpense: Expense) { }
-            override fun onExpenseTypeColorReceived(astrColor: String) { }
-            override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
-            override fun onExpenseTypeIDReceived(anID: Long?) { }
-            override fun onSalaryObjectByIdReceived(aslSalary: Salary) { }
+
+            override fun onExpenseIdReceived(aexpense: Expense) {}
+            override fun onExpenseTypeColorReceived(astrColor: String) {}
+            override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
+            override fun onExpenseTypeIDReceived(anID: Long?) {}
+            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
         })
     }
 

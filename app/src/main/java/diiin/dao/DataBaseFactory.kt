@@ -17,15 +17,15 @@ abstract class DataBaseFactory : RoomDatabase() {
     /**
      * Provides expensetypedao
      */
-    abstract fun expenseTypeDao() : ExpenseTypeDAO
+    abstract fun expenseTypeDao(): ExpenseTypeDAO
 
     /**
      * Provides expensedao
      */
-    abstract fun expenseDao() : ExpenseDAO
+    abstract fun expenseDao(): ExpenseDAO
 
     /**
      * Provides salary dao
      */
-    abstract fun salaryDao() : SalaryDAO
+    abstract fun salaryDao(): SalaryDAO
 }

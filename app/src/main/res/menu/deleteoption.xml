@@ -6,5 +6,5 @@
         android:id="@+id/remove"
         android:icon="@drawable/baseline_delete"
         app:showAsAction="always"
-        android:visible="false"/>
+        android:visible="false" />
 </menu>

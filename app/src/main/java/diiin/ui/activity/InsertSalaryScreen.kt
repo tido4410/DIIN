@@ -25,47 +25,48 @@ interface InsertSalaryContract {
     interface View {
         fun showSucessMessage()
         fun showUnsucessMessage()
-        fun setDescription(astrDescription : String)
-        fun setValue(astrValue : String)
+        fun setDescription(astrDescription: String)
+        fun setValue(astrValue: String)
     }
+
     interface Presenter {
-        fun loadSalaryValues(anSalaryID : Long?)
-        fun saveSalary(anSalaryID: Long?, astrDescription: String, astrValue : String, adtDate : Date)
+        fun loadSalaryValues(anSalaryID: Long?)
+        fun saveSalary(anSalaryID: Long?, astrDescription: String, astrValue: String, adtDate: Date)
     }
 }
 
-class InsertSalaryPresenter(avwView : InsertSalaryContract.View) : InsertSalaryContract.Presenter {
+class InsertSalaryPresenter(avwView: InsertSalaryContract.View) : InsertSalaryContract.Presenter {
 
-    private var view            : InsertSalaryContract.View = avwView
+    private var view: InsertSalaryContract.View = avwView
 
     override fun loadSalaryValues(anSalaryID: Long?) {
-        if(anSalaryID!=null) {
+        if (anSalaryID != null) {
             DindinApp.mlcmDataManager?.getSalaryAccordingId(anSalaryID,
-                object : LocalCacheManager.DatabaseCallBack {
-                    override fun onExpensesLoaded(alstExpenses: List<Expense>) { }
-                    override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) { }
-                    override fun onSalariesLoaded(alstSalaries: List<Salary>) { }
-                    override fun onExpenseIdReceived(aexpense: Expense) { }
-                    override fun onExpenseTypeColorReceived(astrColor: String) { }
-                    override fun onExpenseTypeDescriptionReceived(astrDescription: String) { }
-                    override fun onExpenseTypeIDReceived(anID: Long?) { }
-                    override fun onSalaryObjectByIdReceived(aslSalary: Salary) {
-                        view.setDescription(aslSalary.mstrSource)
-                        if(aslSalary.msValue!=null) view.setValue(MathService.formatFloatToCurrency(aslSalary.msValue!!))
-                    }
+                    object : LocalCacheManager.DatabaseCallBack {
+                        override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
+                        override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
+                        override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
+                        override fun onExpenseIdReceived(aexpense: Expense) {}
+                        override fun onExpenseTypeColorReceived(astrColor: String) {}
+                        override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
+                        override fun onExpenseTypeIDReceived(anID: Long?) {}
+                        override fun onSalaryObjectByIdReceived(aslSalary: Salary) {
+                            view.setDescription(aslSalary.mstrSource)
+                            if (aslSalary.msValue != null) view.setValue(MathService.formatFloatToCurrency(aslSalary.msValue!!))
+                        }
 
-                })
+                    })
         }
     }
 
-    override fun saveSalary(anSalaryID: Long?, astrDescription: String, astrValue : String, adtDate : Date) {
+    override fun saveSalary(anSalaryID: Long?, astrDescription: String, astrValue: String, adtDate: Date) {
         if (astrDescription.isEmpty() && astrValue.isEmpty()) {
             view.showUnsucessMessage()
         } else {
             val salaryTarget = Salary(anSalaryID, MathService.formatCurrencyValueToFloat(astrValue), astrDescription, MathService.calendarTimeToString(adtDate, StaticCollections.mstrDateFormat))
             Observable.just(anSalaryID != null).subscribeOn(Schedulers.io())
                     .subscribe {
-                        if(it)
+                        if (it)
                             DindinApp.mlcmDataManager?.mappDataBaseBuilder?.salaryDao()?.update(salaryTarget)
                         else
                             DindinApp.mlcmDataManager?.mappDataBaseBuilder?.salaryDao()?.add(salaryTarget)
@@ -84,7 +85,7 @@ class InsertSalaryPresenter(avwView : InsertSalaryContract.View) : InsertSalaryC
 class InsertSalaryActivity : AppCompatActivity(), InsertSalaryContract.View {
 
     companion object {
-        const val INTENT_KEY_SALARYID : String = "IdOfSalaryToEdit"
+        const val INTENT_KEY_SALARYID: String = "IdOfSalaryToEdit"
     }
 
     private var clCalenderChoosed: Calendar = Calendar.getInstance()
@@ -93,8 +94,8 @@ class InsertSalaryActivity : AppCompatActivity(), InsertSalaryContract.View {
     private var metDescriptionValue: EditText? = null
     private var metPriceValue: EditText? = null
     private var mbtSave: Button? = null
-    private var mnSalaryId : Long? = null
-    private var presenter : InsertSalaryContract.Presenter? = null
+    private var mnSalaryId: Long? = null
+    private var presenter: InsertSalaryContract.Presenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,7 +107,7 @@ class InsertSalaryActivity : AppCompatActivity(), InsertSalaryContract.View {
         metPriceValue = findViewById(R.id.etPriceValue)
         mbtSave = findViewById(R.id.btnSave)
 
-        if(intent.hasExtra(INTENT_KEY_SALARYID)) {
+        if (intent.hasExtra(INTENT_KEY_SALARYID)) {
             mnSalaryId = intent.extras.getLong(INTENT_KEY_SALARYID)
             title = resources.getString(R.string.title_editsalary)
         }

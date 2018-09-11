@@ -16,12 +16,12 @@ object StaticCollections {
     /**
      * Represents the month selected in the filter by user
      */
-    var mmtMonthSelected : MonthType? = null
+    var mmtMonthSelected: MonthType? = null
     /**
      * Represent the current year.
      */
-    var mnYearSelected : Int? = null
+    var mnYearSelected: Int? = null
 
-    val mstrDateFormat : String = "dd-MM-yyyy"
+    val mstrDateFormat: String = "dd-MM-yyyy"
 
 }

@@ -13,7 +13,7 @@ import java.util.*
  *
  * @param aid is the month type identifier
  */
-enum class MonthType(val aid : Int) {
+enum class MonthType(val aid: Int) {
     JANUARY(Calendar.JANUARY),
     FEBRUARY(Calendar.FEBRUARY),
     MARCH(Calendar.MARCH),
@@ -37,7 +37,7 @@ enum class MonthType(val aid : Int) {
          * Return some month type according to integer id
          * @param type is the integer id
          */
-        fun fromInt(type : Int) = map[type]
+        fun fromInt(type: Int) = map[type]
 
         /**
          *
@@ -47,8 +47,8 @@ enum class MonthType(val aid : Int) {
          * @param actContext is the screen context
          * @param astValue is the description of the expense type
          */
-        fun gettingIdFromDescription(actContext: Context, astValue : String) : Int? {
-            return when(astValue) {
+        fun gettingIdFromDescription(actContext: Context, astValue: String): Int? {
+            return when (astValue) {
                 JANUARY.description(actContext) -> JANUARY.aid
                 FEBRUARY.description(actContext) -> FEBRUARY.aid
                 MARCH.description(actContext) -> MARCH.aid
@@ -72,8 +72,8 @@ enum class MonthType(val aid : Int) {
      *
      * @param actContext is the screen context
      */
-    fun description(actContext : Context) : String {
-        return when(this) {
+    fun description(actContext: Context): String {
+        return when (this) {
             JANUARY -> actContext.resources.getString(R.string.january)
             FEBRUARY -> actContext.resources.getString(R.string.february)
             MARCH -> actContext.resources.getString(R.string.march)

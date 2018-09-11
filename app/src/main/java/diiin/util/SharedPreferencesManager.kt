@@ -19,11 +19,11 @@ object SharedPreferenceConnection {
     private const val SHARED_PREFERENCE_NAME = "dindin"
     private const val PRIVATE_MODE = 0
 
-    fun selector(actContext : Context, strKey : String, strDefaultValue : String) : String  {
+    fun selector(actContext: Context, strKey: String, strDefaultValue: String): String {
         return actContext.getSharedPreferences(SHARED_PREFERENCE_NAME, PRIVATE_MODE).getString(strKey, strDefaultValue)
     }
 
-    fun editor(actxContext : Context) : SharedPreferences.Editor  {
+    fun editor(actxContext: Context): SharedPreferences.Editor {
         return actxContext.getSharedPreferences(SHARED_PREFERENCE_NAME, PRIVATE_MODE).edit()
     }
 }
@@ -42,11 +42,11 @@ object SelectionSharedPreferences {
     /**
      * Get the last month selected by User.
      */
-    fun getSelectedMonth(actContext: Context) : MonthType? {
+    fun getSelectedMonth(actContext: Context): MonthType? {
         val strValue = SharedPreferenceConnection.selector(actContext, KEY_MONTH, "")
-        if(strValue.isNotEmpty()) {
+        if (strValue.isNotEmpty()) {
             val nId = MonthType.gettingIdFromDescription(actContext, strValue)
-            if(nId != null) {
+            if (nId != null) {
                 val monthSelected = MonthType.fromInt(nId)
                 StaticCollections.mmtMonthSelected = monthSelected
                 return monthSelected
@@ -61,14 +61,14 @@ object SelectionSharedPreferences {
      */
     fun insertMonthSelectPreference(actContext: Context, amtMonthType: MonthType?) {
         amtMonthType ?: return
-        SharedPreferenceConnection.editor(actContext).putString(KEY_MONTH,amtMonthType.description(actContext)).commit()
+        SharedPreferenceConnection.editor(actContext).putString(KEY_MONTH, amtMonthType.description(actContext)).commit()
         getSelectedMonth(actContext)
     }
 
     /**
      * Save the year selected by User.
      */
-    fun insertYearSelectPreference(actContext: Context, anYear : Int?) {
+    fun insertYearSelectPreference(actContext: Context, anYear: Int?) {
         anYear ?: return
         SharedPreferenceConnection.editor(actContext).putString(KEY_YEAR, anYear.toString()).commit()
         getSelectedYear(actContext)
@@ -77,12 +77,12 @@ object SelectionSharedPreferences {
     /**
      * Get the last year selected by User.
      */
-    fun getSelectedYear(actContext: Context) : Int? {
+    fun getSelectedYear(actContext: Context): Int? {
         val defaultYear = Calendar.getInstance().get(Calendar.YEAR).toString()
         val strValue = SharedPreferenceConnection.selector(actContext, KEY_YEAR, defaultYear)
-        if(strValue.isNotEmpty()) {
+        if (strValue.isNotEmpty()) {
             val nYear = strValue.toIntOrNull()
-            if(nYear != null) {
+            if (nYear != null) {
                 StaticCollections.mnYearSelected = nYear
                 return nYear
             }
@@ -98,18 +98,18 @@ object SelectionSharedPreferences {
 object SalarySharedPreferences {
     private const val SALARY_PREFERENCE_KEY = "SalaryKey"
 
-    fun getSalaryList(actContext: Context) : List<Salary> {
+    fun getSalaryList(actContext: Context): List<Salary> {
         val lstToReturn = ArrayList<Salary>()
         val strValue = SharedPreferenceConnection.selector(actContext, SALARY_PREFERENCE_KEY, "")
-        if(strValue.isNotEmpty()) {
+        if (strValue.isNotEmpty()) {
             val lstStrSalary = strValue.split("-")
             lstStrSalary.forEach {
                 val lstStrAttributes = it.split("|")
-                if(lstStrAttributes.size > 2) {
+                if (lstStrAttributes.size > 2) {
                     val sValue = MathService.stringToFloat(lstStrAttributes[0])
                     val strDescription = lstStrAttributes[1]
                     val strDate = lstStrAttributes[2]
-                    lstToReturn.add(Salary(null, sValue, strDescription,strDate))
+                    lstToReturn.add(Salary(null, sValue, strDescription, strDate))
                 }
             }
         }
@@ -124,7 +124,7 @@ object ExpenseSharedPreferences {
 
     private const val EXPENSES_PREFERENCE_KEY = "ExpensesKey"
 
-    fun getExpensesList(actContext: Context) : List<Expense> {
+    fun getExpensesList(actContext: Context): List<Expense> {
         val lstToReturn = ArrayList<Expense>()
         val strValue = SharedPreferenceConnection.selector(actContext, EXPENSES_PREFERENCE_KEY, "")
         if (strValue.isNotEmpty()) {

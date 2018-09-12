@@ -125,7 +125,7 @@ class InsertExpenseTypeActivity : AppCompatActivity(), InsertExpenseTypeContract
     private var mvwCurrentColor: View? = null
     private var mbtnSaveExpenseType: Button? = null
     private var metEditText: EditText? = null
-    private var mnColorSelected: Int = 0
+    private var mnColorSelected: Int? = null
     private var mnExpenseTypeId: Long? = null
 
     companion object {
@@ -163,7 +163,8 @@ class InsertExpenseTypeActivity : AppCompatActivity(), InsertExpenseTypeContract
                     .show()
         }
         mbtnSaveExpenseType?.setOnClickListener {
-            presenter?.saveExpenseType(mnExpenseTypeId, metEditText?.text.toString(), mnColorSelected)
+            if(mnColorSelected!=null)
+                presenter?.saveExpenseType(mnExpenseTypeId, metEditText?.text.toString(), mnColorSelected!!)
         }
     }
 
@@ -186,6 +187,7 @@ class InsertExpenseTypeActivity : AppCompatActivity(), InsertExpenseTypeContract
      */
     override fun setColor(anColorValue: Int) {
         mvwCurrentColor?.setBackgroundColor(anColorValue)
+        mnColorSelected = anColorValue
     }
 
     /**

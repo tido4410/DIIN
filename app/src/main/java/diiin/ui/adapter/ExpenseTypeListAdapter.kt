@@ -12,9 +12,13 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
+import diiin.DindinApp
 import diiin.model.ExpenseType
 import diiin.ui.activity.InsertExpenseTypeActivity
 import diiin.util.MessageDialog
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 
 /**
@@ -49,14 +53,18 @@ class ExpenseTypeListAdapter(actxContext: Context, alstExpenseList: ArrayList<Ex
                         MessageDialog.showMessageDialog(mctContext,
                                 mctContext.resources.getString(R.string.msgAreYouSure),
                                 DialogInterface.OnClickListener { adialog, _ ->
-                                    //                                    val expenseTypeTarget: ExpenseType = mltExpenseTypeList[position]
-//                                    val lstExpenses = StaticCollections.mappDataBuilder?.expenseDao()?.all()
-//                                    val bIsItPossibleToClear = lstExpenses?.filter { it.mnExpenseType!! == expenseTypeTarget.mnExpenseTypeID}?.count() == 0
-//                                    if(bIsItPossibleToClear) {
-//                                        StaticCollections.mappDataBuilder?.expenseTypeDao()?.delete(expenseTypeTarget)
-//                                        mltExpenseTypeList.removeAt(position)
-//                                        notifyItemRemoved(position)
-//                                    }
+                                    val expenseTypeTarget : ExpenseType = mltExpenseTypeList[position]
+                                    Observable.just(true)
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe {
+                                                DindinApp.mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.delete(expenseTypeTarget)
+                                                mltExpenseTypeList.removeAt(position)
+                                                Observable.just(true)
+                                                        .subscribeOn(AndroidSchedulers.mainThread())
+                                                        .subscribe {
+                                                            notifyItemRemoved(position)
+                                                        }
+                                            }
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->
                                     adialog.dismiss()

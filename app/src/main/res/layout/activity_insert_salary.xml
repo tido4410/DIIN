@@ -11,7 +11,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="62dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
@@ -45,7 +45,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="62dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
@@ -78,7 +78,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="62dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
@@ -91,10 +91,10 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|end"
-                android:textColor="@color/whiteColor"
                 android:maxLines="1"
                 android:text="@string/date_label"
-                android:textAlignment="gravity" />
+                android:textAlignment="gravity"
+                android:textColor="@color/whiteColor" />
 
             <TextView
                 android:id="@+id/tvDateChoosed"
@@ -104,15 +104,15 @@
                 android:ems="10"
                 android:gravity="center_vertical|start"
                 android:inputType="textPersonName"
-                android:textColor="@color/whiteColor"
                 android:text=""
-                android:textAlignment="gravity" />
+                android:textAlignment="gravity"
+                android:textColor="@color/whiteColor" />
 
             <ImageButton
                 android:id="@+id/ibChangeDate"
-                android:src="@drawable/baseline_calendar_today_black"
                 android:layout_width="52dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:src="@drawable/baseline_calendar_today_black" />
         </LinearLayout>
 
         <Button

@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/llDateSelected"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="62dp"
         android:layout_marginBottom="1dp"
         android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"

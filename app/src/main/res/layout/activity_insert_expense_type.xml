@@ -9,12 +9,12 @@
     <EditText
         android:id="@+id/etExpenseTypeDescription"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/expensetype"
+        android:layout_height="62dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:hint="@string/expensetype"
         app:layout_constraintBottom_toTopOf="@+id/llChangeColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
     <LinearLayout
         android:id="@+id/llChangeColor"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="62dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -55,7 +55,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_weight="5"
-            android:text="Change"
+            android:text="@string/change"
             app:layout_constraintBottom_toTopOf="@+id/btnSaveExpenseType"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/view2" />

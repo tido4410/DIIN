@@ -93,12 +93,8 @@ class FinancialReportPresenter(avwView: FinancialReportContract.View) : Financia
             override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
             override fun onSalariesLoaded(alstSalaries: List<Salary>) {
                 alstSalaries.forEach {
-                    val clCalendar = Calendar.getInstance()
-                    clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, DindinApp.mstrDateFormat)
-                    if (clCalendar.get(Calendar.MONTH) == DindinApp.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == DindinApp.mnYearSelected) {
                         val sValue = it.msValue ?: 0f
                         sTotalSalary += sValue
-                    }
                 }
                 DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
                     override fun onExpensesLoaded(alstExpenses: List<Expense>) {
@@ -305,6 +301,7 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         mpcPieChart?.holeRadius = 7f
         mpcPieChart?.setHoleColor(ContextCompat.getColor(context, R.color.whiteColor))
 
+        refresh()
     }
 
     override fun onResume() {
@@ -312,7 +309,6 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
 
         mrlChartItem?.visibility = RelativeLayout.GONE
         mrlWalletPanel?.visibility = RelativeLayout.VISIBLE
-        refresh()
     }
 
     /**
@@ -336,7 +332,7 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         val dataPie = PieData(dataSet)
         dataPie.setValueFormatter(PercentFormatter())
         dataPie.setValueTextSize(14f)
-        dataPie.setValueTextColor(Color.WHITE)
+        dataPie.setValueTextColor(Color.TRANSPARENT)
         mpcPieChart?.legend?.textColor = ContextCompat.getColor(context, R.color.whiteColor)
         mpcPieChart?.legend?.textSize = 12f
         mpcPieChart?.legend?.isWordWrapEnabled = true

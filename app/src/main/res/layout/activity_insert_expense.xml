@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="62dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
@@ -21,7 +21,6 @@
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/tvLabelType"
-                android:textColor="@color/whiteColor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
@@ -29,22 +28,21 @@
                 android:gravity="center_vertical|end"
                 android:maxLines="1"
                 android:text="@string/type_label"
-                android:textAlignment="gravity" />
+                android:textAlignment="gravity"
+                android:textColor="@color/whiteColor" />
 
             <Spinner
                 android:id="@+id/spinnerExpenseType"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:gravity="center_vertical|start"
                 android:textAlignment="gravity" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="62dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
@@ -54,30 +52,30 @@
                 android:id="@+id/tvLabelValue"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/whiteColor"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|end"
                 android:maxLines="1"
                 android:text="@string/value_label"
-                android:textAlignment="gravity" />
+                android:textAlignment="gravity"
+                android:textColor="@color/whiteColor" />
 
             <EditText
                 android:id="@+id/etPriceValue"
                 android:layout_width="match_parent"
-                android:textColor="@color/whiteColor"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:ems="10"
                 android:digits="0123456789"
+                android:ems="10"
                 android:gravity="center_vertical|start"
                 android:inputType="number"
-                android:textAlignment="gravity" />
+                android:textAlignment="gravity"
+                android:textColor="@color/whiteColor" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="62dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
@@ -87,13 +85,13 @@
                 android:id="@+id/tvDescriptionLabel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="@color/whiteColor"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|end"
                 android:maxLines="1"
                 android:text="@string/description_label"
-                android:textAlignment="gravity" />
+                android:textAlignment="gravity"
+                android:textColor="@color/whiteColor" />
 
             <EditText
                 android:id="@+id/etDescriptionValue"
@@ -102,15 +100,15 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:gravity="center_vertical|start"
-                android:textColor="@color/whiteColor"
                 android:inputType="textPersonName"
                 android:text=""
-                android:textAlignment="gravity" />
+                android:textAlignment="gravity"
+                android:textColor="@color/whiteColor" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="62dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
@@ -123,10 +121,10 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical|end"
-                android:textColor="@color/whiteColor"
                 android:maxLines="1"
                 android:text="@string/date_label"
-                android:textAlignment="gravity" />
+                android:textAlignment="gravity"
+                android:textColor="@color/whiteColor" />
 
             <TextView
                 android:id="@+id/tvDateChoosed"
@@ -136,15 +134,15 @@
                 android:ems="10"
                 android:gravity="center_vertical|start"
                 android:inputType="textPersonName"
-                android:textColor="@color/whiteColor"
                 android:text="12/04/1201"
-                android:textAlignment="gravity" />
+                android:textAlignment="gravity"
+                android:textColor="@color/whiteColor" />
 
             <ImageButton
                 android:id="@+id/ibChangeDate"
-                android:src="@drawable/baseline_calendar_today_black"
                 android:layout_width="52dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:src="@drawable/baseline_calendar_today_black" />
         </LinearLayout>
 
 

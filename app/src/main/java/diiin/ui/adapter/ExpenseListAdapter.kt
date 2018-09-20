@@ -59,8 +59,8 @@ class ExpenseListAdapter(actxContext: Context, alstExpenseList: ArrayList<Expens
             if (expenseType != null) {
                 val nColor = Color.parseColor(expenseType.mstrColor)
                 holder.vwExpenseType.setBackgroundColor(nColor)
-                holder.tvDescription.text = expenseItem.mstrDescription
-                holder.tvExpenseType.text = expenseType.mstrDescription
+                holder.tvExpenseDescription.text = expenseItem.mstrDescription
+                holder.tvDescriptionDetailed.text = expenseType.mstrDescription
             }
         }
 
@@ -110,8 +110,8 @@ class ExpenseListAdapter(actxContext: Context, alstExpenseList: ArrayList<Expens
     }
 
     class ExpenseListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {
-        val tvExpenseType: TextView = avwView.findViewById(R.id.tvExpenseType)
-        val tvDescription: TextView = avwView.findViewById(R.id.tvDescription)
+        val tvExpenseDescription: TextView = avwView.findViewById(R.id.tvExpenseType)
+        val tvDescriptionDetailed: TextView = avwView.findViewById(R.id.tvDescription)
         val tvDate: TextView = avwView.findViewById(R.id.tvDate)
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
         val vwExpenseType: View = avwView.findViewById(R.id.vwExpenseType)

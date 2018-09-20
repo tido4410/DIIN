@@ -93,12 +93,8 @@ class FinancialReportPresenter(avwView: FinancialReportContract.View) : Financia
             override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
             override fun onSalariesLoaded(alstSalaries: List<Salary>) {
                 alstSalaries.forEach {
-                    val clCalendar = Calendar.getInstance()
-                    clCalendar.time = MathService.stringToCalendarTime(it.mstrDate, DindinApp.mstrDateFormat)
-                    if (clCalendar.get(Calendar.MONTH) == DindinApp.mmtMonthSelected?.aid && clCalendar.get(Calendar.YEAR) == DindinApp.mnYearSelected) {
                         val sValue = it.msValue ?: 0f
                         sTotalSalary += sValue
-                    }
                 }
                 DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
                     override fun onExpensesLoaded(alstExpenses: List<Expense>) {

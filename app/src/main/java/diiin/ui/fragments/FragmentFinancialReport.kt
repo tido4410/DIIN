@@ -336,7 +336,7 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         val dataPie = PieData(dataSet)
         dataPie.setValueFormatter(PercentFormatter())
         dataPie.setValueTextSize(14f)
-        dataPie.setValueTextColor(Color.WHITE)
+        dataPie.setValueTextColor(Color.TRANSPARENT)
         mpcPieChart?.legend?.textColor = ContextCompat.getColor(context, R.color.whiteColor)
         mpcPieChart?.legend?.textSize = 12f
         mpcPieChart?.legend?.isWordWrapEnabled = true

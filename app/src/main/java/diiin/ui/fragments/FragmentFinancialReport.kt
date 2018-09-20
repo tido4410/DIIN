@@ -301,6 +301,7 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         mpcPieChart?.holeRadius = 7f
         mpcPieChart?.setHoleColor(ContextCompat.getColor(context, R.color.whiteColor))
 
+        refresh()
     }
 
     override fun onResume() {
@@ -308,7 +309,6 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
 
         mrlChartItem?.visibility = RelativeLayout.GONE
         mrlWalletPanel?.visibility = RelativeLayout.VISIBLE
-        refresh()
     }
 
     /**

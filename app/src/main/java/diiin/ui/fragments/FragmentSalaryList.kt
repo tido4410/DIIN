@@ -120,6 +120,7 @@ class FragmentSalaryList : Fragment(), RefreshData, SalaryListContract.View {
 
         val llManager = LinearLayoutManager(context)
         mrvSalaryList?.layoutManager = llManager
+        loadSalaryListAdapter(ArrayList())
         if (mbtnInsertSalary != null)
             mrvSalaryList?.setOnTouchListener(RVWithFLoatingButtonControl(mbtnInsertSalary!!))
     }

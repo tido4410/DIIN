@@ -122,6 +122,7 @@ class FragmentExpensesList : Fragment(), RefreshData, ExpenseListContract.View {
 
         val llManager = LinearLayoutManager(context)
         mrvExpenseList?.layoutManager = llManager
+        loadExpenseListAdapter(ArrayList())
         if (mbtInsertExpense != null)
             mrvExpenseList?.setOnTouchListener(RVWithFLoatingButtonControl(mbtInsertExpense!!))
 

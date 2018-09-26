@@ -103,7 +103,6 @@
             android:layout_width="80dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:background="@color/activityColorBackground"
             android:gravity="center_vertical|end"
             android:maxLines="1"
             android:text="R$0,00"

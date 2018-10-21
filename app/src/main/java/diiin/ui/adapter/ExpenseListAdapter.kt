@@ -82,7 +82,7 @@ class ExpenseListAdapter(acontract: ExpenseListAdapterContract, alstExpenseList:
                     R.id.ctxmenudelete -> {
                         MessageDialog.showMessageDialog(mcontract.currentContext(),
                                 mcontract.currentContext().resources.getString(R.string.msgAreYouSure),
-                                DialogInterface.OnClickListener { adialog, _ ->
+                                DialogInterface.OnClickListener { _, _ ->
                                     val expenseTarget: Expense = mltExpenseList[position]
                                     Observable.just(true).subscribeOn(Schedulers.io())
                                             .subscribe {
@@ -90,10 +90,8 @@ class ExpenseListAdapter(acontract: ExpenseListAdapterContract, alstExpenseList:
                                                 mltExpenseList.removeAt(position)
                                                 Observable.just(true)
                                                         .subscribeOn(AndroidSchedulers.mainThread())
-                                                        .subscribe {
-                                                            notifyItemRemoved(position)
-                                                            mcontract.onRemoveItem()
-                                                        }
+                                                        .subscribe { notifyItemRemoved(position) }
+                                                mcontract.onRemoveItem()
                                             }
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->

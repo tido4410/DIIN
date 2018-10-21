@@ -77,11 +77,8 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, acontract: SalaryList
                                                 mltSalaryList.removeAt(position)
                                                 Observable.just(true)
                                                         .subscribeOn(AndroidSchedulers.mainThread())
-                                                        .subscribe {
-                                                            notifyItemRemoved(position)
-                                                            mcontract.onRemoveItem()
-                                                        }
-
+                                                        .subscribe { notifyItemRemoved(position) }
+                                                mcontract.onRemoveItem()
                                             }
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->

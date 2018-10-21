@@ -27,7 +27,7 @@ import diiin.ui.fragments.FragmentFinancialReport
 import diiin.ui.fragments.FragmentSalaryList
 import diiin.util.MessageDialog
 import diiin.util.SelectionSharedPreferences
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 /**
@@ -122,6 +122,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private var mPrevMenuItem: MenuItem? = null
     private var presenter: MainScreenContract.Presenter? = null
 
+    var mbNeedSomeDataChanged : Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -168,6 +170,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         mnvNavigation?.menu?.findItem(R.id.navigation_expenses)
                     }
                     1 -> {
+                        if(mbNeedSomeDataChanged) {
+                            mvwViewPager?.adapter?.notifyDataSetChanged()
+                            mbNeedSomeDataChanged = false
+                        }
                         mnvNavigation?.menu?.findItem(R.id.navigation_piechart)
                     }
                     2 -> {
@@ -193,11 +199,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         (application as DindinApp).bus()
                 .toObservable()
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.computation())
                 .subscribe {
-                    mvwViewPager?.adapter?.notifyDataSetChanged()
+                    mbNeedSomeDataChanged = true
                 }
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

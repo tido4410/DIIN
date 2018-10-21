@@ -1,6 +1,7 @@
 package diiin.ui.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -22,6 +23,7 @@ import diiin.model.Salary
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertExpenseActivity
 import diiin.ui.adapter.ExpenseListAdapter
+import diiin.ui.adapter.ExpenseListAdapterContract
 import diiin.ui.adapter.RefreshData
 import diiin.util.MathService
 import java.util.*
@@ -152,7 +154,15 @@ class FragmentExpensesList : Fragment(), RefreshData, ExpenseListContract.View {
      * Change the adapter list.
      */
     override fun loadExpenseListAdapter(alstExpenses: ArrayList<Expense>) {
-        val elAdapter = ExpenseListAdapter(context, alstExpenses)
+        val elAdapter = ExpenseListAdapter(
+                object : ExpenseListAdapterContract {
+                    override fun onRemoveItem() =
+                            (activity.application as DindinApp)
+                                    .bus()
+                                    .send(true)
+
+                    override fun currentContext(): Context = context
+                }, alstExpenses)
         mrvExpenseList?.adapter = elAdapter
     }
 

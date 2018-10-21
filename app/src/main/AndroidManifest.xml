@@ -13,17 +13,17 @@
         <activity
             android:name="diiin.ui.activity.MainActivity"
             android:configChanges="orientation|screenSize|screenLayout">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="diiin.ui.activity.InsertExpenseActivity"
             android:label="@string/title_newexpense">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="diiin.ui.activity.MainActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="diiin.ui.activity.MainActivity" />
         </activity>
         <activity
             android:name="diiin.ui.activity.InsertSalaryActivity"
@@ -38,9 +38,9 @@
                 android:value="diiin.ui.activity.MainActivity" />
         </activity>
         <activity android:name="diiin.ui.activity.InsertExpenseTypeActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="diiin.ui.activity.SettingsActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="diiin.ui.activity.SettingsActivity" />
         </activity>
     </application>
 

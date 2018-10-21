@@ -20,16 +20,19 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
+interface ExpenseTypeListAdapterContract {
+    fun currentContext() : Context
+}
 
 /**
  * This adapter is the manager of expense list.
  * @author Gabriel Moro
  */
-class ExpenseTypeListAdapter(actxContext: Context, alstExpenseList: ArrayList<ExpenseType>)
+class ExpenseTypeListAdapter(acontract: ExpenseTypeListAdapterContract, alstExpenseList: ArrayList<ExpenseType>)
     : RecyclerView.Adapter<ExpenseTypeListAdapter.ExpenseTypeListItemViewHolder>() {
 
     val mltExpenseTypeList: ArrayList<ExpenseType> = alstExpenseList
-    private val mctContext: Context = actxContext
+    private val mcontract: ExpenseTypeListAdapterContract = acontract
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseTypeListItemViewHolder {
         return ExpenseTypeListItemViewHolder(LayoutInflater.from(parent.context)
@@ -45,18 +48,18 @@ class ExpenseTypeListAdapter(actxContext: Context, alstExpenseList: ArrayList<Ex
         holder.tvExpenseType.text = expenseTypeItem.mstrDescription
         holder.vwColorExpenseType.setBackgroundColor(Color.parseColor(expenseTypeItem.mstrColor))
         holder.ivImageViewMenu.setOnClickListener { aview ->
-            val popupMenu = PopupMenu(mctContext, aview)
+            val popupMenu = PopupMenu(mcontract.currentContext(), aview)
             popupMenu.inflate(R.menu.context_menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.ctxmenudelete -> {
-                        MessageDialog.showMessageDialog(mctContext,
-                                mctContext.resources.getString(R.string.msgAreYouSure),
-                                DialogInterface.OnClickListener { adialog, _ ->
+                        MessageDialog.showMessageDialog(mcontract.currentContext(),
+                                mcontract.currentContext().resources.getString(R.string.msgAreYouSure),
+                                DialogInterface.OnClickListener { _, _ ->
                                     val expenseTypeTarget : ExpenseType = mltExpenseTypeList[position]
                                     Observable.just(true)
                                             .subscribeOn(Schedulers.io())
-                                            .subscribe {
+                                            .subscribe { _ ->
                                                 DindinApp.mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.delete(expenseTypeTarget)
                                                 mltExpenseTypeList.removeAt(position)
                                                 Observable.just(true)
@@ -72,10 +75,10 @@ class ExpenseTypeListAdapter(actxContext: Context, alstExpenseList: ArrayList<Ex
                         true
                     }
                     R.id.ctxmenuedit -> {
-                        val intent = Intent(mctContext, InsertExpenseTypeActivity::class.java)
+                        val intent = Intent(mcontract.currentContext(), InsertExpenseTypeActivity::class.java)
                         val nExpenseTypeId: Long? = mltExpenseTypeList[position].mnExpenseTypeID
                         intent.putExtra(InsertExpenseTypeActivity.INTENT_KEY_EXPENSETYPEID, nExpenseTypeId)
-                        mctContext.startActivity(intent)
+                        mcontract.currentContext().startActivity(intent)
                         true
                     }
                     else -> {

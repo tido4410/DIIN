@@ -24,15 +24,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
+interface ExpenseListAdapterContract {
+    fun currentContext() : Context
+    fun onRemoveItem()
+}
+
 /**
  * This adapter is the manager of expense list.
  * @author Gabriel Moro
  */
-class ExpenseListAdapter(actxContext: Context, alstExpenseList: ArrayList<Expense>)
+class ExpenseListAdapter(acontract: ExpenseListAdapterContract, alstExpenseList: ArrayList<Expense>)
     : RecyclerView.Adapter<ExpenseListAdapter.ExpenseListItemViewHolder>() {
 
     val mltExpenseList: ArrayList<Expense> = alstExpenseList
-    private val mctContext: Context = actxContext
+    private val mcontract: ExpenseListAdapterContract = acontract
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseListItemViewHolder {
         return ExpenseListItemViewHolder(LayoutInflater.from(parent.context)
@@ -66,17 +71,17 @@ class ExpenseListAdapter(actxContext: Context, alstExpenseList: ArrayList<Expens
 
         holder.llLine2.visibility = LinearLayout.GONE
 
-        if (mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+        if (mcontract.currentContext().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
             holder.llLine2.visibility = LinearLayout.VISIBLE
 
         holder.ivImageViewMenu.setOnClickListener { aview ->
-            val popupMenu = PopupMenu(mctContext, aview)
+            val popupMenu = PopupMenu(mcontract.currentContext(), aview)
             popupMenu.inflate(R.menu.context_menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.ctxmenudelete -> {
-                        MessageDialog.showMessageDialog(mctContext,
-                                mctContext.resources.getString(R.string.msgAreYouSure),
+                        MessageDialog.showMessageDialog(mcontract.currentContext(),
+                                mcontract.currentContext().resources.getString(R.string.msgAreYouSure),
                                 DialogInterface.OnClickListener { adialog, _ ->
                                     val expenseTarget: Expense = mltExpenseList[position]
                                     Observable.just(true).subscribeOn(Schedulers.io())
@@ -85,7 +90,10 @@ class ExpenseListAdapter(actxContext: Context, alstExpenseList: ArrayList<Expens
                                                 mltExpenseList.removeAt(position)
                                                 Observable.just(true)
                                                         .subscribeOn(AndroidSchedulers.mainThread())
-                                                        .subscribe { notifyItemRemoved(position) }
+                                                        .subscribe {
+                                                            notifyItemRemoved(position)
+                                                            mcontract.onRemoveItem()
+                                                        }
                                             }
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->
@@ -94,10 +102,10 @@ class ExpenseListAdapter(actxContext: Context, alstExpenseList: ArrayList<Expens
                         true
                     }
                     R.id.ctxmenuedit -> {
-                        val intent = Intent(mctContext, InsertExpenseActivity::class.java)
+                        val intent = Intent(mcontract.currentContext(), InsertExpenseActivity::class.java)
                         val nExpenseId: Long? = mltExpenseList[position].mnID
                         intent.putExtra(InsertExpenseActivity.INTENT_KEY_EXPENSEID, nExpenseId)
-                        mctContext.startActivity(intent)
+                        mcontract.currentContext().startActivity(intent)
                         true
                     }
                     else -> {

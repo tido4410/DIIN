@@ -19,6 +19,7 @@ import diiin.model.ExpenseType
 import diiin.model.Salary
 import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.adapter.ExpenseTypeListAdapter
+import diiin.ui.adapter.ExpenseTypeListAdapterContract
 import diiin.util.MessageDialog
 import diiin.util.SelectionSharedPreferences
 import java.util.*
@@ -169,7 +170,11 @@ class SettingsActivity : AppCompatActivity(), SettingsScreenContract.View {
      * Update adapter list with the current expense types list.
      */
     override fun setExpenseTypeList(alstArrayList: ArrayList<ExpenseType>) {
-        mrvExpenseTypeList?.adapter = ExpenseTypeListAdapter(this, alstArrayList)
+        mrvExpenseTypeList?.adapter = ExpenseTypeListAdapter(object : ExpenseTypeListAdapterContract {
+            override fun currentContext(): Context {
+                return this@SettingsActivity
+            }
+        }, alstArrayList)
     }
 
     /**

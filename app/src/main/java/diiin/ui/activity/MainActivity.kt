@@ -1,5 +1,6 @@
 package diiin.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -26,6 +27,7 @@ import diiin.ui.fragments.FragmentFinancialReport
 import diiin.ui.fragments.FragmentSalaryList
 import diiin.util.MessageDialog
 import diiin.util.SelectionSharedPreferences
+import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.*
 
 /**
@@ -166,7 +168,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                         mnvNavigation?.menu?.findItem(R.id.navigation_expenses)
                     }
                     1 -> {
-                        mvwViewPager?.adapter?.notifyDataSetChanged()
                         mnvNavigation?.menu?.findItem(R.id.navigation_piechart)
                     }
                     2 -> {
@@ -183,10 +184,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         })
     }
 
+    @SuppressLint("CheckResult")
     override fun onResume() {
         super.onResume()
 
         mtvYearSelected?.text = DindinApp.mnYearSelected.toString()
+
+
+        (application as DindinApp).bus()
+                .toObservable()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    mvwViewPager?.adapter?.notifyDataSetChanged()
+                }
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

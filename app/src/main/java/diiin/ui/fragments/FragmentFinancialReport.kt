@@ -1,5 +1,6 @@
 package diiin.ui.fragments
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -93,8 +94,8 @@ class FinancialReportPresenter(avwView: FinancialReportContract.View) : Financia
             override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
             override fun onSalariesLoaded(alstSalaries: List<Salary>) {
                 alstSalaries.forEach {
-                        val sValue = it.msValue ?: 0f
-                        sTotalSalary += sValue
+                    val sValue = it.msValue ?: 0f
+                    sTotalSalary += sValue
                 }
                 DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
                     override fun onExpensesLoaded(alstExpenses: List<Expense>) {
@@ -304,6 +305,7 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         refresh()
     }
 
+    @SuppressLint("CheckResult")
     override fun onResume() {
         super.onResume()
 
@@ -333,7 +335,7 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         dataPie.setValueFormatter(PercentFormatter())
         dataPie.setValueTextSize(14f)
         dataPie.setValueTextColor(Color.TRANSPARENT)
-        mpcPieChart?.legend?.textColor = ContextCompat.getColor(context, R.color.whiteColor)
+        mpcPieChart?.legend?.textColor = ContextCompat.getColor(activity, R.color.whiteColor)
         mpcPieChart?.legend?.textSize = 12f
         mpcPieChart?.legend?.isWordWrapEnabled = true
         mpcPieChart?.setDrawEntryLabels(false)

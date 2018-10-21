@@ -1,11 +1,13 @@
 package diiin
 
+import android.annotation.SuppressLint
 import android.app.Application
 import diiin.dao.LocalCacheManager
 import diiin.model.Expense
 import diiin.model.ExpenseType
 import diiin.model.MonthType
 import diiin.model.Salary
+import diiin.ui.RxBus
 import diiin.util.ExpenseSharedPreferences
 import diiin.util.SalarySharedPreferences
 import diiin.util.SelectionSharedPreferences
@@ -36,6 +38,7 @@ class DindinApp : Application() {
         val mstrDateFormat: String = "dd-MM-yyyy"
     }
 
+    @SuppressLint("CheckResult")
     override fun onCreate() {
         super.onCreate()
 
@@ -88,9 +91,11 @@ class DindinApp : Application() {
                 }
     }
 
+    @SuppressLint("CheckResults")
     fun loadExpensesTypeHashMap() {
         mlcmDataManager?.getAllExpenseTypeObjects(object : LocalCacheManager.DatabaseCallBack {
             override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
+            @SuppressLint("CheckResult")
             override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {
                 Observable.just(true).subscribeOn(Schedulers.io())
                         .subscribe {
@@ -110,5 +115,13 @@ class DindinApp : Application() {
             override fun onExpenseTypeIDReceived(anID: Long?) {}
             override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
         })
+    }
+
+    private var bus : RxBus? = null
+
+    fun bus() : RxBus {
+        if(bus==null)
+            bus = RxBus()
+        return bus!!
     }
 }

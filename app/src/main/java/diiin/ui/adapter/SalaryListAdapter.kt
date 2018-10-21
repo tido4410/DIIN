@@ -21,15 +21,20 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
+interface SalaryListAdapterContract {
+    fun currentContext() : Context
+    fun onRemoveItem()
+}
+
 /**
  * This adapter is the manager of salary list.
  * @author Gabriel Moro
  */
 
-class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext: Context) : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
+class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, acontract: SalaryListAdapterContract) : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
 
     val mltSalaryList: ArrayList<Salary> = alstSalaryList
-    private val mctContext: Context = atContext
+    private val mcontract : SalaryListAdapterContract = acontract
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SalaryListItemViewHolder? {
         return SalaryListItemViewHolder(LayoutInflater.from(parent?.context)
@@ -52,17 +57,17 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext: Context) :
 
         holder?.tvDate?.visibility = TextView.GONE
 
-        if (mctContext.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+        if (mcontract.currentContext().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
             holder?.tvDate?.visibility = TextView.VISIBLE
 
         holder?.ivImageViewMenu?.setOnClickListener { aview ->
-            val popupMenu = PopupMenu(mctContext, aview)
+            val popupMenu = PopupMenu(mcontract.currentContext(), aview)
             popupMenu.inflate(R.menu.context_menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.ctxmenudelete -> {
-                        MessageDialog.showMessageDialog(mctContext,
-                                mctContext.resources.getString(R.string.msgAreYouSure),
+                        MessageDialog.showMessageDialog(mcontract.currentContext(),
+                                mcontract.currentContext().resources.getString(R.string.msgAreYouSure),
                                 DialogInterface.OnClickListener { adialog, _ ->
                                     Observable.just(true)
                                             .subscribeOn(Schedulers.io())
@@ -72,7 +77,11 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext: Context) :
                                                 mltSalaryList.removeAt(position)
                                                 Observable.just(true)
                                                         .subscribeOn(AndroidSchedulers.mainThread())
-                                                        .subscribe { notifyItemRemoved(position) }
+                                                        .subscribe {
+                                                            notifyItemRemoved(position)
+                                                            mcontract.onRemoveItem()
+                                                        }
+
                                             }
                                 },
                                 DialogInterface.OnClickListener { adialog, _ ->
@@ -81,10 +90,10 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, atContext: Context) :
                         true
                     }
                     R.id.ctxmenuedit -> {
-                        val intent = Intent(mctContext, InsertSalaryActivity::class.java)
+                        val intent = Intent(mcontract.currentContext(), InsertSalaryActivity::class.java)
                         val nSalaryId: Long? = mltSalaryList[position].mnID
                         intent.putExtra(InsertSalaryActivity.INTENT_KEY_SALARYID, nSalaryId)
-                        mctContext.startActivity(intent)
+                        mcontract.currentContext().startActivity(intent)
                         true
                     }
                     else -> {

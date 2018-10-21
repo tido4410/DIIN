@@ -1,6 +1,7 @@
 package diiin.ui.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -23,6 +24,7 @@ import diiin.ui.RVWithFLoatingButtonControl
 import diiin.ui.activity.InsertSalaryActivity
 import diiin.ui.adapter.RefreshData
 import diiin.ui.adapter.SalaryListAdapter
+import diiin.ui.adapter.SalaryListAdapterContract
 import diiin.util.MathService
 import java.util.*
 
@@ -150,7 +152,14 @@ class FragmentSalaryList : Fragment(), RefreshData, SalaryListContract.View {
      * Load the adapter content.
      */
     override fun loadSalaryListAdapter(alstSalary: ArrayList<Salary>) {
-        val slAdapter = SalaryListAdapter(alstSalary, context)
+        val slAdapter = SalaryListAdapter(alstSalary, object : SalaryListAdapterContract {
+            override fun onRemoveItem() =
+                    (activity.application as DindinApp)
+                            .bus()
+                            .send(true)
+
+            override fun currentContext(): Context = context
+        })
         mrvSalaryList?.adapter = slAdapter
     }
 

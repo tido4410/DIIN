@@ -12,58 +12,56 @@
     <TextView
         android:id="@+id/tvCurrentYear"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center_vertical"
         android:text="@string/yearselected"
         android:textAlignment="gravity"
         android:textAllCaps="true"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/etYearSelected"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etYearSelected"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_weight="1"
         android:inputType="numberDecimal"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnToSaveTheYearSelected"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnToSaveTheYearSelected"
+        app:layout_constraintStart_toStartOf="@+id/tvCurrentYear"
         app:layout_constraintTop_toBottomOf="@+id/tvCurrentYear" />
 
     <Button
         android:id="@+id/btnToSaveTheYearSelected"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_weight="1"
         android:background="@drawable/bgselector"
-        android:text="@string/savelabel"
+        android:text="@string/change"
         android:textColor="#ffff"
-        app:layout_constraintBottom_toTopOf="@+id/tvLabelExpenseType"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etYearSelected" />
+        app:layout_constraintBottom_toBottomOf="@+id/etYearSelected"
+        app:layout_constraintEnd_toEndOf="@+id/tvCurrentYear"
+        app:layout_constraintStart_toEndOf="@+id/etYearSelected"
+        app:layout_constraintTop_toTopOf="@+id/etYearSelected" />
 
     <TextView
         android:id="@+id/tvLabelExpenseType"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:gravity="center_vertical"
         android:text="@string/expenseTypes"
         android:textAlignment="gravity"
@@ -73,15 +71,15 @@
         app:layout_constraintBottom_toTopOf="@+id/cdExpenseType"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnToSaveTheYearSelected" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cdExpenseType"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +94,7 @@
             android:id="@+id/btnaddExpenseType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:layout_margin="2dp"
             android:src="@drawable/baseline_add"
             android:tint="@color/activityColorBackground"
@@ -104,4 +102,18 @@
             app:layout_anchorGravity="bottom|right|end" />
 
     </android.support.design.widget.CoordinatorLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/tvLabelExpenseType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etYearSelected" />
 </android.support.constraint.ConstraintLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DINDIN</string>
+    <string name="app_name">DIINDIIN</string>
     <string name="expenseTypes">Lista de Tipos</string>
     <string name="yearselected">Ano Selecionado</string>
     <string name="title_editexpensetype">Atualiza Tipo de Despesa</string>

@@ -2,6 +2,7 @@ package diiin
 
 import android.annotation.SuppressLint
 import android.app.Application
+import br.com.gbmoro.diiin.R
 import diiin.dao.LocalCacheManager
 import diiin.model.Expense
 import diiin.model.ExpenseType
@@ -58,16 +59,16 @@ class DindinApp : Application() {
                 Observable.just(alstExpensesType.isEmpty()).subscribeOn(Schedulers.io())
                         .subscribe {
                             if (it) {
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Comida", "#d74902"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Telefone", "#4591dc"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Animais", "#d74902"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Educação", "#2c7308"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Saúde", "#810d07"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Lazer", "#3eaeac"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Aluguel", "#a80fd2"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Viagens", "#ff8e8e"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Transporte", "#af9825"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, "Outros", "#974646"))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, resources.getString(R.string.food), "#d74902"))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.phone), "#4591dc"))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.pets), "#d74902"))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.education), "#2c7308"))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.health), "#810d07"))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.funn), "#3eaeac"))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.rent), "#a80fd2"))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.travel), "#ff8e8e"))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.transport), "#af9825"))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.others), "#974646"))
                             }
                             loadExpensesTypeHashMap()
                         }

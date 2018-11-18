@@ -51,4 +51,14 @@
     <string name="cancel">Cancel</string>
     <string name="expensetype">Tipo de Despesa</string>
     <string name="change">Mudar</string>
+    <string name="food">Comida</string>
+    <string name="pets">Animais</string>
+    <string name="phone">Telefone</string>
+    <string name="education">Educação</string>
+    <string name="health">Saúde</string>
+    <string name="funn">Diversão</string>
+    <string name="rent">Aluguel</string>
+    <string name="travel">Viagem</string>
+    <string name="transport">Transporte</string>
+    <string name="others">Outros</string>
 </resources>

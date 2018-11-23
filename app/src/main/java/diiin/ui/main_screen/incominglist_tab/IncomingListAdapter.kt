@@ -1,4 +1,4 @@
-package diiin.ui.adapter
+package diiin.ui.main_screen.incominglist_tab
 
 import android.content.Context
 import android.content.DialogInterface
@@ -12,15 +12,15 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp
-import diiin.model.Salary
-import diiin.ui.activity.InsertSalaryActivity
+import diiin.model.Incoming
+import diiin.ui.insert_incoming_screen.InsertIncomingActivity
 import diiin.util.MathService
 import diiin.util.MessageDialog
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-interface SalaryListAdapterContract {
+interface IncomingListAdapterContract {
     fun currentContext() : Context
     fun onRemoveItem()
 }
@@ -30,10 +30,10 @@ interface SalaryListAdapterContract {
  * @author Gabriel Moro
  */
 
-class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, acontract: SalaryListAdapterContract) : RecyclerView.Adapter<SalaryListAdapter.SalaryListItemViewHolder>() {
+class IncomingListAdapter(alstIncomingList: ArrayList<Incoming>, acontract: IncomingListAdapterContract) : RecyclerView.Adapter<IncomingListAdapter.SalaryListItemViewHolder>() {
 
-    val mltSalaryList: ArrayList<Salary> = alstSalaryList
-    private val mcontract : SalaryListAdapterContract = acontract
+    val mltIncomingList: ArrayList<Incoming> = alstIncomingList
+    private val mcontract : IncomingListAdapterContract = acontract
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SalaryListItemViewHolder? {
         return SalaryListItemViewHolder(LayoutInflater.from(parent?.context)
@@ -41,11 +41,11 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, acontract: SalaryList
     }
 
     override fun getItemCount(): Int {
-        return mltSalaryList.size
+        return mltIncomingList.size
     }
 
     override fun onBindViewHolder(holder: SalaryListItemViewHolder?, position: Int) {
-        val salaryItem = mltSalaryList[position]
+        val salaryItem = mltIncomingList[position]
 
         if (salaryItem.msValue != null)
             holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)
@@ -64,9 +64,9 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, acontract: SalaryList
                                     Observable.just(true)
                                             .subscribeOn(Schedulers.io())
                                             .subscribe {
-                                                val salaryTarget = mltSalaryList[position]
+                                                val salaryTarget = mltIncomingList[position]
                                                 DindinApp.mlcmDataManager?.mappDataBaseBuilder?.salaryDao()?.delete(salaryTarget)
-                                                mltSalaryList.removeAt(position)
+                                                mltIncomingList.removeAt(position)
                                                 Observable.just(true)
                                                         .subscribeOn(AndroidSchedulers.mainThread())
                                                         .subscribe { notifyItemRemoved(position) }
@@ -79,9 +79,9 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, acontract: SalaryList
                         true
                     }
                     R.id.ctxmenuedit -> {
-                        val intent = Intent(mcontract.currentContext(), InsertSalaryActivity::class.java)
-                        val nSalaryId: Long? = mltSalaryList[position].mnID
-                        intent.putExtra(InsertSalaryActivity.INTENT_KEY_SALARYID, nSalaryId)
+                        val intent = Intent(mcontract.currentContext(), InsertIncomingActivity::class.java)
+                        val nSalaryId: Long? = mltIncomingList[position].mnID
+                        intent.putExtra(InsertIncomingActivity.INTENT_KEY_SALARYID, nSalaryId)
                         mcontract.currentContext().startActivity(intent)
                         true
                     }

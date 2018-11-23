@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import diiin.DindinApp
 import diiin.model.Expense
 import diiin.model.MonthType
-import diiin.model.Salary
+import diiin.model.Incoming
 import java.util.*
 
 /**
@@ -98,8 +98,8 @@ object SelectionSharedPreferences {
 object SalarySharedPreferences {
     private const val SALARY_PREFERENCE_KEY = "SalaryKey"
 
-    fun getSalaryList(actContext: Context): List<Salary> {
-        val lstToReturn = ArrayList<Salary>()
+    fun getSalaryList(actContext: Context): List<Incoming> {
+        val lstToReturn = ArrayList<Incoming>()
         val strValue = SharedPreferenceConnection.selector(actContext, SALARY_PREFERENCE_KEY, "")
         if (strValue.isNotEmpty()) {
             val lstStrSalary = strValue.split("-")
@@ -109,7 +109,7 @@ object SalarySharedPreferences {
                     val sValue = MathService.stringToFloat(lstStrAttributes[0])
                     val strDescription = lstStrAttributes[1]
                     val strDate = lstStrAttributes[2]
-                    lstToReturn.add(Salary(null, sValue, strDescription, strDate))
+                    lstToReturn.add(Incoming(null, sValue, strDescription, strDate))
                 }
             }
         }

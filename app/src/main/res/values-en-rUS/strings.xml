@@ -5,12 +5,12 @@
     <string name="yearselected">Year selected</string>
     <string name="title_editexpensetype">Update Expense Type</string>
     <string name="title_expenses">Expenses</string>
-    <string name="title_salary">Wage</string>
+    <string name="title_incoming">Incoming</string>
     <string name="title_chartreport">Chart Report</string>
     <string name="title_newexpense">New Expense</string>
     <string name="title_editexpense">Update Expense</string>
-    <string name="title_editsalary">Update Wage</string>
-    <string name="title_newsalary">New Wage</string>
+    <string name="title_editincoming">Update Incoming</string>
+    <string name="title_newincoming">New Incoming</string>
     <string name="type_label">Category:</string>
     <string name="value_label">Value:</string>
     <string name="description_label">Description:</string>
@@ -41,7 +41,7 @@
     <string name="done">Done</string>
     <string name="info">About</string>
     <string name="expenseTotal">Expense: </string>
-    <string name="salaryTotal">Salary Total</string>
+    <string name="salaryTotal">Incoming Total</string>
     <string name="walletTotal">Wallet</string>
     <string name="chooseColor">Choose the color</string>
     <string name="settings">Settings</string>
@@ -55,7 +55,7 @@
     <string name="pets">Pets</string>
     <string name="phone">Phone</string>
     <string name="education">Education</string>
-    <string name="health">HealthFood</string>
+    <string name="health">Health</string>
     <string name="funn">Fun</string>
     <string name="rent">Rent</string>
     <string name="travel">Travel</string>

@@ -7,7 +7,7 @@ import diiin.dao.LocalCacheManager
 import diiin.model.Expense
 import diiin.model.ExpenseType
 import diiin.model.MonthType
-import diiin.model.Salary
+import diiin.model.Incoming
 import diiin.ui.RxBus
 import diiin.util.ExpenseSharedPreferences
 import diiin.util.SalarySharedPreferences
@@ -59,27 +59,27 @@ class DindinApp : Application() {
                 Observable.just(alstExpensesType.isEmpty()).subscribeOn(Schedulers.io())
                         .subscribe {
                             if (it) {
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, resources.getString(R.string.food), "#d74902"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.phone), "#4591dc"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.pets), "#d74902"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.education), "#2c7308"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.health), "#810d07"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.funn), "#3eaeac"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.rent), "#a80fd2"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.travel), "#ff8e8e"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.transport), "#af9825"))
-                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.others), "#974646"))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null, resources.getString(R.string.food), "#d74902", R.drawable.food))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.phone), "#4591dc", R.drawable.phone))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.pets), "#d74902", R.drawable.pets))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.education), "#2c7308", R.drawable.education))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.health), "#810d07", R.drawable.health))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.funn), "#3eaeac", R.drawable.funn))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.rent), "#a80fd2", R.drawable.rent))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.travel), "#ff8e8e", R.drawable.travel))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.transport), "#af9825", R.drawable.transport))
+                                mlcmDataManager?.mappDataBaseBuilder?.expenseTypeDao()?.add(ExpenseType(null,  resources.getString(R.string.others), "#974646", R.drawable.others))
                             }
                             loadExpensesTypeHashMap()
                         }
             }
 
-            override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
+            override fun onSalariesLoaded(alstIncomings: List<Incoming>) {}
             override fun onExpenseIdReceived(aexpense: Expense) {}
             override fun onExpenseTypeColorReceived(astrColor: String) {}
             override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
             override fun onExpenseTypeIDReceived(anID: Long?) {}
-            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
+            override fun onSalaryObjectByIdReceived(aslIncoming: Incoming) {}
         })
 
         // Keepping the compability between previous and current version
@@ -109,12 +109,12 @@ class DindinApp : Application() {
                         }
             }
 
-            override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
+            override fun onSalariesLoaded(alstIncomings: List<Incoming>) {}
             override fun onExpenseIdReceived(aexpense: Expense) {}
             override fun onExpenseTypeColorReceived(astrColor: String) {}
             override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
             override fun onExpenseTypeIDReceived(anID: Long?) {}
-            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
+            override fun onSalaryObjectByIdReceived(aslIncoming: Incoming) {}
         })
     }
 

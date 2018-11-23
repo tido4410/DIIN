@@ -4,7 +4,7 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import diiin.model.Expense
 import diiin.model.ExpenseType
-import diiin.model.Salary
+import diiin.model.Incoming
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -147,7 +147,7 @@ class LocalCacheManager(actxContext: Context) {
         /**
          * Result of getAllSalaries
          */
-        fun onSalariesLoaded(alstSalaries: List<Salary>)
+        fun onSalariesLoaded(alstIncomings: List<Incoming>)
 
         /**
          * Result of getExpenseAccordingId
@@ -172,6 +172,6 @@ class LocalCacheManager(actxContext: Context) {
         /**
          * Result of getSalaryAccordingId
          */
-        fun onSalaryObjectByIdReceived(aslSalary: Salary)
+        fun onSalaryObjectByIdReceived(aslIncoming: Incoming)
     }
 }

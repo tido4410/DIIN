@@ -10,8 +10,10 @@ import diiin.model.*
  * @author Gabriel Moro
  * @since 24/08/2018
  * @version 1.0.9
+ *
+ * TODO "Alter table to add new column that contains the icon id. Change the data base version."
  */
-@Database(entities = [Expense::class, Salary::class, ExpenseType::class], version = 1, exportSchema = false)
+@Database(entities = [Expense::class, Incoming::class, ExpenseType::class], version = 1, exportSchema = false)
 abstract class DataBaseFactory : RoomDatabase() {
 
     /**
@@ -27,5 +29,5 @@ abstract class DataBaseFactory : RoomDatabase() {
     /**
      * Provides salary dao
      */
-    abstract fun salaryDao(): SalaryDAO
+    abstract fun salaryDao(): IncomingDAO
 }

@@ -1,4 +1,4 @@
-package diiin.ui.activity
+package diiin.ui.settings_screen
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,99 +12,11 @@ import android.support.v7.widget.RecyclerView
 import android.widget.Button
 import android.widget.EditText
 import br.com.gbmoro.diiin.R
-import diiin.DindinApp
-import diiin.dao.LocalCacheManager
-import diiin.model.Expense
 import diiin.model.ExpenseType
-import diiin.model.Salary
 import diiin.ui.RVWithFLoatingButtonControl
-import diiin.ui.adapter.ExpenseTypeListAdapter
-import diiin.ui.adapter.ExpenseTypeListAdapterContract
+import diiin.ui.insert_expense_type_screen.InsertExpenseTypeActivity
 import diiin.util.MessageDialog
-import diiin.util.SelectionSharedPreferences
 import java.util.*
-
-/**
- * Define a contract between view and presenter.
- * MVP pattern.
- * @author Gabriel Moro
- * @since 24/08/2018
- * @version 1.0.9
- */
-interface SettingsScreenContract {
-    /**
-     * Define all view operations.
-     */
-    interface View {
-        fun callExpenseTypeInsertScreen()
-        fun setExpenseTypeList(alstArrayList: ArrayList<ExpenseType>)
-        fun setYear(astrYear: String)
-    }
-
-    /**
-     * Define all operations connected to model layer
-     */
-    interface Presenter {
-        fun saveYear(actxContext: Context, astrYear: String)
-        fun loadYear()
-        fun loadExpenseTypes()
-    }
-}
-
-/**
- * Presenter of the SettingsScreen
- * @author Gabriel Moro
- * @since 11/09/2018
- * @version 1.0.9
- */
-class SettingsPresenter(avwView: SettingsScreenContract.View) : SettingsScreenContract.Presenter {
-    private val view: SettingsScreenContract.View = avwView
-
-    /**
-     * Save the year in shared preferences.
-     */
-    override fun saveYear(actxContext: Context, astrYear: String) {
-        val nYear = astrYear.toIntOrNull() ?: return
-        SelectionSharedPreferences.insertYearSelectPreference(actxContext, nYear)
-    }
-
-    /**
-     * Load the last year defined for user.
-     */
-    override fun loadYear() {
-        val strCurrentYear = DindinApp.mnYearSelected.toString()
-        view.setYear(strCurrentYear)
-    }
-
-    /**
-     * Load all expense types available in app.
-     */
-    override fun loadExpenseTypes() {
-        DindinApp.mlcmDataManager?.getAllExpenseTypeObjects(object : LocalCacheManager.DatabaseCallBack {
-            override fun onExpensesLoaded(alstExpenses: List<Expense>) {}
-            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {
-                view.setExpenseTypeList(ArrayList(alstExpensesType))
-                /**
-                 * Update the global structure used to represent
-                 * the expense types hashmap
-                 */
-                DindinApp.mhmExpenseType = HashMap()
-                alstExpensesType.forEach { expense ->
-                    if (expense.mnExpenseTypeID != null)
-                        DindinApp.mhmExpenseType?.put(expense.mnExpenseTypeID!!, expense)
-                }
-            }
-
-            override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
-            override fun onExpenseIdReceived(aexpense: Expense) {}
-            override fun onExpenseTypeColorReceived(astrColor: String) {}
-            override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
-            override fun onExpenseTypeIDReceived(anID: Long?) {}
-            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
-        })
-    }
-
-}
 
 /**
  * View of the SettingsScreen.

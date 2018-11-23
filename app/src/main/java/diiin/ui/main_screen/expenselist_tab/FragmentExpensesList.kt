@@ -1,4 +1,4 @@
-package diiin.ui.fragments
+package diiin.ui.main_screen.expenselist_tab
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,83 +15,11 @@ import android.view.ViewGroup
 import android.widget.Spinner
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp
-import diiin.dao.LocalCacheManager
 import diiin.model.Expense
-import diiin.model.ExpenseType
-import diiin.model.MonthType
-import diiin.model.Salary
 import diiin.ui.RVWithFLoatingButtonControl
-import diiin.ui.activity.InsertExpenseActivity
-import diiin.ui.adapter.ExpenseListAdapter
-import diiin.ui.adapter.ExpenseListAdapterContract
-import diiin.ui.adapter.RefreshData
-import diiin.util.MathService
-import java.util.*
+import diiin.ui.insert_expense_screen.InsertExpenseActivity
+import diiin.ui.main_screen.RefreshData
 import kotlin.collections.ArrayList
-
-/**
- * Define a contract between view and presenter.
- * MVP pattern.
- * @author Gabriel Moro
- * @since 24/08/2018
- * @version 1.0.9
- */
-interface ExpenseListContract {
-    /**
-     * Define all view operations.
-     */
-    interface View {
-        fun loadExpenseListAdapter(alstExpenses: ArrayList<Expense>)
-    }
-
-    /**
-     * Define all operations connected to model layer
-     */
-    interface Presenter {
-        fun loadExpenses(amnMonthSelected: MonthType, anYearSelected: Int)
-    }
-}
-
-/**
- * Define the presenter to expense list fragment.
- * @author Gabriel Moro
- * @since 11/09/2018
- * @version 1.0.9
- */
-class FragmentExpenseListPresenter(avwView: ExpenseListContract.View) : ExpenseListContract.Presenter {
-
-    private val view: ExpenseListContract.View = avwView
-
-    /**
-     * Load all expenses according to month and year selected for user.
-     */
-    override fun loadExpenses(amnMonthSelected: MonthType, anYearSelected: Int) {
-        DindinApp.mlcmDataManager?.getAllExpenses(object : LocalCacheManager.DatabaseCallBack {
-            override fun onExpensesLoaded(alstExpenses: List<Expense>) {
-
-                val lstFilteredList: ArrayList<Expense> = ArrayList()
-
-                alstExpenses.forEach { expense ->
-                    val clCalendar = Calendar.getInstance()
-                    clCalendar.time = MathService.stringToCalendarTime(expense.mstrDate, DindinApp.mstrDateFormat)
-                    if (clCalendar.get(Calendar.MONTH) == amnMonthSelected.aid && clCalendar.get(Calendar.YEAR) == anYearSelected) {
-                        lstFilteredList.add(expense)
-                    }
-                }
-                view.loadExpenseListAdapter(lstFilteredList)
-            }
-
-            override fun onExpenseTypeLoaded(alstExpensesType: List<ExpenseType>) {}
-            override fun onSalariesLoaded(alstSalaries: List<Salary>) {}
-            override fun onExpenseIdReceived(aexpense: Expense) {}
-            override fun onExpenseTypeColorReceived(astrColor: String) {}
-            override fun onExpenseTypeDescriptionReceived(astrDescription: String) {}
-            override fun onExpenseTypeIDReceived(anID: Long?) {}
-            override fun onSalaryObjectByIdReceived(aslSalary: Salary) {}
-        })
-    }
-
-}
 
 /**
  * Screen that shows to user the expenses filter and list

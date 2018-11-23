@@ -1,4 +1,4 @@
-package diiin.ui.adapter
+package diiin.ui.settings_screen
 
 import android.content.Context
 import android.content.DialogInterface
@@ -14,7 +14,7 @@ import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp
 import diiin.model.ExpenseType
-import diiin.ui.activity.InsertExpenseTypeActivity
+import diiin.ui.insert_expense_type_screen.InsertExpenseTypeActivity
 import diiin.util.MessageDialog
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

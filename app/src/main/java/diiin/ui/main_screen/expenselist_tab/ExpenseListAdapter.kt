@@ -1,22 +1,20 @@
-package diiin.ui.adapter
+package diiin.ui.main_screen.expenselist_tab
 
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp
 import diiin.model.Expense
-import diiin.ui.activity.InsertExpenseActivity
+import diiin.ui.insert_expense_screen.InsertExpenseActivity
 import diiin.util.MathService
 import diiin.util.MessageDialog
 import io.reactivex.Observable

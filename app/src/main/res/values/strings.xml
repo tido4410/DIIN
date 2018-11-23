@@ -5,12 +5,12 @@
     <string name="yearselected">Ano Selecionado</string>
     <string name="title_editexpensetype">Atualiza Tipo de Despesa</string>
     <string name="title_expenses">Despesas</string>
-    <string name="title_salary">Acumulado</string>
+    <string name="title_incoming">Acumulado</string>
     <string name="title_chartreport">Demonstrativo</string>
     <string name="title_newexpense">Nova Despesa</string>
     <string name="title_editexpense">Atualizar Despesa</string>
-    <string name="title_editsalary">Atualizar Salário</string>
-    <string name="title_newsalary">Nova Entrada</string>
+    <string name="title_editincoming">Atualizar Salário</string>
+    <string name="title_newincoming">Nova Entrada</string>
     <string name="type_label">Categoria:</string>
     <string name="value_label">Valor:</string>
     <string name="description_label">Descrição:</string>

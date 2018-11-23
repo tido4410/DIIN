@@ -2,7 +2,7 @@ package diiin.dao
 
 import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
-import diiin.model.Salary
+import diiin.model.Incoming
 import io.reactivex.Maybe
 
 /**
@@ -13,34 +13,34 @@ import io.reactivex.Maybe
  * @version 1.0.9
  */
 @Dao
-interface SalaryDAO {
+interface IncomingDAO {
     /**
      * Return all salaries from salary table
      */
     @Query("SELECT * FROM salary")
-    fun all(): Maybe<List<Salary>>
+    fun all(): Maybe<List<Incoming>>
 
     /**
      * Return some salary according some id
      */
     @Query("SELECT * FROM salary WHERE mnID =:anLong")
-    fun getSalaryAccordingID(anLong: Long?): Maybe<Salary>
+    fun getSalaryAccordingID(anLong: Long?): Maybe<Incoming>
 
     /**
      * Insert some salary in salary table
      */
     @Insert
-    fun add(salaryT: Salary)
+    fun add(incomingT: Incoming)
 
     /**
      * Remove some salary registry.
      */
     @Delete
-    fun delete(salaryT: Salary)
+    fun delete(incomingT: Incoming)
 
     /**
-     * Update some salary object.
+     * Update some incoming object.
      */
     @Update(onConflict = REPLACE)
-    fun update(vararg salary: Salary)
+    fun update(vararg incoming: Incoming)
 }

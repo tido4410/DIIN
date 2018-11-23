@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="diiin.ui.activity.MainActivity"
+            android:name="diiin.ui.main_screen.MainActivity"
             android:configChanges="orientation|screenSize|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,28 +21,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="diiin.ui.activity.InsertExpenseActivity"
+            android:name="diiin.ui.insert_expense_screen.InsertExpenseActivity"
             android:label="@string/title_newexpense">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="diiin.ui.activity.MainActivity" />
+                android:value="diiin.ui.main_screen.MainActivity" />
         </activity>
         <activity
-            android:name="diiin.ui.activity.InsertSalaryActivity"
-            android:label="@string/title_newsalary">
+            android:name="diiin.ui.insert_incoming_screen.InsertIncomingActivity"
+            android:label="@string/title_newincoming">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="diiin.ui.activity.MainActivity" />
+                android:value="diiin.ui.main_screen.MainActivity" />
         </activity>
-        <activity android:name="diiin.ui.activity.SettingsActivity">
+        <activity android:name="diiin.ui.settings_screen.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="diiin.ui.activity.MainActivity" />
+                android:value="diiin.ui.main_screen.MainActivity" />
         </activity>
-        <activity android:name="diiin.ui.activity.InsertExpenseTypeActivity">
+        <activity android:name="diiin.ui.insert_expense_type_screen.InsertExpenseTypeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="diiin.ui.activity.SettingsActivity" />
+                android:value="diiin.ui.settings_screen.SettingsActivity" />
         </activity>
     </application>
 

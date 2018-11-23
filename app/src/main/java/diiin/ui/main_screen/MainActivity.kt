@@ -1,7 +1,6 @@
-package diiin.ui.activity
+package diiin.ui.main_screen
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
@@ -20,89 +19,16 @@ import android.widget.TextView
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp
 import diiin.model.MonthType
-import diiin.ui.adapter.RefreshData
-import diiin.ui.adapter.ViewPagerAdapter
-import diiin.ui.fragments.FragmentExpensesList
-import diiin.ui.fragments.FragmentFinancialReport
-import diiin.ui.fragments.FragmentSalaryList
+import diiin.ui.settings_screen.SettingsActivity
+import diiin.ui.main_screen.expenselist_tab.FragmentExpensesList
+import diiin.ui.main_screen.report_tab.FragmentFinancialReport
+import diiin.ui.main_screen.incominglist_tab.FragmentIncomingList
 import diiin.util.MessageDialog
-import diiin.util.SelectionSharedPreferences
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-/**
- * Define a contract between view and presenter.
- * MVP pattern.
- * @author Gabriel Moro
- * @since 24/08/2018
- * @version 1.0.9
- */
-interface MainScreenContract {
-    /**
-     * Define all view operations.
-     */
-    interface View {
-        fun loadViewPageAdapter()
-        fun loadSpinnersContent()
-        fun showFragmentContent()
-        fun getMonthSelected(): String
-        fun getSpinnerMonthsList(): ArrayList<String>
-    }
 
-    /**
-     * Define all operations connected to model layer
-     */
-    interface Presenter {
-        fun saveMonthSelected(actxContext: Context)
-        fun loadMonthSelected(actxContext: Context): Int
-    }
-}
 
-/**
- * Presenter of MainActivityContract.View.
- * @author Gabriel Moro
- * @since 11/09/2018
- * @version 1.0.9
- */
-class MainPresenter(avwMainView: MainScreenContract.View) : MainScreenContract.Presenter {
-
-    private val view: MainScreenContract.View = avwMainView
-
-    /**
-     * Save the month selected for user.
-     */
-    override fun saveMonthSelected(actxContext: Context) {
-        val idOfMonth = MonthType.gettingIdFromDescription(actxContext, view.getMonthSelected())
-        DindinApp.mmtMonthSelected = if (idOfMonth != null) {
-            val monthType = MonthType.fromInt(idOfMonth)
-            monthType
-        } else {
-            null
-        } ?: return
-
-        SelectionSharedPreferences.insertMonthSelectPreference(actxContext, DindinApp.mmtMonthSelected)
-        view.loadViewPageAdapter()
-        view.showFragmentContent()
-    }
-
-    /**
-     * Load the month selected for user in the last use.
-     */
-    override fun loadMonthSelected(actxContext: Context): Int {
-        DindinApp.mmtMonthSelected ?: return (Calendar.getInstance().get(Calendar.MONTH) + 1)
-
-        val strMonthValue = DindinApp.mmtMonthSelected?.description(actxContext)
-
-        var nCount = 0
-        val nSize = view.getSpinnerMonthsList().size
-        while (nCount < nSize) {
-            if (view.getSpinnerMonthsList()[nCount] == strMonthValue)
-                break
-            nCount++
-        }
-        return nCount
-    }
-}
 
 /**
  * This screen is used by user to see the expenses and salary report by month of year.
@@ -154,7 +80,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val lstPages = ArrayList<Fragment>()
         lstPages.add(FragmentExpensesList())
         lstPages.add(FragmentFinancialReport())
-        lstPages.add(FragmentSalaryList())
+        lstPages.add(FragmentIncomingList())
 
         mvwViewPager?.adapter = ViewPagerAdapter(supportFragmentManager, lstPages)
         mvwViewPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {

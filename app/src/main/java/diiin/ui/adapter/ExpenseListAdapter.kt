@@ -3,8 +3,8 @@ package diiin.ui.adapter
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +41,7 @@ class ExpenseListAdapter(acontract: ExpenseListAdapterContract, alstExpenseList:
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseListItemViewHolder {
         return ExpenseListItemViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.adapter_expenseslist_item, parent, false))
+                .inflate(R.layout.expense_item_card, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -54,25 +54,16 @@ class ExpenseListAdapter(acontract: ExpenseListAdapterContract, alstExpenseList:
         if (expenseItem.msValue != null)
             holder.tvValue.text = MathService.formatFloatToCurrency(expenseItem.msValue!!)
 
-
-        holder.tvDate.text = expenseItem.mstrDate
-
         val nExpenseTypeId = expenseItem.mnExpenseType
 
         if (nExpenseTypeId != null && DindinApp.mhmExpenseType != null) {
             val expenseType = DindinApp.mhmExpenseType!![nExpenseTypeId]
             if (expenseType != null) {
                 val nColor = Color.parseColor(expenseType.mstrColor)
-                holder.vwExpenseType.setBackgroundColor(nColor)
-                holder.tvExpenseDescription.text = expenseItem.mstrDescription
-                holder.tvDescriptionDetailed.text = expenseType.mstrDescription
+                holder.ivImageIcon.setColorFilter(nColor)
+                holder.tvExpenseTitle.text = expenseItem.mstrDescription
             }
         }
-
-        holder.llLine2.visibility = LinearLayout.GONE
-
-        if (mcontract.currentContext().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            holder.llLine2.visibility = LinearLayout.VISIBLE
 
         holder.ivImageViewMenu.setOnClickListener { aview ->
             val popupMenu = PopupMenu(mcontract.currentContext(), aview)
@@ -116,12 +107,9 @@ class ExpenseListAdapter(acontract: ExpenseListAdapterContract, alstExpenseList:
     }
 
     class ExpenseListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {
-        val tvExpenseDescription: TextView = avwView.findViewById(R.id.tvExpenseType)
-        val tvDescriptionDetailed: TextView = avwView.findViewById(R.id.tvDescription)
-        val tvDate: TextView = avwView.findViewById(R.id.tvDate)
+        val tvExpenseTitle: TextView = avwView.findViewById(R.id.tvTitle)
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
-        val vwExpenseType: View = avwView.findViewById(R.id.vwExpenseType)
-        val llLine2: LinearLayout = avwView.findViewById(R.id.llLine2)
         val ivImageViewMenu: ImageView = avwView.findViewById(R.id.ivMenuOption)
+        val ivImageIcon : ImageView = avwView.findViewById(R.id.ivExpenseTypeIcon)
     }
 }

@@ -61,4 +61,6 @@
     <string name="travel">Travel</string>
     <string name="transport">Transport</string>
     <string name="others">Others</string>
+    <string name="contentDescriptionToExpenses">Expenses icon</string>
+    <string name="contentDescriptionToMenu">Menu icon</string>
 </resources>

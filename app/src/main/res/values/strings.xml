@@ -61,4 +61,6 @@
     <string name="travel">Viagem</string>
     <string name="transport">Transporte</string>
     <string name="others">Outros</string>
+    <string name="contentDescriptionToExpenses">Imagem que representa a despesa</string>
+    <string name="contentDescriptionToMenu">Ícone de menu</string>
 </resources>

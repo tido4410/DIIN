@@ -3,7 +3,6 @@ package diiin.ui.adapter
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.res.Configuration
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -38,7 +37,7 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, acontract: SalaryList
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SalaryListItemViewHolder? {
         return SalaryListItemViewHolder(LayoutInflater.from(parent?.context)
-                .inflate(R.layout.adapter_salarylist_item, parent, false))
+                .inflate(R.layout.icoming_item_card, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -48,17 +47,10 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, acontract: SalaryList
     override fun onBindViewHolder(holder: SalaryListItemViewHolder?, position: Int) {
         val salaryItem = mltSalaryList[position]
 
-        holder?.tvDate?.text = salaryItem.mstrDate
-
         if (salaryItem.msValue != null)
             holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)
 
-        holder?.tvSource?.text = salaryItem.mstrSource
-
-        holder?.tvDate?.visibility = TextView.GONE
-
-        if (mcontract.currentContext().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            holder?.tvDate?.visibility = TextView.VISIBLE
+        holder?.tvTitle?.text = salaryItem.mstrSource
 
         holder?.ivImageViewMenu?.setOnClickListener { aview ->
             val popupMenu = PopupMenu(mcontract.currentContext(), aview)
@@ -105,8 +97,7 @@ class SalaryListAdapter(alstSalaryList: ArrayList<Salary>, acontract: SalaryList
 
     class SalaryListItemViewHolder(avwView: View) : RecyclerView.ViewHolder(avwView) {
         val tvValue: TextView = avwView.findViewById(R.id.tvValue)
-        val tvSource: TextView = avwView.findViewById(R.id.tvSource)
-        val tvDate: TextView = avwView.findViewById(R.id.tvDate)
+        val tvTitle: TextView = avwView.findViewById(R.id.tvTitle)
         val ivImageViewMenu: ImageView = avwView.findViewById(R.id.ivMenuOption)
     }
 }

@@ -3,7 +3,7 @@ package diiin.ui.main_screen.incominglist_tab
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,8 +35,8 @@ class IncomingListAdapter(alstIncomingList: ArrayList<Incoming>, acontract: Inco
     val mltIncomingList: ArrayList<Incoming> = alstIncomingList
     private val mcontract : IncomingListAdapterContract = acontract
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SalaryListItemViewHolder? {
-        return SalaryListItemViewHolder(LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SalaryListItemViewHolder {
+        return SalaryListItemViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.icoming_item_card, parent, false))
     }
 
@@ -44,15 +44,15 @@ class IncomingListAdapter(alstIncomingList: ArrayList<Incoming>, acontract: Inco
         return mltIncomingList.size
     }
 
-    override fun onBindViewHolder(holder: SalaryListItemViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: SalaryListItemViewHolder, position: Int) {
         val salaryItem = mltIncomingList[position]
 
         if (salaryItem.msValue != null)
-            holder?.tvValue?.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)
+            holder.tvValue.text = MathService.formatFloatToCurrency(salaryItem.msValue!!)
 
-        holder?.tvTitle?.text = salaryItem.mstrSource
+        holder.tvTitle.text = salaryItem.mstrSource
 
-        holder?.ivImageViewMenu?.setOnClickListener { aview ->
+        holder.ivImageViewMenu.setOnClickListener { aview ->
             val popupMenu = PopupMenu(mcontract.currentContext(), aview)
             popupMenu.inflate(R.menu.context_menu)
             popupMenu.setOnMenuItemClickListener { menuItem ->

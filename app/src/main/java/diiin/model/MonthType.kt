@@ -31,7 +31,7 @@ enum class MonthType(val aid: Int) {
         /**
          * This map connect the id and types
          */
-        private val map = MonthType.values().associateBy(MonthType::aid)
+        private val map = values().associateBy(MonthType::aid)
 
         /**
          * Return some month type according to integer id

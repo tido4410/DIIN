@@ -1,6 +1,6 @@
 package diiin.dao
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.Context
 import diiin.model.Expense
 import diiin.model.ExpenseType

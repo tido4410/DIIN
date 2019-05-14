@@ -1,9 +1,8 @@
 package diiin.dao
 
-import android.arch.persistence.room.*
-import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
 import diiin.model.Expense
-import diiin.model.ExpenseType
 import io.reactivex.Maybe
 
 /**

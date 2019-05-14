@@ -1,7 +1,7 @@
 package diiin.ui
 
 import android.annotation.SuppressLint
-import android.support.design.widget.FloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent

@@ -1,8 +1,8 @@
 package diiin.ui.main_screen
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 
 class ViewPagerAdapter(a_fmFragmentManager: FragmentManager, a_lstPages: ArrayList<Fragment>) : FragmentPagerAdapter(a_fmFragmentManager) {
 
@@ -20,7 +20,7 @@ class ViewPagerAdapter(a_fmFragmentManager: FragmentManager, a_lstPages: ArrayLi
         return mlstPages.size
     }
 
-    override fun getItemPosition(`object`: Any?): Int {
+    override fun getItemPosition(`object`: Any): Int {
         return POSITION_NONE
     }
 }

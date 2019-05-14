@@ -2,8 +2,8 @@ package diiin.ui.insert_incoming_screen
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.*
 import br.com.gbmoro.diiin.R
 import diiin.DindinApp

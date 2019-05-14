@@ -5,10 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,26 +27,26 @@ import kotlin.collections.ArrayList
  * @since 11/09/2018
  * @version 1.0.9
  */
-class FragmentExpensesList : Fragment(), RefreshData, ExpenseListContract.View {
+class FragmentExpensesList : androidx.fragment.app.Fragment(), RefreshData, ExpenseListContract.View {
 
     private var mspMonthSelector: Spinner? = null
     private var mrvExpenseList: RecyclerView? = null
     var mbtInsertExpense: FloatingActionButton? = null
     private var presenter: ExpenseListContract.Presenter? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_expenseslist, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_expenseslist, container, false)
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mspMonthSelector = view?.findViewById(R.id.spMonthSelector)
-        mrvExpenseList = view?.findViewById(R.id.rvExpenseList)
-        mbtInsertExpense = view?.findViewById(R.id.btnaddExpense)
+        mspMonthSelector = view.findViewById(R.id.spMonthSelector)
+        mrvExpenseList = view.findViewById(R.id.rvExpenseList)
+        mbtInsertExpense = view.findViewById(R.id.btnaddExpense)
         mbtInsertExpense?.setOnClickListener {
-            activity.startActivity(Intent(activity, InsertExpenseActivity::class.java))
+            activity?.startActivity(Intent(activity, InsertExpenseActivity::class.java))
         }
 
         val llManager = LinearLayoutManager(context)
@@ -85,11 +84,11 @@ class FragmentExpensesList : Fragment(), RefreshData, ExpenseListContract.View {
         val elAdapter = ExpenseListAdapter(
                 object : ExpenseListAdapterContract {
                     override fun onRemoveItem() =
-                            (activity.application as DindinApp)
+                            (activity!!.application as DindinApp)
                                     .bus()
                                     .send(true)
 
-                    override fun currentContext(): Context = context
+                    override fun currentContext(): Context = context!!
                 }, alstExpenses)
         mrvExpenseList?.adapter = elAdapter
     }

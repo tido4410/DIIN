@@ -5,10 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,31 +25,31 @@ import java.util.*
  * @since 11/09/2018
  * @version 1.0.9
  */
-class FragmentIncomingList : Fragment(), RefreshData, SalaryListContract.View {
+class FragmentIncomingList : androidx.fragment.app.Fragment(), RefreshData, SalaryListContract.View {
 
     private var mspMonthSelector: Spinner? = null
     private var mrvSalaryList: RecyclerView? = null
     var mbtnInsertSalary: FloatingActionButton? = null
     private var presenter: SalaryListContract.Presenter? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_salarylist, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_salarylist, container, false)
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mspMonthSelector = view?.findViewById(R.id.spMonthSelector)
-        mrvSalaryList = view?.findViewById(R.id.rvSalaryList)
-        mbtnInsertSalary = view?.findViewById(R.id.btnaddSalary)
+        mspMonthSelector = view.findViewById(R.id.spMonthSelector)
+        mrvSalaryList = view.findViewById(R.id.rvSalaryList)
+        mbtnInsertSalary = view.findViewById(R.id.btnaddSalary)
         mbtnInsertSalary?.setOnClickListener {
-            activity.startActivity(Intent(activity, InsertIncomingActivity::class.java))
+            activity?.startActivity(Intent(activity, InsertIncomingActivity::class.java))
         }
 
         presenter = FragmentIncomingPresenter(this)
 
-        val llManager = LinearLayoutManager(context)
+        val llManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         mrvSalaryList?.layoutManager = llManager
         loadSalaryListAdapter(ArrayList())
         if (mbtnInsertSalary != null)
@@ -85,11 +83,11 @@ class FragmentIncomingList : Fragment(), RefreshData, SalaryListContract.View {
     override fun loadSalaryListAdapter(alstIncoming: ArrayList<Incoming>) {
         val slAdapter = IncomingListAdapter(alstIncoming, object : IncomingListAdapterContract {
             override fun onRemoveItem() =
-                    (activity.application as DindinApp)
+                    (activity?.application as DindinApp)
                             .bus()
                             .send(true)
 
-            override fun currentContext(): Context = context
+            override fun currentContext(): Context = context!!
         })
         mrvSalaryList?.adapter = slAdapter
     }

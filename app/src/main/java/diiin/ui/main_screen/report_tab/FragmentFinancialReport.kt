@@ -3,8 +3,7 @@ package diiin.ui.main_screen.report_tab
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +32,7 @@ import java.util.*
  * @since 11/09/2018
  * @version 1.0.9
  */
-class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract.View {
+class FragmentFinancialReport : androidx.fragment.app.Fragment(), RefreshData, FinancialReportContract.View {
 
     private var mpcPieChart: PieChart? = null
     private var mrlChartItem: RelativeLayout? = null
@@ -54,24 +53,24 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
     private var mivChartItemButtonMenu: ImageView? = null
     private var presenter: FinancialReportContract.Presenter? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_financialreport, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_financialreport, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        mpcPieChart = view?.findViewById(R.id.pchart)
-        mrlPieChartContainer = view?.findViewById(R.id.rlPieChart)
-        mrlWalletPanel = view?.findViewById(R.id.rlWalletPanel)
-        mtvExpenseTotalValue = view?.findViewById(R.id.tvExpenseTotalValue)
-        mtvSalaryTotalValue = view?.findViewById(R.id.tvSalaryValue)
-        mtvWalletTotalValue = view?.findViewById(R.id.tvWalletValue)
-        mrlChartItem = view?.findViewById(R.id.rlChartItem)
-        mtvChartItemValue = view?.findViewById(R.id.tvValue)
-        mtvChartItemDate = view?.findViewById(R.id.tvDate)
-        mtvChartItemExpenseType = view?.findViewById(R.id.tvExpenseType)
-        mvwChartItemExpenseType = view?.findViewById(R.id.vwExpenseType)
-        mllChartItemLinearLayout = view?.findViewById(R.id.llLine2)
-        mivChartItemButtonMenu = view?.findViewById(R.id.ivMenuOption)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        mpcPieChart = view.findViewById(R.id.pchart)
+        mrlPieChartContainer = view.findViewById(R.id.rlPieChart)
+        mrlWalletPanel = view.findViewById(R.id.rlWalletPanel)
+        mtvExpenseTotalValue = view.findViewById(R.id.tvExpenseTotalValue)
+        mtvSalaryTotalValue = view.findViewById(R.id.tvSalaryValue)
+        mtvWalletTotalValue = view.findViewById(R.id.tvWalletValue)
+        mrlChartItem = view.findViewById(R.id.rlChartItem)
+        mtvChartItemValue = view.findViewById(R.id.tvValue)
+        mtvChartItemDate = view.findViewById(R.id.tvDate)
+        mtvChartItemExpenseType = view.findViewById(R.id.tvExpenseType)
+        mvwChartItemExpenseType = view.findViewById(R.id.vwExpenseType)
+        mllChartItemLinearLayout = view.findViewById(R.id.llLine2)
+        mivChartItemButtonMenu = view.findViewById(R.id.ivMenuOption)
 
         presenter = FinancialReportPresenter(this)
 
@@ -84,7 +83,7 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         mpcPieChart?.isDrawHoleEnabled = true
         mpcPieChart?.transparentCircleRadius = 10f
         mpcPieChart?.holeRadius = 7f
-        mpcPieChart?.setHoleColor(ContextCompat.getColor(context, R.color.whiteColor))
+        mpcPieChart?.setHoleColor(ContextCompat.getColor(context!!, R.color.whiteColor))
 
         refresh()
     }
@@ -119,7 +118,7 @@ class FragmentFinancialReport : Fragment(), RefreshData, FinancialReportContract
         dataPie.setValueFormatter(PercentFormatter())
         dataPie.setValueTextSize(14f)
         dataPie.setValueTextColor(Color.TRANSPARENT)
-        mpcPieChart?.legend?.textColor = ContextCompat.getColor(activity, R.color.whiteColor)
+        mpcPieChart?.legend?.textColor = ContextCompat.getColor(activity!!, R.color.whiteColor)
         mpcPieChart?.legend?.textSize = 12f
         mpcPieChart?.legend?.isWordWrapEnabled = true
         mpcPieChart?.setDrawEntryLabels(false)

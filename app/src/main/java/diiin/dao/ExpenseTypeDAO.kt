@@ -1,6 +1,6 @@
 package diiin.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import diiin.model.ExpenseType
 import io.reactivex.Maybe
 

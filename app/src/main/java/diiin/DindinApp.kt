@@ -36,7 +36,7 @@ class DindinApp : Application() {
          */
         var mnYearSelected: Int? = null
 
-        val mstrDateFormat: String = "dd-MM-yyyy"
+        const val mstrDateFormat: String = "dd-MM-yyyy"
     }
 
     @SuppressLint("CheckResult")

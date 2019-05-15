@@ -29,7 +29,7 @@ class FragmentIncomingList : androidx.fragment.app.Fragment(), RefreshData, Sala
 
     private var mspMonthSelector: Spinner? = null
     private var mrvSalaryList: RecyclerView? = null
-    var mbtnInsertSalary: FloatingActionButton? = null
+    private var mbtnInsertSalary: FloatingActionButton? = null
     private var presenter: SalaryListContract.Presenter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

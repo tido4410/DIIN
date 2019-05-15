@@ -31,7 +31,7 @@ class FragmentExpensesList : androidx.fragment.app.Fragment(), RefreshData, Expe
 
     private var mspMonthSelector: Spinner? = null
     private var mrvExpenseList: RecyclerView? = null
-    var mbtInsertExpense: FloatingActionButton? = null
+    private var mbtInsertExpense: FloatingActionButton? = null
     private var presenter: ExpenseListContract.Presenter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

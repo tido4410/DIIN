@@ -40,7 +40,7 @@ import java.util.*
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener, MainScreenContract.View {
 
     var mnvNavigation: BottomNavigationView? = null
-    var mspMonthSelector: Spinner? = null
+    private var mspMonthSelector: Spinner? = null
     private var mtvYearSelected: TextView? = null
     private var mltSpinnerMonthsList: ArrayList<String>? = null
     private var mMenuInflated: Menu? = null
@@ -177,8 +177,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
      * Return the months list used in spinner component.
      */
     override fun getSpinnerMonthsList(): ArrayList<String> {
-        if (mltSpinnerMonthsList != null) return mltSpinnerMonthsList!!
-        else return ArrayList()
+        return if (mltSpinnerMonthsList != null) mltSpinnerMonthsList!!
+        else ArrayList()
     }
 
     /**

@@ -34,7 +34,7 @@ interface ExpenseListAdapterContract {
 class ExpenseListAdapter(acontract: ExpenseListAdapterContract, alstExpenseList: ArrayList<Expense>)
     : RecyclerView.Adapter<ExpenseListAdapter.ExpenseListItemViewHolder>() {
 
-    val mltExpenseList: ArrayList<Expense> = alstExpenseList
+    private val mltExpenseList: ArrayList<Expense> = alstExpenseList
     private val mcontract: ExpenseListAdapterContract = acontract
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseListItemViewHolder {

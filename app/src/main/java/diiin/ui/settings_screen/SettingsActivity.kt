@@ -27,7 +27,7 @@ import java.util.*
 class SettingsActivity : AppCompatActivity(), SettingsScreenContract.View {
 
     private var mrvExpenseTypeList: RecyclerView? = null
-    var mbtInsertExpenseType: FloatingActionButton? = null
+    private var mbtInsertExpenseType: FloatingActionButton? = null
     private var metYear: EditText? = null
     private var mbtnSaveYear: Button? = null
     private var presenter: SettingsScreenContract.Presenter? = null

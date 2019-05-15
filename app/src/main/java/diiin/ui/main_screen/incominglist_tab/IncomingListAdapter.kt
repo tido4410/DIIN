@@ -32,7 +32,7 @@ interface IncomingListAdapterContract {
 
 class IncomingListAdapter(alstIncomingList: ArrayList<Incoming>, acontract: IncomingListAdapterContract) : RecyclerView.Adapter<IncomingListAdapter.SalaryListItemViewHolder>() {
 
-    val mltIncomingList: ArrayList<Incoming> = alstIncomingList
+    private val mltIncomingList: ArrayList<Incoming> = alstIncomingList
     private val mcontract : IncomingListAdapterContract = acontract
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SalaryListItemViewHolder {

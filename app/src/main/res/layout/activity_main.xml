@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activityColorBackground"
     tools:context="diiin.ui.main_screen.MainActivity">
 
 
@@ -38,7 +37,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical|center"
             android:maxLines="1"
-            android:text="2018"
+            tools:text="2018"
             android:textAlignment="gravity"
             android:textSize="18sp"
             android:textStyle="bold" />

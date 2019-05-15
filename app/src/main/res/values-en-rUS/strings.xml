@@ -46,8 +46,8 @@
     <string name="chooseColor">Choose the color</string>
     <string name="settings">Settings</string>
     <string name="fillAreFields">Fill all fields</string>
-    <string name="sucessaction">Sucess</string>
-    <string name="ok">Ok</string>
+    <string name="sucessaction">Success</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="expensetype">Expense type</string>
     <string name="change">Change</string>
